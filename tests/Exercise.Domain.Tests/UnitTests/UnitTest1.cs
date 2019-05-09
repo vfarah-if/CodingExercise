@@ -2,7 +2,7 @@ using System;
 using FluentAssertions;
 using Xunit;
 
-namespace Exercise.Domain.Tests
+namespace Exercise.Domain.Tests.UnitTests
 {
     public class UnitTest1
     {
