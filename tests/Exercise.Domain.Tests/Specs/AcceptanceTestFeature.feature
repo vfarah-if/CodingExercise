@@ -5,7 +5,7 @@ Feature: Coding Exercise
 	As a dev idiot
         I want to make sure this works
 
-Scenario: Test ScenarioShould ....
+Scenario: Test Scenario Should ...
 			Given a scenario
 			When a condition is set
 			Then an expectation should be satisfied
