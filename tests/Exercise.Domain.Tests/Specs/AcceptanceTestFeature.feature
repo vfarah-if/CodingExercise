@@ -7,5 +7,5 @@ Feature: Coding Exercise
 
 Scenario: Test ScenarioShould ....
 			Given a scenario
-			When a condition is set'
-			Then  an expectation should be satisfied
+			When a condition is set
+			Then an expectation should be satisfied

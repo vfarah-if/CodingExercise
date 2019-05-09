@@ -7,18 +7,18 @@ namespace Exercise.Domain.Tests.AcceptanceTests
 {
     public class AcceptanceTestShould: AcceptanceTestFeature
     {
-        [Scenario("Test ScenarioShould ....")]
+        [Scenario("Test Scenario Should ...")]
         public void ValidateAnyExpectationsThroughTheScenario()
         {
             Given("a scenario", () =>
             {
                 Debug.WriteLine("Should setup an acceptance test scenario");
             });
-            When($"a condition is set'", () =>
+            When("a condition is set", () =>
             {
                 Debug.WriteLine("Should setup an acceptance test scenario");
             });
-            Then(" an expectation should be satisfied", () =>
+            Then("an expectation should be satisfied", () =>
             {
                 Debug.WriteLine("Verify");
                 true.Should().BeTrue();
