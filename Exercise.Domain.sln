@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercise.Domain", "src\Exercise.Domain\Exercise.Domain.csproj", "{6870F0EE-C648-461D-B2A8-6435011E6AA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercise.Domain.Tests", "tests\Exercise.Domain.Tests\Exercise.Domain.Tests.csproj", "{EA8860AD-E54B-4415-886D-3D88FF189CFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{89848DEE-49B0-4CF7-9108-BDB0A6E1D4B4}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6870F0EE-C648-461D-B2A8-6435011E6AA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6870F0EE-C648-461D-B2A8-6435011E6AA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6870F0EE-C648-461D-B2A8-6435011E6AA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6870F0EE-C648-461D-B2A8-6435011E6AA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA8860AD-E54B-4415-886D-3D88FF189CFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA8860AD-E54B-4415-886D-3D88FF189CFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA8860AD-E54B-4415-886D-3D88FF189CFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA8860AD-E54B-4415-886D-3D88FF189CFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2642CFA2-BD32-46B4-9D43-827772A656DA}
+	EndGlobalSection
+EndGlobal
