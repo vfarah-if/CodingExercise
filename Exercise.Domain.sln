@@ -3,14 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercise.Domain", "src\Exercise.Domain\Exercise.Domain.csproj", "{6870F0EE-C648-461D-B2A8-6435011E6AA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercise.Domain", "src\Exercise.Domain\Exercise.Domain.csproj", "{6870F0EE-C648-461D-B2A8-6435011E6AA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercise.Domain.Tests", "tests\Exercise.Domain.Tests\Exercise.Domain.Tests.csproj", "{EA8860AD-E54B-4415-886D-3D88FF189CFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exercise.Domain.Tests", "tests\Exercise.Domain.Tests\Exercise.Domain.Tests.csproj", "{EA8860AD-E54B-4415-886D-3D88FF189CFD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{89848DEE-49B0-4CF7-9108-BDB0A6E1D4B4}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStudents", "src\WebStudents\WebStudents.csproj", "{1D7938AA-CD59-4E68-8246-383C7E2143DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{EA8860AD-E54B-4415-886D-3D88FF189CFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA8860AD-E54B-4415-886D-3D88FF189CFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA8860AD-E54B-4415-886D-3D88FF189CFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D7938AA-CD59-4E68-8246-383C7E2143DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D7938AA-CD59-4E68-8246-383C7E2143DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D7938AA-CD59-4E68-8246-383C7E2143DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D7938AA-CD59-4E68-8246-383C7E2143DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
