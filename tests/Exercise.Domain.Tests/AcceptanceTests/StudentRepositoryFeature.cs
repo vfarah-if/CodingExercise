@@ -6,10 +6,10 @@ using CoreBDD.SpecGeneration;
 
 namespace Exercise.Domain.Tests.AcceptanceTests
 {
-    [Feature("Coding Exercise",
-        @"As a dev idiot
-        I want to make sure this works")]
-    public class AcceptanceTestFeature : Specification, IDisposable
+    [Feature("Student Editing",
+        @"As a user
+        I want to be able to edit users")]
+    public class StudentRepositoryFeature : Specification, IDisposable
     {
         public void Dispose()
         {
