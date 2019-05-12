@@ -40,16 +40,18 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             Then("student should be persisted", async () =>
             {
                 _student.Id.Should().NotBeNullOrEmpty();
+            });
+            And("student should exist", async () =>
+            {
                 var exists = await _studentRepository.ExistsAsync(_student);
                 exists.Should().BeTrue();
             });
-        }
-
-        protected override async void Cleanup()
-        {
-            await _studentRepository.DeleteAsync(_student);
-            var exists = await _studentRepository.ExistsAsync(_student);
-            exists.Should().BeFalse();
+            And("student should then be removed", async () =>
+            {
+                await _studentRepository.DeleteAsync(_student);
+                var exists = await _studentRepository.ExistsAsync(_student);
+                exists.Should().BeFalse();
+            });
         }
     }
 }

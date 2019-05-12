@@ -9,3 +9,5 @@ Scenario: Should create, delete and check if students exist
 			Given a student
 			When when creating the student
 			Then student should be persisted
+			And student should exist
+			And student should then be removed

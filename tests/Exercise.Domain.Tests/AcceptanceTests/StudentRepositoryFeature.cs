@@ -9,14 +9,11 @@ namespace Exercise.Domain.Tests.AcceptanceTests
     [Feature("Student Editing",
         @"As a student admin
         I want to be able to edit students")]
-    public abstract class StudentRepositoryFeature : Specification, IDisposable
+    public class StudentRepositoryFeature : Specification, IDisposable
     {
         public void Dispose()
         {
             GenerateSpecs.OutputFeatureSpecs(this.GetType().Assembly.Location, @"..\..\..\Specs\");
-            Cleanup();
         }
-
-        protected abstract void Cleanup();
     }
 }
