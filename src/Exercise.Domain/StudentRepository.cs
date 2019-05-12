@@ -22,6 +22,10 @@ namespace Exercise.Domain
 
         public Student Add(Student student)
         {
+            if (student == null)
+            {
+                throw new ArgumentNullException(nameof(student));
+            }
             _students.InsertOne(student);
             return student;
         }
