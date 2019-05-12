@@ -88,7 +88,8 @@ namespace Exercise.Domain
 
         public async Task<bool> ExistsAsync(TIdType id)
         {
-            var result = await Collection.CountDocumentsAsync(x => x.Id.Equals(id)).ConfigureAwait(false);
+            var result = await Collection.CountDocumentsAsync(x => x.Id.Equals(id))
+                .ConfigureAwait(false);
             return result > 0;
         }
 
@@ -115,11 +116,11 @@ namespace Exercise.Domain
         private static string GetCollectionName()
         {
             var collectionName = typeof(TEntity).Name;
-
             if (string.IsNullOrEmpty(collectionName))
             {
                 throw new ArgumentException("Collection name cannot be empty for this entity");
             }
+
             return collectionName;
         }
     }
