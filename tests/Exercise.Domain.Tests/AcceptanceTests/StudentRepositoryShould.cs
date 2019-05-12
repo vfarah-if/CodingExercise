@@ -1,7 +1,9 @@
 ﻿using System;
+using AutoFixture;
 using CoreBDD;
 using Exercise.Domain.Models;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 
 namespace Exercise.Domain.Tests.AcceptanceTests
 {
@@ -9,34 +11,43 @@ namespace Exercise.Domain.Tests.AcceptanceTests
     {
         private Student _student;
         private StudentRepository _studentRepository;
+        private Fixture _autoFixture;
 
         public StudentRepositoryShould()
         {
-            //drop the database or clear the data on every run to reset the data 
+           _autoFixture = new Fixture();
         }
 
-        [Scenario("Should create students")]
-        public void CreateUsers()
+        [Scenario("Should create and delete students")]
+        public void CreateStudents()
         {
             Given("a student", () =>
             {
-                _student = new Student
-                {
-                    Age = 10,
-                    Firstname = "Vincent",
-                    Surname = "Farah",
-                    Salutation = "Mr"
-                };
+                _student = _autoFixture.Build<Student>()
+                    .Without(x => x.Id)
+                    .Create();
+                _student.Id.ShouldBe(null);
             });
             When("when creating the student", () =>
             {
+//                ConfigurationBuilder builder = new ConfigurationBuilder();
+//                builder.Sources.AddJsonFile("appsettings.json").;
+//                builder.Properties.Add("ConnectionStrings", new {StudentsDb = @"mongodb://localhost:27017"});
+//                _studentRepository = new StudentRepository(builder.Build());
                 _studentRepository = new StudentRepository();
-                _student = _studentRepository.Create(_student);
+                _student =  _studentRepository.Add(_student);
             });
             Then("student should be persisted", () =>
             {
                 _student.Id.Should().NotBeNullOrEmpty();
             });
+        }
+
+        protected override async void Cleanup()
+        {
+            await _studentRepository.DeleteAsync(_student);
+            var exists = await _studentRepository.ExistsAsync(_student);
+            exists.Should().BeFalse();
         }
     }
 }

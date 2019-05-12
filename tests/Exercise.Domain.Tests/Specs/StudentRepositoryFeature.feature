@@ -2,10 +2,10 @@
 
 
 Feature: Student Editing
-	As a user
-        I want to be able to edit users
+	As a student admin
+        I want to be able to edit students
 
-Scenario: Should create students
+Scenario: Should create and delete students
 			Given a student
 			When when creating the student
 			Then student should be persisted
