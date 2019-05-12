@@ -3,10 +3,10 @@
 namespace Exercise.Domain.Models
 {
    
-    public interface IEntity<TKey>
+    public interface IEntity<TIdType>
     {
         [BsonId]
-        TKey Id { get; set; }
+        TIdType Id { get; set; }
     }
 
     public interface IEntity : IEntity<string>

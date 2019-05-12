@@ -64,7 +64,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             When("when adding the students", () =>
             {
                 _studentRepository = new StudentRepository(TestHelper.GetAppSettings());
-                _students.ToList().ForEach(student => _studentRepository.Add(student));
+                _studentRepository.Add(_students);
             });
             Then("should be able to retrieve all the added students", async () =>
             {

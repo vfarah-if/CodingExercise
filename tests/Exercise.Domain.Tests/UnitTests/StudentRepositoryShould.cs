@@ -1,7 +1,7 @@
-using System;
-using System.Threading.Tasks;
 using Exercise.Domain.Models;
 using FluentAssertions;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Exercise.Domain.Tests.UnitTests
@@ -24,7 +24,7 @@ namespace Exercise.Domain.Tests.UnitTests
         [Fact]
         public void ThrowArgumentNullExceptionWhenAddingANullStudent()
         {
-            Action action = () => _studentRepository.Add(null);
+            Action action = () => _studentRepository.Add(null as Student);
 
             action.Should().Throw<ArgumentException>();
         }
@@ -38,25 +38,9 @@ namespace Exercise.Domain.Tests.UnitTests
         }
 
         [Fact]
-        public void ThrowArgumentNullExceptionWhenDeletingANullStudentId()
-        {
-            Func<Task> action = async () => await _studentRepository.DeleteAsync(null as string);
-
-            action.Should().Throw<ArgumentException>();
-        }
-
-        [Fact]
         public void ThrowArgumentNullExceptionWhenExistingANullStudent()
         {
             Func<Task> action = async () => await _studentRepository.ExistsAsync(null as Student);
-
-            action.Should().Throw<ArgumentException>();
-        }
-
-        [Fact]
-        public void ThrowArgumentNullExceptionWhenExistingANullStudentId()
-        {
-            Func<Task> action = async () => await _studentRepository.ExistsAsync(null as string);
 
             action.Should().Throw<ArgumentException>();
         }
