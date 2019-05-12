@@ -94,7 +94,7 @@ namespace Exercise.Domain
         }
 
         // TODO: Create PagedResult with all data associated with Pagination
-        public virtual async Task<IReadOnlyCollection<TEntity>> ListAsync(int page = 1, int pageSize = 100)
+        public virtual async Task<PagedResult<TEntity, TIdType>> ListAsync(int page = 1, int pageSize = 100)
         {
             if (page < 0)
             {
@@ -107,11 +107,13 @@ namespace Exercise.Domain
             {
                 page = (int)maxPageCount;
             }
-            return await Collection.AsQueryable()
+
+            var result = await Collection.AsQueryable()
                 .Skip(page - 1)
                 .Take(pageSize)
                 .ToListAsync()
                 .ConfigureAwait(false);
+            return new PagedResult<TEntity, TIdType>(result.AsReadOnly(), page, result.Count, totalDocuments, maxPageCount);
         }
 
         private static string GetCollectionName()

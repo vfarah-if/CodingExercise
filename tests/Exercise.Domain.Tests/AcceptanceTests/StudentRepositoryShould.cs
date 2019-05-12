@@ -69,7 +69,9 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             Then("should be able to retrieve all the added students", async () =>
             {
                 var actual = await _studentRepository.ListAsync();
-                actual.Should().NotBeNullOrEmpty();
+                actual.Data.Should().NotBeNullOrEmpty();
+                actual.CurrentPage.ShouldBe(1);
+                actual.LastPage.ShouldBe(1);
             });
             And("students should then be removed", () =>
             {
