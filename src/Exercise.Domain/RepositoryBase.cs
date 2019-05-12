@@ -28,13 +28,13 @@ namespace Exercise.Domain
             Collection = unitOfWork.Database.GetCollection<TEntity>(GetCollectionName());
         }
 
-        public IMongoCollection<TEntity> Collection { get; }
+        protected IMongoCollection<TEntity> Collection { get; }
 
         /// <remarks>
         /// The advantage of a synchronous add is the InsertOne generates an Id without needing
         /// a do a separate call
         /// </remarks>
-        public TEntity Add(TEntity entity)
+        public virtual TEntity Add(TEntity entity)
         {
             if (entity == null)
             {
@@ -44,7 +44,7 @@ namespace Exercise.Domain
             return entity;
         }
 
-        public void Add(IEnumerable<TEntity> entities)
+        public virtual void Add(IEnumerable<TEntity> entities)
         {
             if (entities == null)
             {
@@ -54,12 +54,12 @@ namespace Exercise.Domain
             Collection.InsertMany(entities);
         }
 
-        public async Task<long> CountAsync()
+        public virtual async Task<long> CountAsync()
         {
             return await Collection.CountDocumentsAsync(FilterDefinition<TEntity>.Empty).ConfigureAwait(false);
         }
 
-        public async Task<bool> DeleteAsync(TEntity entity)
+        public virtual async Task<bool> DeleteAsync(TEntity entity)
         {
             if (entity == null)
             {
@@ -68,15 +68,15 @@ namespace Exercise.Domain
             return await DeleteAsync(entity.Id).ConfigureAwait(false);
         }
 
-        public async Task<bool> DeleteAsync(TIdType id)
+        public virtual async Task<bool> DeleteAsync(TIdType id)
         {
             var filter = Builders<TEntity>.Filter.Eq(s => s.Id, id);
             Collection.DeleteOne(filter);
-            var result = await Collection.DeleteOneAsync<TEntity>(x => x.Id.Equals(id)).ConfigureAwait(false);
+            var result = await Collection.DeleteOneAsync(x => x.Id.Equals(id)).ConfigureAwait(false);
             return result.IsAcknowledged && result.DeletedCount > 0;
         }
 
-        public async Task<bool> ExistsAsync(TEntity entity)
+        public virtual async Task<bool> ExistsAsync(TEntity entity)
         {
             if (entity == null)
             {
@@ -86,14 +86,15 @@ namespace Exercise.Domain
             return await ExistsAsync(entity.Id).ConfigureAwait(false);
         }
 
-        public async Task<bool> ExistsAsync(TIdType id)
+        public virtual async Task<bool> ExistsAsync(TIdType id)
         {
             var result = await Collection.CountDocumentsAsync(x => x.Id.Equals(id))
                 .ConfigureAwait(false);
             return result > 0;
         }
 
-        public async Task<IReadOnlyCollection<TEntity>> ListAsync(int page = 1, int pageSize = 100)
+        // TODO: Create PagedResult with all data associated with Pagination
+        public virtual async Task<IReadOnlyCollection<TEntity>> ListAsync(int page = 1, int pageSize = 100)
         {
             if (page < 0)
             {
