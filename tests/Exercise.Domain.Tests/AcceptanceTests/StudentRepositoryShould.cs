@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AutoFixture;
 using CoreBDD;
@@ -33,11 +34,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             });
             When("when adding the students", () =>
             {
-//                ConfigurationBuilder builder = new ConfigurationBuilder();
-//                builder.Sources.AddJsonFile("appsettings.json").;
-//                builder.Properties.Add("ConnectionStrings", new {StudentsDb = @"mongodb://localhost:27017"});
-//                _studentRepository = new StudentRepository(builder.Build());
-                _studentRepository = new StudentRepository();
+                _studentRepository = new StudentRepository(TestHelper.GetAppSettings());
                 _student = _studentRepository.Add(_student);
             });
             Then("student should be persisted", async () =>
@@ -69,11 +66,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             });
             When("when adding the students", () =>
             {
-                //                ConfigurationBuilder builder = new ConfigurationBuilder();
-                //                builder.Sources.AddJsonFile("appsettings.json").;
-                //                builder.Properties.Add("ConnectionStrings", new {StudentsDb = @"mongodb://localhost:27017"});
-                //                _studentRepository = new StudentRepository(builder.Build());
-                _studentRepository = new StudentRepository();
+                _studentRepository = new StudentRepository(TestHelper.GetAppSettings());
                 _students.ToList().ForEach(student => _studentRepository.Add(student));
             });
             Then("should be able to retrieve all the added students", async () =>

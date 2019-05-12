@@ -3,21 +3,37 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver.Linq;
 
 namespace Exercise.Domain
 {
     public class StudentRepository
     {
-        private readonly IMongoCollection<Student> _students;
+       private readonly IMongoCollection<Student> _students;
 
-        //        public StudentRepository(IConfiguration config)
-        public StudentRepository()
+        public StudentRepository(IConfiguration configuration)
+            : this(UnitOfWork.Create(configuration), configuration.GetSection("StudentsCollectionName").Value)
         {
-            //            var client = new MongoClient(config.GetConnectionString("StudentsDb"));
-            var client = new MongoClient("mongodb://localhost:27017");
-            var database = client.GetDatabase("StudentsDb");
-            _students = database.GetCollection<Student>("Students");
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+        }
+
+        public StudentRepository(IUnitOfWork unitOfWork, string collectionName)
+        {
+            if (unitOfWork == null)
+            {
+                throw new ArgumentNullException(nameof(unitOfWork));
+            }
+
+            if (collectionName == null)
+            {
+                throw new ArgumentNullException(nameof(collectionName));
+            }
+           
+            _students = unitOfWork.Database.GetCollection<Student>(collectionName);
         }
 
         /// <remarks>

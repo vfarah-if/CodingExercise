@@ -12,7 +12,7 @@ namespace Exercise.Domain.Tests.UnitTests
 
         public StudentRepositoryShould()
         {
-            _studentRepository = new StudentRepository();
+            _studentRepository = new StudentRepository(TestHelper.GetAppSettings());
         }
 
         [Fact]
