@@ -3,11 +3,8 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Exercise.Domain.Models
 {
-    public class Student
+    public class Student: Entity
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
         [BsonElement("Salutation")]
         public string Salutation { get; set; }
         [BsonElement("Firstname")]

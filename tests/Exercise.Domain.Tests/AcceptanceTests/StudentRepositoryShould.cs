@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
 using CoreBDD;
 using Exercise.Domain.Models;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
 
 namespace Exercise.Domain.Tests.AcceptanceTests
 {
