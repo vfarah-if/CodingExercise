@@ -93,7 +93,6 @@ namespace Exercise.Domain
             return result > 0;
         }
 
-        // TODO: Create PagedResult with all data associated with Pagination
         public virtual async Task<PagedResult<TEntity, TIdType>> ListAsync(int page = 1, int pageSize = 100)
         {
             if (page < 0)
