@@ -18,7 +18,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
            _autoFixture = new Fixture();
         }
 
-        [Scenario("Should create and delete students")]
+        [Scenario("Should create, delete and check if students exist")]
         public void CreateStudents()
         {
             Given("a student", () =>
@@ -37,9 +37,11 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                 _studentRepository = new StudentRepository();
                 _student =  _studentRepository.Add(_student);
             });
-            Then("student should be persisted", () =>
+            Then("student should be persisted", async () =>
             {
                 _student.Id.Should().NotBeNullOrEmpty();
+                var exists = await _studentRepository.ExistsAsync(_student);
+                exists.Should().BeTrue();
             });
         }
 

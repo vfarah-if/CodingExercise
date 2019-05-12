@@ -37,6 +37,10 @@ namespace Exercise.Domain
 
         public async Task<bool> DeleteAsync(string studentId)
         {
+            if (string.IsNullOrEmpty(studentId))
+            {
+                throw new ArgumentException("message", nameof(studentId));
+            }
             var result = await _students.DeleteOneAsync(x => x.Id == studentId);
             return result.IsAcknowledged && result.DeletedCount > 0;
         }
@@ -53,6 +57,11 @@ namespace Exercise.Domain
 
         public async Task<bool> ExistsAsync(string studentId)
         {
+            if (string.IsNullOrEmpty(studentId))
+            {
+                throw new ArgumentException("message", nameof(studentId));
+            }
+
             var result = await _students.CountDocumentsAsync(x => x.Id == studentId);
             return result > 0;
         }

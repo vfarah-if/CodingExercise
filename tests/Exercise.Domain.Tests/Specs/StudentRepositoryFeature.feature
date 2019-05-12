@@ -5,7 +5,7 @@ Feature: Student Editing
 	As a student admin
         I want to be able to edit students
 
-Scenario: Should create and delete students
+Scenario: Should create, delete and check if students exist
 			Given a student
 			When when creating the student
 			Then student should be persisted
