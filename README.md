@@ -1,7 +1,9 @@
 # CodingExercise
-As a user I would like to edit or create a list of students
-TODO: DO an Update
-TODO: Do a GetById
-TODO: Do an exists= by expression to check for updated value
-TODO: Create Web Api
-TODO: Create MVC For listing, editing, deleting students
+1. As a user I would like to edit or create a list of students (DONE)
+2. Create a user (DONE)
+3. Delete a user (DONE)
+4. Verify user been created or deleted (DONE)
+5. Update an existing user and verify he exists by some other field (TODO)
+6. Get user by id (TODO)
+7. Create a Student Web API that uses all the repository methods (TODO)
+8. Create MVC For listing, editing, deleting students (TODO)

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 
 namespace Exercise.Domain
 {
     /// <summary>
-    /// MongoDb Connection
+    /// UnitOfWork is based on the MongoDb Client Database connection, to be passed in and used with
     /// </summary>
     /// <example>new UnitOfWork("mongodb://mongodb0.example.com:27017/admin");</example>
     public class UnitOfWork : IUnitOfWork
