@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -107,7 +108,7 @@ namespace Exercise.Domain
                 .ConfigureAwait(false);
         }
 
-        public virtual TEntity GetBy(TIdType id)
+        public virtual async Task<TEntity> GetByAsync(TIdType id)
         {
             if (id == null)
             {
@@ -115,7 +116,8 @@ namespace Exercise.Domain
             }
 
             var filter = Builders<TEntity>.Filter.Eq(s => s.Id, id);
-            return Collection.Find(filter).SingleOrDefault();
+            var cursor = await Collection.FindAsync(filter);
+            return cursor.MoveNext() ? cursor.Current.SingleOrDefault() : default(TEntity);
         }
 
         public virtual async Task<PagedResult<TEntity, TIdType>> ListAsync(            
