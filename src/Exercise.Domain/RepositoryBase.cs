@@ -147,7 +147,6 @@ namespace Exercise.Domain
                     .Take(pageSize)
                     .ToListAsync()
                     .ConfigureAwait(false);
-
             }
             else
             {

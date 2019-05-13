@@ -5,5 +5,6 @@
 4. Verify user been created or deleted (DONE)
 5. Update an existing user and verify he exists by some other field (DONE)
 6. Get user by id (DONE)
-7. Create a Student Web API that uses all the repository methods (TODO)
-8. Create MVC For listing, editing, deleting students (TODO)
+7. Filter list and count (DONE)
+8. Create a Student Web API that uses all the repository methods (TODO)
+9. Create MVC For listing, editing, deleting students (TODO)
