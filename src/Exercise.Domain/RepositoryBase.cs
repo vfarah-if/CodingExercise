@@ -26,7 +26,8 @@ namespace Exercise.Domain
             {
                 throw new ArgumentNullException(nameof(unitOfWork));
             }
-            Collection = unitOfWork.Database.GetCollection<TEntity>(GetCollectionName());
+            var collectionName = typeof(TEntity).Name;
+            Collection = unitOfWork.Database.GetCollection<TEntity>(collectionName);
         }
 
         protected IMongoCollection<TEntity> Collection { get; }
@@ -136,18 +137,6 @@ namespace Exercise.Domain
             var filter = Builders<TEntity>.Filter.Eq(x => x.Id, entity.Id);
             await Collection.ReplaceOneAsync(filter, entity);
             return entity;
-        }
-
-
-        private static string GetCollectionName()
-        {
-            var collectionName = typeof(TEntity).Name;
-            if (string.IsNullOrEmpty(collectionName))
-            {
-                throw new ArgumentException("Collection name cannot be empty for this entity");
-            }
-
-            return collectionName;
         }
     }
 }
