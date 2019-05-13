@@ -77,6 +77,9 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             {
                 _students.ToList().ForEach(async item =>
                 {
+                    var pagedResult = await _studentRepository.ListAsync(x => x.Id == item.Id);
+                    pagedResult.Should().NotBeNull();
+                    pagedResult.Total.Should().Be(1);
                     await _studentRepository.DeleteAsync(item);
                     var exists = await _studentRepository.ExistsAsync(item);
                     exists.Should().BeFalse();

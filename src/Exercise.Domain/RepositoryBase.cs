@@ -57,9 +57,11 @@ namespace Exercise.Domain
             Collection.InsertMany(entities);
         }
 
-        public virtual async Task<long> CountAsync()
+        public virtual async Task<long> CountAsync(Expression<Func<TEntity, bool>> filter = null)
         {
-            return await Collection.CountDocumentsAsync(FilterDefinition<TEntity>.Empty).ConfigureAwait(false);
+            var filterDefinition =
+                filter == null ? FilterDefinition<TEntity>.Empty : (FilterDefinition<TEntity>)filter;
+            return await Collection.CountDocumentsAsync(filterDefinition).ConfigureAwait(false);
         }
 
         public virtual async Task<bool> DeleteAsync(TEntity entity)
@@ -120,26 +122,42 @@ namespace Exercise.Domain
             return cursor.MoveNext() ? cursor.Current.SingleOrDefault() : default(TEntity);
         }
 
-        public virtual async Task<PagedResult<TEntity, TIdType>> ListAsync(            
-            int page = 1, int pageSize = 100)
+        public virtual async Task<PagedResult<TEntity, TIdType>> ListAsync(
+            Expression<Func<TEntity, bool>> filter = null, 
+            int page = 1,
+            int pageSize = 100)
         {
             if (page < 0)
             {
                 page = 1;
             }
 
-            double totalDocuments = await CountAsync();
+            double totalDocuments = await CountAsync(filter);
             var maxPageCount = Math.Ceiling(totalDocuments / pageSize);
             if (maxPageCount > 0 && page > maxPageCount)
             {
                 page = (int)maxPageCount;
             }
 
-            var result = await Collection.AsQueryable()
-                .Skip(page - 1)
-                .Take(pageSize)
-                .ToListAsync()
-                .ConfigureAwait(false);
+            List<TEntity> result = null;
+            if (filter == null)
+            {
+                 result = await Collection.AsQueryable()
+                    .Skip(page - 1)
+                    .Take(pageSize)
+                    .ToListAsync()
+                    .ConfigureAwait(false);
+
+            }
+            else
+            {
+                result = await Collection.AsQueryable()
+                    .Where(filter)
+                    .Skip(page - 1)
+                    .Take(pageSize)
+                    .ToListAsync()
+                    .ConfigureAwait(false);
+            }
             return new PagedResult<TEntity, TIdType>(result.AsReadOnly(), page, result.Count, maxPageCount, totalDocuments);
         }
 
