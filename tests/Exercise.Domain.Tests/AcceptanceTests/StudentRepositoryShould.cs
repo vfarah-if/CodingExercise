@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoFixture;
+﻿using AutoFixture;
 using CoreBDD;
 using Exercise.Domain.Models;
 using FluentAssertions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Exercise.Domain.Tests.AcceptanceTests
 {
-    public class StudentRepositoryShould: StudentRepositoryFeature
+    public class StudentRepositoryShould : StudentRepositoryFeature
     {
         private Student _student;
         private StudentRepository _studentRepository;
@@ -16,7 +16,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
 
         public StudentRepositoryShould()
         {
-           _autoFixture = new Fixture();
+            _autoFixture = new Fixture();
         }
 
         [Scenario("Should create, delete and check if students exist")]
@@ -110,8 +110,8 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             });
             Then("student should exist by the new values", async () =>
             {
-                var exists = await _studentRepository.ExistsAsync(x => 
-                    x.Id == _student.Id && 
+                var exists = await _studentRepository.ExistsAsync(x =>
+                    x.Id == _student.Id &&
                     x.Firstname == _student.Firstname &&
                     x.Surname == _student.Surname &&
                     x.Age == _student.Age);
@@ -125,7 +125,35 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                     x.Surname == previousSurname &&
                     x.Age == previousAge);
                 exists.Should().BeFalse();
-            });           
+            });
+            Then("student should be removed", async () =>
+            {
+                await _studentRepository.DeleteAsync(_student);
+                var exists = await _studentRepository.ExistsAsync(_student);
+                exists.Should().BeFalse();
+            });
+        }
+
+        [Scenario("Should get a student by id")]
+        public void GetAStudentById()
+        {
+            Student student = null;
+            Given("an existing student", () =>
+            {
+                _student = _autoFixture.Build<Student>()
+                    .Without(x => x.Id)
+                    .Create();
+                _studentRepository = new StudentRepository(TestHelper.GetAppSettings());
+                _student = _studentRepository.Add(_student);
+            });
+            When("retrieving a student", () =>
+            {
+                student = _studentRepository.GetBy(_student.Id);
+            });
+            Then("student should not be null", () =>
+            {
+                student.Should().NotBeNull();
+            });
             Then("student should be removed", async () =>
             {
                 await _studentRepository.DeleteAsync(_student);

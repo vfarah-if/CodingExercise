@@ -24,3 +24,9 @@ Scenario: Should update an existing student
 			Then student should exist by the new values
 			And the previous student data should not exist
 			Then student should be removed
+
+Scenario: Should get an existing student by id
+			Given an existing student
+			When retrieving a student
+			Then student should not be null
+			Then student should be removed

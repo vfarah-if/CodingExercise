@@ -101,7 +101,21 @@ namespace Exercise.Domain
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
-            return await Collection.AsQueryable().AnyAsync(predicate);
+            return await Collection
+                .AsQueryable()
+                .AnyAsync(predicate)
+                .ConfigureAwait(false);
+        }
+
+        public virtual TEntity GetBy(TIdType id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            var filter = Builders<TEntity>.Filter.Eq(s => s.Id, id);
+            return Collection.Find(filter).SingleOrDefault();
         }
 
         public virtual async Task<PagedResult<TEntity, TIdType>> ListAsync(            
