@@ -4,7 +4,7 @@ namespace Exercise.Domain.Models
 {
     public class PagedResult<TEntity, TIdType> where TEntity: IEntity<TIdType>
     {
-        public PagedResult(IReadOnlyCollection<TEntity> data, int currentPage, int pageSize, double total, double lastPage)
+        public PagedResult(IReadOnlyCollection<TEntity> data, int currentPage, int pageSize, double lastPage, double total)
         {
             Data = data;
             CurrentPage = currentPage;

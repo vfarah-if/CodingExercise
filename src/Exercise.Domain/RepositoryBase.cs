@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Exercise.Domain
@@ -93,7 +94,17 @@ namespace Exercise.Domain
             return result > 0;
         }
 
-        public virtual async Task<PagedResult<TEntity, TIdType>> ListAsync(int page = 1, int pageSize = 100)
+        public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+            return await Collection.AsQueryable().AnyAsync(predicate);
+        }
+
+        public virtual async Task<PagedResult<TEntity, TIdType>> ListAsync(            
+            int page = 1, int pageSize = 100)
         {
             if (page < 0)
             {
@@ -112,8 +123,21 @@ namespace Exercise.Domain
                 .Take(pageSize)
                 .ToListAsync()
                 .ConfigureAwait(false);
-            return new PagedResult<TEntity, TIdType>(result.AsReadOnly(), page, result.Count, totalDocuments, maxPageCount);
+            return new PagedResult<TEntity, TIdType>(result.AsReadOnly(), page, result.Count, maxPageCount, totalDocuments);
         }
+
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            var filter = Builders<TEntity>.Filter.Eq(x => x.Id, entity.Id);
+            await Collection.ReplaceOneAsync(filter, entity);
+            return entity;
+        }
+
 
         private static string GetCollectionName()
         {

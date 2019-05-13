@@ -11,7 +11,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
     {
         private Student _student;
         private StudentRepository _studentRepository;
-        private Fixture _autoFixture;
+        private readonly Fixture _autoFixture;
         private IEnumerable<Student> _students;
 
         public StudentRepositoryShould()
@@ -22,14 +22,14 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         [Scenario("Should create, delete and check if students exist")]
         public void CreateAStudent()
         {
-            Given("several students", () =>
+            Given("a student", () =>
             {
                 _student = _autoFixture.Build<Student>()
                     .Without(x => x.Id)
                     .Create();
                 _student.Id.ShouldBe(null);
             });
-            When("when adding the students", () =>
+            When("when adding the student", () =>
             {
                 _studentRepository = new StudentRepository(TestHelper.GetAppSettings());
                 _student = _studentRepository.Add(_student);
@@ -43,7 +43,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                 var exists = await _studentRepository.ExistsAsync(_student);
                 exists.Should().BeTrue();
             });
-            And("student should then be removed", async () =>
+            Then("student should be removed", async () =>
             {
                 await _studentRepository.DeleteAsync(_student);
                 var exists = await _studentRepository.ExistsAsync(_student);
@@ -70,10 +70,10 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             {
                 var actual = await _studentRepository.ListAsync();
                 actual.Data.Should().NotBeNullOrEmpty();
-                actual.CurrentPage.ShouldBe(1);
-                actual.LastPage.ShouldBe(1);
+                actual.CurrentPage.Should().Be(1);
+                actual.LastPage.Should().Be(1);
             });
-            And("students should then be removed", () =>
+            Then("students should be removed", () =>
             {
                 _students.ToList().ForEach(async item =>
                 {
@@ -81,6 +81,56 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                     var exists = await _studentRepository.ExistsAsync(item);
                     exists.Should().BeFalse();
                 });
+            });
+        }
+
+        [Scenario("Should update an existing student")]
+        public void UpdateAStudent()
+        {
+            string previousFirstname = null;
+            string previousSurname = null;
+            int previousAge = default(int);
+            Given("an existing student", () =>
+            {
+                _student = _autoFixture.Build<Student>()
+                    .Without(x => x.Id)
+                    .Create();
+                _studentRepository = new StudentRepository(TestHelper.GetAppSettings());
+                _student = _studentRepository.Add(_student);
+                previousFirstname = _student.Firstname;
+                previousSurname = _student.Surname;
+                previousAge = _student.Age;
+            });
+            When("updating the students firstname, surname and age", async () =>
+            {
+                _student.Firstname = _autoFixture.Create<string>();
+                _student.Surname = _autoFixture.Create<string>();
+                _student.Age = _autoFixture.Create<int>();
+                _student = await _studentRepository.UpdateAsync(_student);
+            });
+            Then("student should exist by the new values", async () =>
+            {
+                var exists = await _studentRepository.ExistsAsync(x => 
+                    x.Id == _student.Id && 
+                    x.Firstname == _student.Firstname &&
+                    x.Surname == _student.Surname &&
+                    x.Age == _student.Age);
+                exists.Should().BeTrue();
+            });
+            And("the previous student data should not exist", async () =>
+            {
+                var exists = await _studentRepository.ExistsAsync(x =>
+                    x.Id == _student.Id &&
+                    x.Firstname == previousFirstname &&
+                    x.Surname == previousSurname &&
+                    x.Age == previousAge);
+                exists.Should().BeFalse();
+            });           
+            Then("student should be removed", async () =>
+            {
+                await _studentRepository.DeleteAsync(_student);
+                var exists = await _studentRepository.ExistsAsync(_student);
+                exists.Should().BeFalse();
             });
         }
     }

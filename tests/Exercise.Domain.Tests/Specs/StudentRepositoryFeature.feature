@@ -6,14 +6,21 @@ Feature: Student Editing
         I want to be able to edit students
 
 Scenario: Should create, delete and check if students exist
-			Given several students
-			When when adding the students
+			Given a student
+			When when adding the student
 			Then student should be persisted
 			And student should exist
-			And student should then be removed
+			Then student should be removed
 
 Scenario: Should list many students
 			Given many students
 			When when adding the students
 			Then should be able to retrieve all the added students
-			And students should then be removed
+			Then students should be removed
+
+Scenario: Should update an existing student
+			Given an existing student
+			When updating the students firstname, surname and age
+			Then student should exist by the new values
+			And the previous student data should not exist
+			Then student should be removed

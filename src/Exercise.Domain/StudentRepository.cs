@@ -1,4 +1,6 @@
-﻿using Exercise.Domain.Models;
+﻿using System;
+using System.Threading.Tasks;
+using Exercise.Domain.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace Exercise.Domain
