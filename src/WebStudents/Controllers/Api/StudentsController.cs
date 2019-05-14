@@ -9,8 +9,6 @@ using static WebStudents.Models.StudentModel;
 namespace WebStudents.Controllers.Api
 {
     // TODO: Refactor controller logic into services
-    // TODO: Create a student view model that represents the data with restrictions on the size of the data, the fact that all the data will be required, range validation etc
-    // TODO: Create a test suite that represents all the HTTP Data returned to test the way this implementation works once I have the patterns and oractises 
     [Route("api/[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase
