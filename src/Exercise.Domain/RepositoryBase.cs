@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Exercise.Domain
 {
-    public class RepositoryBase<TEntity, TIdType> where TEntity : IEntity<TIdType>
+    public class RepositoryBase<TEntity, TIdType> : IRepository<TEntity, TIdType> where TEntity : IEntity<TIdType>
     {
         public RepositoryBase(IConfiguration configuration)
             : this(UnitOfWork.Create(configuration))
@@ -27,6 +28,7 @@ namespace Exercise.Domain
             {
                 throw new ArgumentNullException(nameof(unitOfWork));
             }
+
             var collectionName = typeof(TEntity).Name;
             Collection = unitOfWork.Database.GetCollection<TEntity>(collectionName);
         }
@@ -43,6 +45,7 @@ namespace Exercise.Domain
             {
                 throw new ArgumentNullException(nameof(entity));
             }
+
             Collection.InsertOne(entity);
             return entity;
         }
@@ -60,7 +63,7 @@ namespace Exercise.Domain
         public virtual async Task<long> CountAsync(Expression<Func<TEntity, bool>> filter = null)
         {
             var filterDefinition =
-                filter == null ? FilterDefinition<TEntity>.Empty : (FilterDefinition<TEntity>)filter;
+                filter == null ? FilterDefinition<TEntity>.Empty : (FilterDefinition<TEntity>) filter;
             return await Collection.CountDocumentsAsync(filterDefinition).ConfigureAwait(false);
         }
 
@@ -70,6 +73,7 @@ namespace Exercise.Domain
             {
                 throw new ArgumentNullException(nameof(entity));
             }
+
             return await DeleteAsync(entity.Id).ConfigureAwait(false);
         }
 
@@ -104,6 +108,7 @@ namespace Exercise.Domain
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
+
             return await Collection
                 .AsQueryable()
                 .AnyAsync(predicate)
@@ -123,7 +128,7 @@ namespace Exercise.Domain
         }
 
         public virtual async Task<PagedResult<TEntity, TIdType>> ListAsync(
-            Expression<Func<TEntity, bool>> filter = null, 
+            Expression<Func<TEntity, bool>> filter = null,
             int page = 1,
             int pageSize = 100)
         {
@@ -136,13 +141,13 @@ namespace Exercise.Domain
             var maxPageCount = Math.Ceiling(totalDocuments / pageSize);
             if (maxPageCount > 0 && page > maxPageCount)
             {
-                page = (int)maxPageCount;
+                page = (int) maxPageCount;
             }
 
             List<TEntity> result = null;
             if (filter == null)
             {
-                 result = await Collection.AsQueryable()
+                result = await Collection.AsQueryable()
                     .Skip(page - 1)
                     .Take(pageSize)
                     .ToListAsync()
@@ -157,7 +162,9 @@ namespace Exercise.Domain
                     .ToListAsync()
                     .ConfigureAwait(false);
             }
-            return new PagedResult<TEntity, TIdType>(result.AsReadOnly(), page, result.Count, maxPageCount, totalDocuments);
+
+            return new PagedResult<TEntity, TIdType>(result.AsReadOnly(), page, result.Count, maxPageCount,
+                totalDocuments);
         }
 
         public virtual async Task<TEntity> UpdateAsync(TEntity entity)
@@ -170,6 +177,32 @@ namespace Exercise.Domain
             var filter = Builders<TEntity>.Filter.Eq(x => x.Id, entity.Id);
             await Collection.ReplaceOneAsync(filter, entity);
             return entity;
+        }
+
+        public IEnumerator<TEntity> GetEnumerator()
+        {
+            return Collection.AsQueryable().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public Type ElementType => Collection.AsQueryable().ElementType;
+        public Expression Expression => Collection.AsQueryable().Expression;
+        public IQueryProvider Provider => Collection.AsQueryable().Provider;
+    }
+
+    public class RepositoryBase<TEntity> : RepositoryBase<TEntity, string>, IRepository<TEntity>
+        where TEntity : IEntity
+    {
+        public RepositoryBase(IConfiguration configuration) : base(configuration)
+        {
+        }
+
+        public RepositoryBase(IUnitOfWork unitOfWork) : base(unitOfWork)
+        {
         }
     }
 }
