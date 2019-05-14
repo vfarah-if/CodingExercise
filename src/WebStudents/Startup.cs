@@ -30,7 +30,7 @@ namespace WebStudents
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSingleton(typeof(IRepository<Student>), typeof(StudentRepository));
+            services.AddScoped(typeof(IRepository<Student>), typeof(StudentRepository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

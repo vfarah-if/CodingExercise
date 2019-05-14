@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Exercise.Domain;
+﻿using Exercise.Domain;
 using Exercise.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using WebStudents.Models;
 using static WebStudents.Models.StudentModel;
 
@@ -25,7 +25,7 @@ namespace WebStudents.Controllers.Api
         // TODO: Extend paging model binding options
         // GET: api/Students
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Student, string>>> GetAsync()
+        public async Task<ActionResult<PagedResult<Student, string>>> GetListList()
         {
             var result = await _studentRepository.ListAsync().ConfigureAwait(false);
             return Ok(result);
@@ -44,7 +44,7 @@ namespace WebStudents.Controllers.Api
             {
                 return NotFound(id);
             }
-       
+
             return Ok(result);
         }
 
@@ -57,19 +57,16 @@ namespace WebStudents.Controllers.Api
                 return BadRequest("Student data is required");
             }
 
-            if (ModelState.IsValid)
-            {
-                var result = _studentRepository.Add(MapFrom(student));
-                return CreatedAtAction(nameof(Post), new { id = result.Id }, result);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            return BadRequest(ModelState);
+            var result = _studentRepository.Add(MapFrom(student));
+            return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
         }
 
         // PUT: api/Students/5cda87b52e506b05c06e92e1
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, [FromBody] StudentModel student)
-        {            
+        {
             if (string.IsNullOrEmpty(id))
             {
                 return BadRequest(new ArgumentException("Value cannot be null or empty.", nameof(id)));
@@ -80,19 +77,16 @@ namespace WebStudents.Controllers.Api
                 return BadRequest(new ArgumentNullException(nameof(student)));
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var result = await _studentRepository.GetByAsync(id);
+            if (result == null)
             {
-
-                var result = await _studentRepository.GetByAsync(id);
-                if (result == null)
-                {
-                    return NotFound($"'{id}' does not exist");
-                }
-
-                student.Id = result.Id;
-                return Ok(await _studentRepository.UpdateAsync(MapFrom(student)));
+                return NotFound($"'{id}' does not exist");
             }
-            return BadRequest(ModelState);
+
+            student.Id = result.Id;
+            return Ok(await _studentRepository.UpdateAsync(MapFrom(student)));
         }
 
         // DELETE: api/ApiWithActions/5cda87b52e506b05c06e92e1
@@ -103,6 +97,7 @@ namespace WebStudents.Controllers.Api
             {
                 return BadRequest(new ArgumentException("Value cannot be null or empty.", nameof(id)));
             }
+
             var result = await _studentRepository.GetByAsync(id);
             if (result == null)
             {
