@@ -24,5 +24,11 @@ namespace WebStudents.Tests
         {
             _studentsController.Should().NotBeNull();
         }
+
+        [Fact]
+        public void GetListFromRepository()
+        {
+            
+        }
     }
 }
