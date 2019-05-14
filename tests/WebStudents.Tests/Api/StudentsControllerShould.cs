@@ -4,6 +4,8 @@ using Exercise.Domain.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System;
+using System.Threading.Tasks;
 using WebStudents.Controllers.Api;
 using Xunit;
 
@@ -29,7 +31,7 @@ namespace WebStudents.Tests
         }
 
         [Fact]
-        public async void GetPaginatedListFromStudentsRepository()
+        public async Task GetPaginatedListFromStudentsRepository()
         {
             await _studentsController.GetListAsync();
 
@@ -37,7 +39,7 @@ namespace WebStudents.Tests
         }
 
         [Fact]
-        public async void ReturnOkResultWithPaginatedData()
+        public async Task ReturnOkResultWithPaginatedData()
         {
             var response = _fixture.Create<PagedResult<Student, string>>();
             _studentsRepositoryMock
@@ -49,6 +51,58 @@ namespace WebStudents.Tests
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<OkObjectResult>();
             ((OkObjectResult)actual.Result).Value.Should().Be(response);
+        }
+
+        [Fact]
+        public async Task ReturnBadRequestWithArgumentNullExceptionDataWhenGetAsyncIsAssignedANullId()
+        {
+            var actual = await _studentsController.GetAsync(null);
+
+            actual.Should().NotBeNull();
+            actual.Result.Should().BeOfType<BadRequestObjectResult>();
+            var badRequest = (BadRequestObjectResult)actual.Result;
+            badRequest.Value.Should().BeOfType<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task CallGetAsyncRepositoryWithId()
+        {
+            var id = _fixture.Create<string>();
+
+            await _studentsController.GetAsync(id);
+
+            _studentsRepositoryMock.Verify(x => x.GetByAsync(id), Times.Once);
+        }
+
+        [Fact]
+        public async Task CallGetAsyncAndReturnNotFoundWithIdWhenRepositoryGetByAsyncReturnsNullData()
+        {
+            var id = _fixture.Create<string>();
+            _studentsRepositoryMock
+                .Setup(x => x.GetByAsync(id))
+                .ReturnsAsync( null as Student);
+
+            var actual = await _studentsController.GetAsync(id);
+
+            actual.Should().NotBeNull();
+            actual.Result.Should().BeOfType<NotFoundObjectResult>();
+            ((NotFoundObjectResult)actual.Result).Value.Should().Be(id);
+        }
+
+        [Fact]
+        public async Task CallGetAsyncAndReturnOkWithStudentDataWhenStudentFound()
+        {
+            var id = _fixture.Create<string>();
+            var studentResponse = _fixture.Create<Student>();
+            _studentsRepositoryMock
+                .Setup(x => x.GetByAsync(id))
+                .ReturnsAsync(studentResponse);
+
+            var actual = await _studentsController.GetAsync(id);
+
+            actual.Should().NotBeNull();
+            actual.Result.Should().BeOfType<OkObjectResult>();
+            ((OkObjectResult)actual.Result).Value.Should().Be(studentResponse);
         }
     }
 }

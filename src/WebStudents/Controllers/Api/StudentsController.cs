@@ -35,7 +35,7 @@ namespace WebStudents.Controllers.Api
         {
             if (id == null)
             {
-                BadRequest("No id assigned");
+                return BadRequest(new ArgumentNullException(nameof(id)));
             }
             var result = await _studentRepository.GetByAsync(id).ConfigureAwait(false);
             if (result == null)
@@ -52,7 +52,7 @@ namespace WebStudents.Controllers.Api
         {
             if (student == null)
             {
-                return BadRequest("Student data is required");
+                return BadRequest(new ArgumentNullException(nameof(student)));
             }
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
