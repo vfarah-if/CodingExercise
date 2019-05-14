@@ -34,7 +34,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                 _studentRepository = new StudentRepository(TestHelper.GetAppSettings());
                 _student = _studentRepository.Add(_student);
             });
-            Then("student should be persisted", async () =>
+            Then("student should be persisted", () =>
             {
                 _student.Id.Should().NotBeNullOrEmpty();
             });
