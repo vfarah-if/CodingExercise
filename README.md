@@ -18,4 +18,7 @@
 2. https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-2.2
 3. https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-2.2&tabs=visual-studio
 4. https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.2
-5. 
+5. https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-2.2
+6. https://andrewlock.net/coming-in-asp-net-core-2-1-top-level-mvc-parameter-validation/
+7. https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-2.2
+8. https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-2.2#route-template-reference

@@ -64,7 +64,7 @@ namespace WebStudents.Controllers.Api
         }
 
         // PUT: api/Students/5cda87b52e506b05c06e92e1
-        [HttpPut("{id}")]
+        [HttpPut("{id:guid}")]
         public async Task<IActionResult> Put(string id, [FromBody] StudentModel student)
         {
             if (string.IsNullOrEmpty(id))
@@ -90,7 +90,7 @@ namespace WebStudents.Controllers.Api
         }
 
         // DELETE: api/ApiWithActions/5cda87b52e506b05c06e92e1
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(string id)
         {
             if (string.IsNullOrEmpty(id))
