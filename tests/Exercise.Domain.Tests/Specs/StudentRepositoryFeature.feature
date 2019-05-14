@@ -27,6 +27,5 @@ Scenario: Should update an existing student
 
 Scenario: Should get a student by id
 			Given an existing student
-			When retrieving a student by id
-			Then student should not be null
+			When retrieving a student by id should return a value
 			Then student should be removed

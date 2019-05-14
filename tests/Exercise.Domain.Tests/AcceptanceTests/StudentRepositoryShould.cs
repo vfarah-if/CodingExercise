@@ -149,12 +149,9 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                 _studentRepository = new StudentRepository(TestHelper.GetAppSettings());
                 _student = _studentRepository.Add(_student);
             });
-            When("retrieving a student by id", async () =>
+            When("retrieving a student by id should return a value", async () =>
             {
                 student = await _studentRepository.GetByAsync(_student.Id);
-            });
-            Then("student should not be null", () =>
-            {
                 student.Should().NotBeNull();
                 student.Id.ShouldBe(_student.Id);
             });
