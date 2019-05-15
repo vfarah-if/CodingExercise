@@ -23,7 +23,7 @@ namespace WebStudents.Controllers.Api
         // TODO: Extend paging model binding options
         // GET: api/Students
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Student, string>>> GetListAsync()
+        public async Task<ActionResult<PagedResult<Student, string>>> ListAsync()
         {
             var result = await _studentRepository.ListAsync().ConfigureAwait(false);
             return Ok(result);
@@ -31,7 +31,7 @@ namespace WebStudents.Controllers.Api
 
         // GET: api/Students/5cda87b52e506b05c06e92e1
         [HttpGet("{id:guid}", Name = "Get")]
-        public async Task<ActionResult<Student>> GetAsync(string id)
+        public async Task<ActionResult<Student>> GetByAsync(string id)
         {
             if (id == null)
             {
@@ -58,7 +58,7 @@ namespace WebStudents.Controllers.Api
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var result = _studentRepository.Add(MapFrom(student));
-            return CreatedAtAction(nameof(GetAsync), new { id = result.Id }, result);
+            return CreatedAtAction(nameof(GetByAsync), new { id = result.Id }, result);
         }
 
         // PUT: api/Students/5cda87b52e506b05c06e92e1

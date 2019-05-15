@@ -1,4 +1,14 @@
 # CodingExercise
+
+```
+Feature: Student Editing
+	As a student admin
+        I want to be able to edit students
+```
+The point of this exercise it to facilitate good domain repository patterns utilising MongoDb, Repository and Unit of work patterns, .net core and MVC ideally, but feel free to utilise another Framework that does the same.
+
+Document what you learn as a point of intererst guiding anyone else down ypur path of understanding.
+
 1. As a user I would like to edit or create a list of students (DONE)
 2. Create a user (DONE)
 3. Delete a user (DONE)

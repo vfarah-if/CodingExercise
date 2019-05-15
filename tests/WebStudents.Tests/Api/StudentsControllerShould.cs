@@ -15,7 +15,7 @@ namespace WebStudents.Tests
     {
         private readonly Mock<IRepository<Student>> _studentsRepositoryMock;
         private readonly StudentsController _studentsController;
-        private Fixture _fixture;
+        private readonly Fixture _fixture;
 
         public StudentsControllerShould()
         {
@@ -33,7 +33,7 @@ namespace WebStudents.Tests
         [Fact]
         public async Task GetPaginatedListFromStudentsRepository()
         {
-            await _studentsController.GetListAsync();
+            await _studentsController.ListAsync();
 
             _studentsRepositoryMock.Verify(x => x.ListAsync(null, 1, 100), Times.Once);
         }
@@ -46,7 +46,7 @@ namespace WebStudents.Tests
                 .Setup(x => x.ListAsync(null, 1, 100))
                 .ReturnsAsync(response);
 
-            var actual = await _studentsController.GetListAsync();
+            var actual = await _studentsController.ListAsync();
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<OkObjectResult>();
@@ -56,7 +56,7 @@ namespace WebStudents.Tests
         [Fact]
         public async Task ReturnBadRequestWithArgumentNullExceptionDataWhenGetAsyncIsAssignedANullId()
         {
-            var actual = await _studentsController.GetAsync(null);
+            var actual = await _studentsController.GetByAsync(null);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<BadRequestObjectResult>();
@@ -69,20 +69,20 @@ namespace WebStudents.Tests
         {
             var id = _fixture.Create<string>();
 
-            await _studentsController.GetAsync(id);
+            await _studentsController.GetByAsync(id);
 
             _studentsRepositoryMock.Verify(x => x.GetByAsync(id), Times.Once);
         }
 
         [Fact]
-        public async Task CallGetAsyncAndReturnNotFoundWithIdWhenRepositoryGetByAsyncReturnsNullData()
+        public async Task CallGetByAsyncAndReturnNotFoundWithIdWhenRepositoryGetByAsyncReturnsNullData()
         {
             var id = _fixture.Create<string>();
             _studentsRepositoryMock
                 .Setup(x => x.GetByAsync(id))
                 .ReturnsAsync( null as Student);
 
-            var actual = await _studentsController.GetAsync(id);
+            var actual = await _studentsController.GetByAsync(id);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<NotFoundObjectResult>();
@@ -90,7 +90,7 @@ namespace WebStudents.Tests
         }
 
         [Fact]
-        public async Task CallGetAsyncAndReturnOkWithStudentDataWhenStudentFound()
+        public async Task CallGetByAsyncAndReturnOkWithStudentDataWhenStudentFound()
         {
             var id = _fixture.Create<string>();
             var studentResponse = _fixture.Create<Student>();
@@ -98,7 +98,7 @@ namespace WebStudents.Tests
                 .Setup(x => x.GetByAsync(id))
                 .ReturnsAsync(studentResponse);
 
-            var actual = await _studentsController.GetAsync(id);
+            var actual = await _studentsController.GetByAsync(id);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<OkObjectResult>();
