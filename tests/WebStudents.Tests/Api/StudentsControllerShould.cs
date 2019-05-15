@@ -239,7 +239,55 @@ namespace WebStudents.Tests
             ((OkObjectResult)actual.Result).Value.Should().BeOfType<Student>();
         }
 
-        // TODO: Delete
+        // Delete
+
+        [Fact]
+        public async Task DeleteAndReturnBadRequestWithArgumentExceptionWhenAssignedANullId()
+        {
+            var actual = await _studentsController.DeleteAsync(null).ConfigureAwait(false);
+
+            actual.Should().NotBeNull();
+            actual.Should().BeOfType<BadRequestObjectResult>();
+            ((BadRequestObjectResult)actual).Value.Should().BeOfType<ArgumentException>();
+        }
+
+        [Fact]
+        public async Task DeleteReturnNotFoundResponseIfNoStudentFound()
+        {
+            var id = _fixture.Create<string>();
+            var student = GenerateNewStudent();
+            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(null as Student);
+            SetupUpdateResponse(student);
+
+            var actual = await _studentsController.DeleteAsync(id).ConfigureAwait(false);
+
+            actual.Should().BeOfType<NotFoundObjectResult>();
+        }
+
+        [Fact]
+        public async Task DeleteAndVerifyStudentIsDeleted()
+        {
+            var id = _fixture.Create<string>();
+            var student = GenerateNewStudent();
+            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(MapFrom(student));
+            
+            await _studentsController.DeleteAsync(id).ConfigureAwait(false);
+
+            _studentsRepositoryMock.Verify(x => x.DeleteAsync(It.IsAny<Student>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task DeleteAndReturnNoContentResult()
+        {
+            var id = _fixture.Create<string>();
+            var student = GenerateNewStudent();
+            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(MapFrom(student));
+
+            var actual = await _studentsController.DeleteAsync(id).ConfigureAwait(false);
+
+            actual.Should().BeOfType<NoContentResult>();
+        }
+
         private void SetupAddResponse(StudentModel student)
         {
             var postResponse = MapFrom(student);
