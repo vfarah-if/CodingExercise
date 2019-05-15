@@ -8,7 +8,6 @@ using static WebStudents.Models.StudentModel;
 
 namespace WebStudents.Controllers.Api
 {
-    // TODO: Refactor controller logic into services
     [Route("api/[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase
@@ -63,7 +62,7 @@ namespace WebStudents.Controllers.Api
 
         // PUT: api/Students/5cda87b52e506b05c06e92e1
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> PutAsync(string id, [FromBody] StudentModel student)
+        public async Task<ActionResult<Student>> PutAsync(string id, [FromBody] StudentModel student)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -77,17 +76,18 @@ namespace WebStudents.Controllers.Api
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var result = await _studentRepository.GetByAsync(id);
+            var result = await _studentRepository.GetByAsync(id).ConfigureAwait(false);
             if (result == null)
             {
                 return NotFound($"'{id}' does not exist");
             }
 
             student.Id = result.Id;
-            return Ok(await _studentRepository.UpdateAsync(MapFrom(student)));
+            var response = await _studentRepository.UpdateAsync(MapFrom(student)).ConfigureAwait(false);
+            return Ok(response);
         }
 
-        // DELETE: api/ApiWithActions/5cda87b52e506b05c06e92e1
+        // DELETE: api/Students/5cda87b52e506b05c06e92e1
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteAsync(string id)
         {

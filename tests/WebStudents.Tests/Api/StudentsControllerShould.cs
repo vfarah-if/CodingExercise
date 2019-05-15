@@ -37,7 +37,7 @@ namespace WebStudents.Tests
         [Fact]
         public async Task GetPaginatedListFromStudentsRepository()
         {
-            await _studentsController.ListAsync();
+            await _studentsController.ListAsync().ConfigureAwait(false);
 
             _studentsRepositoryMock.Verify(x => x.ListAsync(null, 1, 100), Times.Once);
         }
@@ -50,7 +50,7 @@ namespace WebStudents.Tests
                 .Setup(x => x.ListAsync(null, 1, 100))
                 .ReturnsAsync(response);
 
-            var actual = await _studentsController.ListAsync();
+            var actual = await _studentsController.ListAsync().ConfigureAwait(false);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<OkObjectResult>();
@@ -62,7 +62,7 @@ namespace WebStudents.Tests
         [Fact]
         public async Task ReturnBadRequestWithArgumentNullExceptionDataWhenGetAsyncIsAssignedANullId()
         {
-            var actual = await _studentsController.GetByAsync(null);
+            var actual = await _studentsController.GetByAsync(null).ConfigureAwait(false);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<BadRequestObjectResult>();
@@ -75,7 +75,7 @@ namespace WebStudents.Tests
         {
             var id = _fixture.Create<string>();
 
-            await _studentsController.GetByAsync(id);
+            await _studentsController.GetByAsync(id).ConfigureAwait(false);
 
             _studentsRepositoryMock.Verify(x => x.GetByAsync(id), Times.Once);
         }
@@ -88,7 +88,7 @@ namespace WebStudents.Tests
                 .Setup(x => x.GetByAsync(id))
                 .ReturnsAsync(null as Student);
 
-            var actual = await _studentsController.GetByAsync(id);
+            var actual = await _studentsController.GetByAsync(id).ConfigureAwait(false);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<NotFoundObjectResult>();
@@ -104,7 +104,7 @@ namespace WebStudents.Tests
                 .Setup(x => x.GetByAsync(id))
                 .ReturnsAsync(studentResponse);
 
-            var actual = await _studentsController.GetByAsync(id);
+            var actual = await _studentsController.GetByAsync(id).ConfigureAwait(false);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<OkObjectResult>();
@@ -126,10 +126,7 @@ namespace WebStudents.Tests
         [Fact]
         public void PostAndReturnBadRequestWithSerializableErrorIssuesWhenTheModelStateIsInvalid()
         {
-            // simulate error that comes from the model binder validation
-            var key = _fixture.Create<string>();
-            var error = _fixture.Create<string>();
-            _studentsController.ModelState.AddModelError(key, error);
+            SetupModelStateError();
             var student = _fixture.Create<StudentModel>();
 
             var actual = _studentsController.Post(student);
@@ -165,6 +162,84 @@ namespace WebStudents.Tests
             ((CreatedAtActionResult) actual.Result).ActionName.Should().Be("GetByAsync");
         }
 
+        // Put
+
+        [Fact]
+        public async Task PutAndReturnBadRequestWithArgumentExceptionWhenAssignedANullId()
+        {
+            var actual = await _studentsController.PutAsync(null, GenerateNewStudent()).ConfigureAwait(false);
+
+            actual.Should().NotBeNull();
+            actual.Result.Should().BeOfType<BadRequestObjectResult>();
+            ((BadRequestObjectResult)actual.Result).Value.Should().BeOfType<ArgumentException>();
+        }
+
+        [Fact]
+        public async Task PutAndReturnBadRequestWithArgumentNullExceptionWhenAssignedANullStudent()
+        {
+            var actual = await _studentsController.PutAsync(_fixture.Create<string>(), null).ConfigureAwait(false);
+
+            actual.Should().NotBeNull();
+            actual.Result.Should().BeOfType<BadRequestObjectResult>();
+            ((BadRequestObjectResult)actual.Result).Value.Should().BeOfType<ArgumentNullException>();
+        }
+
+        [Fact]
+        public async Task PutAndAndReturnBadRequestWithSerializableErrorIssuesWhenTheModelStateIsInvalid()
+        {
+            // simulate error that comes from the model binder validation
+            SetupModelStateError();
+            var student = _fixture.Create<StudentModel>();
+            var id = _fixture.Create<string>();
+            var actual = await _studentsController.PutAsync(id, student).ConfigureAwait(false);
+        
+            actual.Should().NotBeNull();
+            actual.Result.Should().BeOfType<BadRequestObjectResult>();
+            ((BadRequestObjectResult)actual.Result).Value.Should().BeOfType<SerializableError>();
+            ((SerializableError)((BadRequestObjectResult)actual.Result).Value).Count.Should().Be(1);
+        }
+
+        [Fact]
+        public async Task PutReturnNotFoundResponseIfNoStudentFound()
+        {
+            var id = _fixture.Create<string>();
+            var student = GenerateNewStudent();
+            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(null as Student);
+            SetupUpdateResponse(student);
+
+            var actual = await _studentsController.PutAsync(id, student).ConfigureAwait(false);
+
+            actual.Result.Should().BeOfType<NotFoundObjectResult>();
+        }
+
+        [Fact]
+        public async Task PutAndUpdateStudentAndVerifyStudentIsUpdated()
+        {
+            var id = _fixture.Create<string>();
+            var student = GenerateNewStudent();
+            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(MapFrom(student));
+            SetupUpdateResponse(student);
+
+            await _studentsController.PutAsync(id, student).ConfigureAwait(false);
+
+            _studentsRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Student>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task PutAndUpdateStudentAndReturnOkResponse()
+        {
+            var id = _fixture.Create<string>();
+            var student = GenerateNewStudent();
+            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(MapFrom(student));
+            SetupUpdateResponse(student);
+
+            var actual = await _studentsController.PutAsync(id, student).ConfigureAwait(false);
+
+            actual.Result.Should().BeOfType<OkObjectResult>();
+            ((OkObjectResult)actual.Result).Value.Should().BeOfType<Student>();
+        }
+
+        // TODO: Delete
         private void SetupAddResponse(StudentModel student)
         {
             var postResponse = MapFrom(student);
@@ -172,11 +247,24 @@ namespace WebStudents.Tests
             _studentsRepositoryMock.Setup(x => x.Add(It.IsAny<Student>())).Returns(postResponse);
         }
 
+        private void SetupUpdateResponse(StudentModel student)
+        {
+            var putResponse = MapFrom(student);
+            _studentsRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<Student>())).ReturnsAsync(putResponse);
+        }
+
         private StudentModel GenerateNewStudent()
         {
             return _fixture.Build<StudentModel>()
                 .Without(x => x.Id)
                 .Create();
+        }
+
+        private void SetupModelStateError()
+        {
+            var key = _fixture.Create<string>();
+            var error = _fixture.Create<string>();
+            _studentsController.ModelState.AddModelError(key, error);
         }
     }
 }

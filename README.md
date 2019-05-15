@@ -32,3 +32,5 @@ Document what you learn as a point of intererst guiding anyone else down ypur pa
 6. https://andrewlock.net/coming-in-asp-net-core-2-1-top-level-mvc-parameter-validation/
 7. https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-2.2
 8. https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-2.2#route-template-reference
+9. https://weblog.west-wind.com/posts/2018/Feb/18/Accessing-Configuration-in-NET-Core-Test-Projects
+10. https://medium.com/bynder-tech/c-why-you-should-use-configureawait-false-in-your-library-code-d7837dce3d7f
