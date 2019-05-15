@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.8.0" />
     <PackageReference Include="CoreBDD" Version="0.9.7" />
     <PackageReference Include="CoreBDD.SpecGeneration" Version="0.9.7" />
     <PackageReference Include="FluentAssertions" Version="5.6.0" />
