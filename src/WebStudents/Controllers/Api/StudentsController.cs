@@ -28,6 +28,23 @@ namespace WebStudents.Controllers.Api
             return Ok(result);
         }
 
+        // HEAD: api/Students/5cda87b52e506b05c06e92e1
+        [HttpHead("{id}")]
+        public async Task<ActionResult<bool>> Exist(string id)
+        {
+            if (id == null)
+            {
+                return BadRequest(new ArgumentNullException(nameof(id)));
+            }
+
+            var result = await _studentRepository.ExistsAsync(id);
+            if (result)
+            {
+                return Ok();
+            }
+
+            return NotFound();
+        }
         // GET: api/Students/5cda87b52e506b05c06e92e1
         [HttpGet("{id}", Name = "Get")]
         public async Task<ActionResult<Student>> Get(string id)

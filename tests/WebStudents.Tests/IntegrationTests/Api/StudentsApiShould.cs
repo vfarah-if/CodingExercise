@@ -52,6 +52,7 @@ namespace WebStudents.Tests.IntegrationTests.Api
                 currentStudent = JsonConvert.DeserializeObject<Student>(content);
                 currentStudent.Should().NotBeNull();
                 currentStudent.Id.Should().NotBeNullOrEmpty();
+                await CheckIfExistsAndVerifyResponse(currentStudent);
             }
             finally
             {
@@ -99,6 +100,29 @@ namespace WebStudents.Tests.IntegrationTests.Api
             }
         }
 
+        private async Task CheckIfExistsAndVerifyResponse(Student student)
+        {
+            var response = await Head(student);
+            response.IsSuccessStatusCode.Should().BeTrue("Failed to check if exists");
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        private async Task CheckIfNotFoundExistsAndVerifyResponse(Student student)
+        {
+            var response = await Head(student);
+            response.IsSuccessStatusCode.Should().BeFalse("Record exists");
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        private async Task<HttpResponseMessage> Head(Student student)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(
+                HttpMethod.Head,
+                $"{apiStudentsRequestUri}/{student.Id}");
+            var response = await _client.SendAsync(request);
+            return response;
+        }
+
         private async Task<HttpResponseMessage> UpdateAndVerifyResponse(Student expectedStudent)
         {
             var response = await _client.PutAsync($"{apiStudentsRequestUri}/{expectedStudent.Id}",
@@ -111,8 +135,9 @@ namespace WebStudents.Tests.IntegrationTests.Api
         private async Task DeleteAndVerifyResponse(Student expectedStudent)
         {
             var response = await _client.DeleteAsync($"{apiStudentsRequestUri}/{expectedStudent.Id}");
-            response.IsSuccessStatusCode.Should().BeTrue("Failed to delete");
+            response.IsSuccessStatusCode.Should().BeTrue( "Failed to delete");
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            await CheckIfNotFoundExistsAndVerifyResponse(expectedStudent);
         }
 
         private async Task<HttpResponseMessage> CreateAndVerifyResponse(string salutation, string firstname, string lastname, int age)

@@ -110,6 +110,36 @@ namespace WebStudents.Tests.UnitTests.Api
             ((OkObjectResult) actual.Result).Value.Should().Be(studentResponse);
         }
 
+        // Head
+
+        [Fact]
+        public async Task ExistsAndReturnOkWhenStudentExist()
+        {
+            var id = _fixture.Create<string>();
+            _studentsRepositoryMock
+                .Setup(x => x.ExistsAsync(id))
+                .ReturnsAsync(true);
+
+            var actual = await _studentsController.Exist(id).ConfigureAwait(false);
+
+            actual.Should().NotBeNull();
+            actual.Result.Should().BeOfType<OkResult>();
+        }
+
+        [Fact]
+        public async Task ExistsAndReturnNotFoundResultWhenStudentDoesNotExist()
+        {
+            var id = _fixture.Create<string>();
+            _studentsRepositoryMock
+                .Setup(x => x.ExistsAsync(id))
+                .ReturnsAsync(false);
+
+            var actual = await _studentsController.Exist(id).ConfigureAwait(false);
+
+            actual.Should().NotBeNull();
+            actual.Result.Should().BeOfType<NotFoundResult>();
+        }
+
         // Post
 
         [Fact]

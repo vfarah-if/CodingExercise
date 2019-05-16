@@ -20,8 +20,9 @@ Document what you learn as a point of intererst guiding anyone else down your pa
 	a. Refactor controller logic into services (Wont do as controller is so simple)
 	b. Create a student view model that represents the data with restrictions on the size of the data, the fact that all the data will be required, range validation etc
 	c. Create a test suite that represents all the HTTP Data returned to test the way this implementation works
-9  Create an integration or acceptance test for the API (TODO)
-9. Create MVC For listing, editing, deleting students (TODO)
+9  Create an integration or acceptance test for the API (DONE)
+10. Extend the crud to include Head for efficient check to see if exists (DONE)
+10. Create MVC For listing, editing, deleting students (TODO)
 
 #Links of interest while doing project
 1. https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-2.2&tabs=visual-studio
