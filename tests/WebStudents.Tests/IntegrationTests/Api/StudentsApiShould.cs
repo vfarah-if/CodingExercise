@@ -22,7 +22,7 @@ namespace WebStudents.Tests.IntegrationTests.Api
         }
 
         [Fact]
-        public async Task GetStudentsWithOkResponseAndAPagedResultOfStudentData()
+        public async Task ListStudentsWithOkResponsePaginatingStudentData()
         {
             var response = await _client.GetAsync(apiStudentsRequestUri);
 
