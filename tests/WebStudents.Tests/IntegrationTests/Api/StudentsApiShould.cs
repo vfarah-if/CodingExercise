@@ -114,15 +114,6 @@ namespace WebStudents.Tests.IntegrationTests.Api
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        private async Task<HttpResponseMessage> Head(Student student)
-        {
-            HttpRequestMessage request = new HttpRequestMessage(
-                HttpMethod.Head,
-                $"{apiStudentsRequestUri}/{student.Id}");
-            var response = await _client.SendAsync(request);
-            return response;
-        }
-
         private async Task<HttpResponseMessage> UpdateAndVerifyResponse(Student expectedStudent)
         {
             var response = await _client.PutAsync($"{apiStudentsRequestUri}/{expectedStudent.Id}",
@@ -134,7 +125,7 @@ namespace WebStudents.Tests.IntegrationTests.Api
 
         private async Task DeleteAndVerifyResponse(Student expectedStudent)
         {
-            var response = await _client.DeleteAsync($"{apiStudentsRequestUri}/{expectedStudent.Id}");
+            var response = await Delete(expectedStudent);
             response.IsSuccessStatusCode.Should().BeTrue( "Failed to delete");
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
             await CheckIfNotFoundExistsAndVerifyResponse(expectedStudent);
@@ -152,6 +143,21 @@ namespace WebStudents.Tests.IntegrationTests.Api
         {
             var student = Student.Create(null, salutation, age, firstname, lastname);
             var response = await _client.PostAsync(apiStudentsRequestUri, new JsonContent(student));
+            return response;
+        }
+
+        private async Task<HttpResponseMessage> Delete(Student expectedStudent)
+        {
+            var response = await _client.DeleteAsync($"{apiStudentsRequestUri}/{expectedStudent.Id}");
+            return response;
+        }
+
+        private async Task<HttpResponseMessage> Head(Student student)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(
+                HttpMethod.Head,
+                $"{apiStudentsRequestUri}/{student.Id}");
+            var response = await _client.SendAsync(request);
             return response;
         }
     }
