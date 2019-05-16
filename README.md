@@ -7,7 +7,7 @@ Feature: Student Editing
 ```
 The point of this exercise it to facilitate good domain repository patterns utilising MongoDb, Repository and Unit of work patterns, .net core and MVC ideally, but feel free to utilise another Framework that does the same.
 
-Document what you learn as a point of intererst guiding anyone else down ypur path of understanding.
+Document what you learn as a point of intererst guiding anyone else down your path of understanding.
 
 1. As a user I would like to edit or create a list of students (DONE)
 2. Create a user (DONE)
@@ -28,7 +28,7 @@ Document what you learn as a point of intererst guiding anyone else down ypur pa
 2. https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-2.2
 3. https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-2.2&tabs=visual-studio
 4. https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.2
-5. https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-2.2
+5. https://fullstackmark.com/post/20/painless-integration-testing-with-aspnet-core-web-api
 6. https://andrewlock.net/coming-in-asp-net-core-2-1-top-level-mvc-parameter-validation/
 7. https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-2.2
 8. https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-2.2#route-template-reference

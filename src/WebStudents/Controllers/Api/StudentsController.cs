@@ -22,7 +22,7 @@ namespace WebStudents.Controllers.Api
         // TODO: Extend paging model binding options
         // GET: api/Students
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Student, string>>> ListAsync()
+        public async Task<ActionResult<PagedResult<Student>>> ListAsync()
         {
             var result = await _studentRepository.ListAsync().ConfigureAwait(false);
             return Ok(result);

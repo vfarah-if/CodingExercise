@@ -1,17 +1,16 @@
+using System;
+using System.Threading.Tasks;
 using AutoFixture;
 using Exercise.Domain;
 using Exercise.Domain.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Threading.Tasks;
 using WebStudents.Controllers.Api;
 using WebStudents.Models;
 using Xunit;
-using static WebStudents.Models.StudentModel;
 
-namespace WebStudents.Tests
+namespace WebStudents.Tests.UnitTests.Api
 {
     public class StudentsControllerShould
     {
@@ -217,7 +216,7 @@ namespace WebStudents.Tests
         {
             var id = _fixture.Create<string>();
             var student = GenerateNewStudent();
-            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(MapFrom(student));
+            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(StudentModel.MapFrom(student));
             SetupUpdateResponse(student);
 
             await _studentsController.PutAsync(id, student).ConfigureAwait(false);
@@ -230,7 +229,7 @@ namespace WebStudents.Tests
         {
             var id = _fixture.Create<string>();
             var student = GenerateNewStudent();
-            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(MapFrom(student));
+            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(StudentModel.MapFrom(student));
             SetupUpdateResponse(student);
 
             var actual = await _studentsController.PutAsync(id, student).ConfigureAwait(false);
@@ -269,7 +268,7 @@ namespace WebStudents.Tests
         {
             var id = _fixture.Create<string>();
             var student = GenerateNewStudent();
-            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(MapFrom(student));
+            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(StudentModel.MapFrom(student));
             
             await _studentsController.DeleteAsync(id).ConfigureAwait(false);
 
@@ -281,7 +280,7 @@ namespace WebStudents.Tests
         {
             var id = _fixture.Create<string>();
             var student = GenerateNewStudent();
-            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(MapFrom(student));
+            _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(StudentModel.MapFrom(student));
 
             var actual = await _studentsController.DeleteAsync(id).ConfigureAwait(false);
 
@@ -290,14 +289,14 @@ namespace WebStudents.Tests
 
         private void SetupAddResponse(StudentModel student)
         {
-            var postResponse = MapFrom(student);
+            var postResponse = StudentModel.MapFrom(student);
             postResponse.Id = _fixture.Create<string>();
             _studentsRepositoryMock.Setup(x => x.Add(It.IsAny<Student>())).Returns(postResponse);
         }
 
         private void SetupUpdateResponse(StudentModel student)
         {
-            var putResponse = MapFrom(student);
+            var putResponse = StudentModel.MapFrom(student);
             _studentsRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<Student>())).ReturnsAsync(putResponse);
         }
 
