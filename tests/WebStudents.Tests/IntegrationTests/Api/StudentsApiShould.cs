@@ -61,7 +61,7 @@ namespace WebStudents.Tests.IntegrationTests.Api
         }
 
         [Fact]
-        public async Task ReturnBadRequestForRecordWithAgeOver100IsAssigned()
+        public async Task ReturnBadRequestForCreateWhenAgeIsOver100()
         {
             var badAge = 101;
             var response = await Create("Mr", "Joe", "Bloggs", badAge);
