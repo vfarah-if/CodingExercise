@@ -36,7 +36,7 @@ namespace WebStudents.Tests.UnitTests.Api
         [Fact]
         public async Task GetPaginatedListFromStudentsRepository()
         {
-            await _studentsController.ListAsync().ConfigureAwait(false);
+            await _studentsController.List().ConfigureAwait(false);
 
             _studentsRepositoryMock.Verify(x => x.ListAsync(null, 1, 100), Times.Once);
         }
@@ -49,7 +49,7 @@ namespace WebStudents.Tests.UnitTests.Api
                 .Setup(x => x.ListAsync(null, 1, 100))
                 .ReturnsAsync(response);
 
-            var actual = await _studentsController.ListAsync().ConfigureAwait(false);
+            var actual = await _studentsController.List().ConfigureAwait(false);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<OkObjectResult>();
@@ -61,7 +61,7 @@ namespace WebStudents.Tests.UnitTests.Api
         [Fact]
         public async Task ReturnBadRequestWithArgumentNullExceptionDataWhenGetAsyncIsAssignedANullId()
         {
-            var actual = await _studentsController.GetByAsync(null).ConfigureAwait(false);
+            var actual = await _studentsController.Get(null).ConfigureAwait(false);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<BadRequestObjectResult>();
@@ -74,7 +74,7 @@ namespace WebStudents.Tests.UnitTests.Api
         {
             var id = _fixture.Create<string>();
 
-            await _studentsController.GetByAsync(id).ConfigureAwait(false);
+            await _studentsController.Get(id).ConfigureAwait(false);
 
             _studentsRepositoryMock.Verify(x => x.GetByAsync(id), Times.Once);
         }
@@ -87,7 +87,7 @@ namespace WebStudents.Tests.UnitTests.Api
                 .Setup(x => x.GetByAsync(id))
                 .ReturnsAsync(null as Student);
 
-            var actual = await _studentsController.GetByAsync(id).ConfigureAwait(false);
+            var actual = await _studentsController.Get(id).ConfigureAwait(false);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<NotFoundObjectResult>();
@@ -103,7 +103,7 @@ namespace WebStudents.Tests.UnitTests.Api
                 .Setup(x => x.GetByAsync(id))
                 .ReturnsAsync(studentResponse);
 
-            var actual = await _studentsController.GetByAsync(id).ConfigureAwait(false);
+            var actual = await _studentsController.Get(id).ConfigureAwait(false);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<OkObjectResult>();
@@ -166,7 +166,7 @@ namespace WebStudents.Tests.UnitTests.Api
         [Fact]
         public async Task PutAndReturnBadRequestWithArgumentExceptionWhenAssignedANullId()
         {
-            var actual = await _studentsController.PutAsync(null, GenerateNewStudent()).ConfigureAwait(false);
+            var actual = await _studentsController.Put(null, GenerateNewStudent()).ConfigureAwait(false);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<BadRequestObjectResult>();
@@ -176,7 +176,7 @@ namespace WebStudents.Tests.UnitTests.Api
         [Fact]
         public async Task PutAndReturnBadRequestWithArgumentNullExceptionWhenAssignedANullStudent()
         {
-            var actual = await _studentsController.PutAsync(_fixture.Create<string>(), null).ConfigureAwait(false);
+            var actual = await _studentsController.Put(_fixture.Create<string>(), null).ConfigureAwait(false);
 
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<BadRequestObjectResult>();
@@ -190,7 +190,7 @@ namespace WebStudents.Tests.UnitTests.Api
             SetupModelStateError();
             var student = _fixture.Create<StudentModel>();
             var id = _fixture.Create<string>();
-            var actual = await _studentsController.PutAsync(id, student).ConfigureAwait(false);
+            var actual = await _studentsController.Put(id, student).ConfigureAwait(false);
         
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<BadRequestObjectResult>();
@@ -206,7 +206,7 @@ namespace WebStudents.Tests.UnitTests.Api
             _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(null as Student);
             SetupUpdateResponse(student);
 
-            var actual = await _studentsController.PutAsync(id, student).ConfigureAwait(false);
+            var actual = await _studentsController.Put(id, student).ConfigureAwait(false);
 
             actual.Result.Should().BeOfType<NotFoundObjectResult>();
         }
@@ -219,7 +219,7 @@ namespace WebStudents.Tests.UnitTests.Api
             _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(StudentModel.MapFrom(student));
             SetupUpdateResponse(student);
 
-            await _studentsController.PutAsync(id, student).ConfigureAwait(false);
+            await _studentsController.Put(id, student).ConfigureAwait(false);
 
             _studentsRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Student>()), Times.Once);
         }
@@ -232,7 +232,7 @@ namespace WebStudents.Tests.UnitTests.Api
             _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(StudentModel.MapFrom(student));
             SetupUpdateResponse(student);
 
-            var actual = await _studentsController.PutAsync(id, student).ConfigureAwait(false);
+            var actual = await _studentsController.Put(id, student).ConfigureAwait(false);
 
             actual.Result.Should().BeOfType<OkObjectResult>();
             ((OkObjectResult)actual.Result).Value.Should().BeOfType<Student>();
@@ -243,7 +243,7 @@ namespace WebStudents.Tests.UnitTests.Api
         [Fact]
         public async Task DeleteAndReturnBadRequestWithArgumentExceptionWhenAssignedANullId()
         {
-            var actual = await _studentsController.DeleteAsync(null).ConfigureAwait(false);
+            var actual = await _studentsController.Delete(null).ConfigureAwait(false);
 
             actual.Should().NotBeNull();
             actual.Should().BeOfType<BadRequestObjectResult>();
@@ -258,7 +258,7 @@ namespace WebStudents.Tests.UnitTests.Api
             _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(null as Student);
             SetupUpdateResponse(student);
 
-            var actual = await _studentsController.DeleteAsync(id).ConfigureAwait(false);
+            var actual = await _studentsController.Delete(id).ConfigureAwait(false);
 
             actual.Should().BeOfType<NotFoundObjectResult>();
         }
@@ -270,7 +270,7 @@ namespace WebStudents.Tests.UnitTests.Api
             var student = GenerateNewStudent();
             _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(StudentModel.MapFrom(student));
             
-            await _studentsController.DeleteAsync(id).ConfigureAwait(false);
+            await _studentsController.Delete(id).ConfigureAwait(false);
 
             _studentsRepositoryMock.Verify(x => x.DeleteAsync(It.IsAny<Student>()), Times.Once);
         }
@@ -282,7 +282,7 @@ namespace WebStudents.Tests.UnitTests.Api
             var student = GenerateNewStudent();
             _studentsRepositoryMock.Setup(x => x.GetByAsync(id)).ReturnsAsync(StudentModel.MapFrom(student));
 
-            var actual = await _studentsController.DeleteAsync(id).ConfigureAwait(false);
+            var actual = await _studentsController.Delete(id).ConfigureAwait(false);
 
             actual.Should().BeOfType<NoContentResult>();
         }

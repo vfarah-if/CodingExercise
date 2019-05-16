@@ -20,7 +20,7 @@ namespace WebStudents.Tests.IntegrationTests
                 {
                     var scopedServices = scope.ServiceProvider;
                     var logger = scopedServices.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
-                    logger.Log(LogLevel.Information, "Starting service");
+                    logger.Log(LogLevel.Information, "Starting test service ready to run integration tests ...");
                 }
             });
         }

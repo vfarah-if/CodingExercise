@@ -22,15 +22,15 @@ namespace WebStudents.Controllers.Api
         // TODO: Extend paging model binding options
         // GET: api/Students
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Student>>> ListAsync()
+        public async Task<ActionResult<PagedResult<Student>>> List()
         {
             var result = await _studentRepository.ListAsync().ConfigureAwait(false);
             return Ok(result);
         }
 
         // GET: api/Students/5cda87b52e506b05c06e92e1
-        [HttpGet("{id:guid}", Name = "Get")]
-        public async Task<ActionResult<Student>> GetByAsync(string id)
+        [HttpGet("{id}", Name = "Get")]
+        public async Task<ActionResult<Student>> Get(string id)
         {
             if (id == null)
             {
@@ -57,12 +57,12 @@ namespace WebStudents.Controllers.Api
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var result = _studentRepository.Add(MapFrom(student));
-            return CreatedAtAction(nameof(GetByAsync), new { id = result.Id }, result);
+            return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
         }
 
         // PUT: api/Students/5cda87b52e506b05c06e92e1
-        [HttpPut("{id:guid}")]
-        public async Task<ActionResult<Student>> PutAsync(string id, [FromBody] StudentModel student)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Student>> Put(string id, [FromBody] StudentModel student)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -88,8 +88,8 @@ namespace WebStudents.Controllers.Api
         }
 
         // DELETE: api/Students/5cda87b52e506b05c06e92e1
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteAsync(string id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
         {
             if (string.IsNullOrEmpty(id))
             {

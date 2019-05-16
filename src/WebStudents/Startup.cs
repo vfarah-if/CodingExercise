@@ -29,7 +29,12 @@ namespace WebStudents
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(o =>
+                {
+                    // https://medium.com/@joni2nja/gotcha-upgrading-asp-net-core-2-1-to-2-2-api-versioning-and-endpoint-routing-compatibility-fb5ab1c5d952
+                    o.EnableEndpointRouting = false;
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped(typeof(IRepository<Student>), typeof(StudentRepository));
         }
 
