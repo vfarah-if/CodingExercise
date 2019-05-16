@@ -1,8 +1,7 @@
 ﻿using Exercise.Domain.Models;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -71,6 +70,8 @@ namespace WebStudents.Tests.IntegrationTests.Api
             content.Should().NotBeNullOrEmpty();
             var result = JsonConvert.DeserializeObject<ErrorResult>(content);
             result.Should().NotBeNull();
+            result.HasErrors.Should().BeTrue();
+            result.Errors.First().Key.Should().Be("Age");
         }
 
         [Fact]
