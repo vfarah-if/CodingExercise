@@ -1,11 +1,11 @@
 ﻿using Exercise.Domain.Models;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Serialization;
 using Xunit;
 
 namespace WebStudents.Tests.IntegrationTests.Api
@@ -15,6 +15,7 @@ namespace WebStudents.Tests.IntegrationTests.Api
         const string apiStudentsRequestUri = "api/students";
 
         private readonly HttpClient _client;
+        private Student currentStudent;
 
         public StudentsApiShould(CustomWebApplicationFactory<Startup> factory)
         {
@@ -38,44 +39,94 @@ namespace WebStudents.Tests.IntegrationTests.Api
         public async Task ReturnNotFoundIfAStudentDoesNotExist()
         {
             var response = await _client.GetAsync($"{apiStudentsRequestUri}/5cdd3fec0f73e80728ed824f");
-
             response.IsSuccessStatusCode.Should().BeFalse();
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]
-        public async Task ReturnCreatedForNewRecordAndNoContentForDeletingTheRecord()
+        public async Task ReturnCreatedForNewRecord()
         {
-            var student = Student.Create(null, "Mr", 21, "Samuel", "Farah");
-            var response = await _client.PostAsync(apiStudentsRequestUri, new JsonContent(student));
-
-            response.IsSuccessStatusCode.Should().BeTrue("Failed to create");
-            response.StatusCode.Should().Be(HttpStatusCode.Created);
-            var content = await response.Content.ReadAsStringAsync();
-            var expectedStudent = JsonConvert.DeserializeObject<Student>(content);
-            expectedStudent.Should().NotBeNull();
-            expectedStudent.Id.Should().NotBeNullOrEmpty();
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                response = await _client.DeleteAsync($"{apiStudentsRequestUri}/{expectedStudent.Id}");
-                response.IsSuccessStatusCode.Should().BeTrue("Failed to delete");
-                response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+                var response = await CreateAndVerifyResponse("Mr", "Joe", "Bloggs", 21);
+                var content = await response.Content.ReadAsStringAsync();
+                currentStudent = JsonConvert.DeserializeObject<Student>(content);
+                currentStudent.Should().NotBeNull();
+                currentStudent.Id.Should().NotBeNullOrEmpty();
+            }
+            finally
+            {
+                await DeleteAndVerifyResponse(currentStudent);
             }
         }
-    }
 
-    public class JsonContent : StringContent
-    {
-        public JsonContent(object obj) :
-            base(JsonConvert.SerializeObject(obj, new JsonSerializerSettings
+        [Fact]
+        public async Task ReturnBadRequestForRecordWithAgeOver100IsAssigned()
+        {
+            var badAge = 101;
+            var response = await Create("Mr", "Joe", "Bloggs", badAge);
+            response.IsSuccessStatusCode.Should().BeFalse();
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            var content = await response.Content.ReadAsStringAsync();
+            content.Should().NotBeNullOrEmpty();
+            var result = JsonConvert.DeserializeObject<ErrorResult>(content);
+            result.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task ReturnOkResponseWhenUpdatingAnExistingRecord()
+        {
+            try
             {
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new CamelCaseNamingStrategy()
-                },
-                Formatting = Formatting.Indented
-            }), Encoding.UTF8, "application/json")
-        { }
+                // Create
+                var response = await CreateAndVerifyResponse("Mrs", "Jane", "Doe", 21);
+                var content = await response.Content.ReadAsStringAsync();
+                currentStudent = JsonConvert.DeserializeObject<Student>(content);
+
+                // Update
+                currentStudent.Age = currentStudent.Age + 1;
+                currentStudent.Salutation = "Professor";
+                response = await UpdateAndVerifyResponse(currentStudent);
+                content = await response.Content.ReadAsStringAsync();
+                var updatedStudent = JsonConvert.DeserializeObject<Student>(content);
+                currentStudent.Age.Should().Be(updatedStudent.Age);
+                currentStudent.Salutation.Should().Be(updatedStudent.Salutation);
+            }
+            finally
+            {
+                await DeleteAndVerifyResponse(currentStudent);
+            }
+        }
+
+        private async Task<HttpResponseMessage> UpdateAndVerifyResponse(Student expectedStudent)
+        {
+            var response = await _client.PutAsync($"{apiStudentsRequestUri}/{expectedStudent.Id}",
+                new JsonContent(expectedStudent));
+            response.IsSuccessStatusCode.Should().BeTrue("Failed to update");
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            return response;
+        }
+
+        private async Task DeleteAndVerifyResponse(Student expectedStudent)
+        {
+            var response = await _client.DeleteAsync($"{apiStudentsRequestUri}/{expectedStudent.Id}");
+            response.IsSuccessStatusCode.Should().BeTrue("Failed to delete");
+            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        private async Task<HttpResponseMessage> CreateAndVerifyResponse(string salutation, string firstname, string lastname, int age)
+        {
+            var response = await Create(salutation, firstname, lastname, age);
+            response.IsSuccessStatusCode.Should().BeTrue("Failed to create");
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+            return response;
+        }
+
+        private async Task<HttpResponseMessage> Create(string salutation, string firstname, string lastname, int age)
+        {
+            var student = Student.Create(null, salutation, age, firstname, lastname);
+            var response = await _client.PostAsync(apiStudentsRequestUri, new JsonContent(student));
+            return response;
+        }
     }
 }
