@@ -178,7 +178,7 @@ namespace WebStudents.Tests.UnitTests.Api
         }
 
         [Fact]
-        public void PostAndReturnCreatedResponseWithNewStudentIdANdTheGetLocationOfTheNewId()
+        public void PostAndReturnCreatedResponseWithNewStudentIdAndTheGetLocationOfTheNewId()
         {
             var student = GenerateNewStudent();
             SetupAddResponse(student);
@@ -188,7 +188,7 @@ namespace WebStudents.Tests.UnitTests.Api
             actual.Should().NotBeNull();
             actual.Result.Should().BeOfType<CreatedAtActionResult>();
             ((CreatedAtActionResult) actual.Result).Value.Should().BeOfType<Student>();
-            ((CreatedAtActionResult) actual.Result).ActionName.Should().Be("GetByAsync");
+            ((CreatedAtActionResult) actual.Result).ActionName.Should().Be("Get");
         }
 
         // Put
