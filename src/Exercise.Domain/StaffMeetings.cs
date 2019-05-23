@@ -13,11 +13,10 @@ namespace Exercise.Domain
                 throw new ArgumentNullException(nameof(meetings));
             }
 
-            // Solve this problem
             Meeting previousMeeting = null;
             foreach (var meeting in meetings.OrderBy(x => x.Start))
             {
-                if (previousMeeting != null && previousMeeting.End > meeting.Start)
+                if (previousMeeting.OverlapsWith(meeting))
                 {
                     return false;
                 }
@@ -26,6 +25,11 @@ namespace Exercise.Domain
             }
 
             return true;
+        }
+
+        private static bool OverlapsWith(this Meeting previousMeeting, Meeting meeting)
+        {
+            return previousMeeting != null && previousMeeting.End > meeting.Start;
         }
     }
 
