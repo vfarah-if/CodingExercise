@@ -32,6 +32,4 @@ namespace Exercise.Domain
             return previousMeeting != null && meeting != null && previousMeeting.End > meeting.Start;
         }
     }
-
-
 }
