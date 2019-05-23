@@ -28,6 +28,25 @@ namespace Exercise.Domain.Tests.UnitTests
         }
 
         [Fact]
+        public void NotOverlapOnEmptyList()
+        {
+            var meetings = new Meeting[] {};
+            var result = meetings.DoesNotOverlap();
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void NotShowOverlapWhenThereIsOnlyOneMeeting()
+        {
+            var meetings = new[]
+            {
+                new Meeting(DateTime.Parse("1/1/2015 20:00", _format), DateTime.Parse("1/1/2015 21:30", _format)),
+            };
+            var result = meetings.DoesNotOverlap();
+            result.Should().BeTrue();
+        }
+
+        [Fact]
         public void ShowOverlapWhenThereIsOverlap()
         {
             var meetings = new[]

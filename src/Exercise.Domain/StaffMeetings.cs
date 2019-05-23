@@ -29,7 +29,7 @@ namespace Exercise.Domain
 
         private static bool OverlapsWith(this Meeting previousMeeting, Meeting meeting)
         {
-            return previousMeeting != null && previousMeeting.End > meeting.Start;
+            return previousMeeting != null && meeting != null && previousMeeting.End > meeting.Start;
         }
     }
 
