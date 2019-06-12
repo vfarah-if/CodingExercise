@@ -10,7 +10,7 @@ namespace Exercise.Domain.Companies
 
         public virtual IReadOnlyList<Company> List()
         {
-            throw new NotImplementedException();
+            return _companies.AsReadOnly();
         }
 
         public Company Add(Guid? companyId = null)

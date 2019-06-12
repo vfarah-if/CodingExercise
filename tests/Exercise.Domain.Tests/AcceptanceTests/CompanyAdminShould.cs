@@ -21,9 +21,9 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         }
 
         [Scenario("Associate Employees with a Company ...")]
-        public void ValidateAnyExpectationsThroughTheScenario()
+        public void HaveTheAbilityToAssociateEmployeesWithACompany()
         {
-            Given("a valid employee and a company", () =>
+            Given("an employee and a company", () =>
             {
                 var company = _companyRepository.List().First();
                 _companyId = company.Id;

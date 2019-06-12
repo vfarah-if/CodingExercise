@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Exercise.Domain.Companies;
 using FluentAssertions;
 using Xunit;
@@ -8,10 +9,14 @@ namespace Exercise.Domain.Tests.UnitTests.Companies
     public class CompanyRepositoryShould
     {
         private CompanyRepository _companyRepository;
+        private Guid _employeeId;
+        private Guid _companyId;
 
         public CompanyRepositoryShould()
         {
             _companyRepository = new CompanyRepository();
+            _companyId = Guid.NewGuid();
+            _employeeId = Guid.NewGuid();
         }
 
         [Fact]
@@ -26,30 +31,34 @@ namespace Exercise.Domain.Tests.UnitTests.Companies
         [Fact]
         public void AddAnEmployeeToACompany()
         {
-            Guid companyId = Guid.NewGuid();
-            Guid employeeId = Guid.NewGuid();
+            _companyRepository.AddEmployee(_companyId, _employeeId);
 
-            _companyRepository.AddEmployee(companyId, employeeId);
-
-            var company = _companyRepository.GetBy(companyId);
+            var company = _companyRepository.GetBy(_companyId);
             company.Should().NotBeNull();
-            var employee = company.GetEmployee(employeeId);
+            var employee = company.GetEmployee(_employeeId);
             employee.Should().NotBeNull();
-            employee.Id.Should().Be(employeeId);
+            employee.Id.Should().Be(_employeeId);
         }
 
         [Fact]
         public void AddOnlyOneUniqueEmployeeToACompany()
         {
-            Guid companyId = Guid.NewGuid();
-            Guid employeeId = Guid.NewGuid();
+            _companyRepository.AddEmployee(_companyId, _employeeId);
+            _companyRepository.AddEmployee(_companyId, _employeeId);
 
-            _companyRepository.AddEmployee(companyId, employeeId);
-            _companyRepository.AddEmployee(companyId, employeeId);
-
-            var company = _companyRepository.GetBy(companyId);
-            var employee = company.GetEmployee(employeeId);
+            var company = _companyRepository.GetBy(_companyId);
+            var employee = company.GetEmployee(_employeeId);
             employee.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void ListAnyCompaniesAdded()
+        {
+            _companyRepository.List().Any().Should().BeFalse();
+
+            _companyRepository.AddEmployee(_companyId, _employeeId);
+
+            _companyRepository.List().Any().Should().BeTrue();
         }
     }
 }
