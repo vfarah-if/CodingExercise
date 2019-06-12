@@ -8,4 +8,4 @@ Feature: Employee and Booking Policy Administration
 Scenario: Associate Employees with a Company ...
 			Given an employee and a company
 			When associating the employee with a company
-			Then the employee should now be associated with this company
+			Then the employee should be linked to the company

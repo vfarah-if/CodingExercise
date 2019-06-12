@@ -33,7 +33,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             {
                 _companyService.AddEmployee(_companyId, _employeeId);
             });
-            Then("the employee should now be associated with this company", () =>
+            Then("the employee should be linked to the company", () =>
             {
                 var company = _companyRepository.GetBy(_companyId);
                 var employee = company.GetEmployee(_employeeId);
