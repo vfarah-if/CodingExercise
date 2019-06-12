@@ -1,0 +1,11 @@
+# This file is auto-generated, any changes made to this file will be lost
+
+
+Feature: Hotel Rooms And Quantities
+	As a Hotel Manager
+        I want to set all the different types of rooms and respective quantities for my hotel
+
+Scenario: Test Scenario Should ...
+			Given a scenario
+			When a condition is set
+			Then an expectation should be satisfied

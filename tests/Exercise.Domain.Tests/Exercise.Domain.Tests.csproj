@@ -24,4 +24,8 @@
     <ProjectReference Include="..\..\src\Exercise.Domain\Exercise.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Specs\" />
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,9 @@
 # This file is auto-generated, any changes made to this file will be lost
 
 
-Feature: Coding Exercise
-	As a dev idiot
-        I want to make sure this works
+Feature: Employee Hotel Bookings
+	As an Employee
+        I want to book a hotel room
 
 Scenario: Test Scenario Should ...
 			Given a scenario
