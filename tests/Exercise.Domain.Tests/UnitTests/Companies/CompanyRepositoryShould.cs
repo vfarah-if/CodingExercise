@@ -8,9 +8,9 @@ namespace Exercise.Domain.Tests.UnitTests.Companies
 {
     public class CompanyRepositoryShould
     {
-        private CompanyRepository _companyRepository;
-        private Guid _employeeId;
-        private Guid _companyId;
+        private readonly CompanyRepository _companyRepository;
+        private readonly Guid _employeeId;
+        private readonly Guid _companyId;
 
         public CompanyRepositoryShould()
         {

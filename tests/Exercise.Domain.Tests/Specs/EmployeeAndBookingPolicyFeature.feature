@@ -6,6 +6,6 @@ Feature: Employee and Booking Policy Administration
         I want to administer employees and booking policies related to the company and employees
 
 Scenario: Associate Employees with a Company ...
-			Given a valid employee and a company
+			Given an employee and a company
 			When associating the employee with a company
 			Then the employee should now be associated with this company
