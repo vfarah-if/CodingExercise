@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Exercise.Domain.Company
+namespace Exercise.Domain.Companies
 {
     /// <summary>
     ///     Enables company admins to add and delete employees. 
@@ -12,6 +12,15 @@ namespace Exercise.Domain.Company
     /// </remarks>
     public class CompanyService
     {
+        private readonly CompanyRepository _companyRepository;
+        private readonly EmployeeRepository _employeeRepository;
+
+        public CompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository)
+        {
+            _companyRepository = companyRepository;
+            _employeeRepository = employeeRepository;
+        }
+
         public void AddEmployee(Guid companyId, Guid employeeId)
         {
             throw new NotImplementedException();
