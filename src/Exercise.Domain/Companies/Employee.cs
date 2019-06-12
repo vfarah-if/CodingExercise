@@ -4,7 +4,12 @@ namespace Exercise.Domain.Companies
 {
     public class Employee
     {
-        public Guid CompanyId { get; set; }
-        public Guid Id { get; set; }
+        public Employee(Guid companyId, Guid id)
+        {
+            this.Id = id;
+            this.CompanyId = companyId;
+        }
+        public Guid CompanyId { get; }
+        public Guid Id { get; }
     }
 }

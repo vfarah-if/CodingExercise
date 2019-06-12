@@ -8,10 +8,10 @@ namespace Exercise.Domain.Companies
     {
         private List<Employee> _employees;
 
-        public Company()
+        public Company(Guid? id = null)
         {
             _employees = new List<Employee>();
-            Id = Guid.NewGuid();
+            Id = id ?? Guid.NewGuid();
         }
 
         public Guid Id { get; private set; }
@@ -19,6 +19,11 @@ namespace Exercise.Domain.Companies
         public Employee GetEmployee(Guid employeeId)
         {
             return _employees.SingleOrDefault(item => item.Id == employeeId);
+        }
+
+        public void AddEmployee(Guid employeeId)
+        {
+            _employees.Add(new Employee(Id, employeeId));
         }
     }
 }

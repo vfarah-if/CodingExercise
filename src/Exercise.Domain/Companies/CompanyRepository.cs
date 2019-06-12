@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Exercise.Domain.Companies
 {
@@ -12,21 +13,22 @@ namespace Exercise.Domain.Companies
             throw new NotImplementedException();
         }
 
-        public Company Add()
+        public Company Add(Guid? companyId = null)
         {
-            var result = new Company();
+            var result = new Company(companyId);
             _companies.Add(result);
             return result;
         }
 
         public Company GetBy(Guid companyId)
         {
-            throw new NotImplementedException();
+            return _companies.SingleOrDefault(x => x.Id == companyId);
         }
 
         public virtual void AddEmployee(Guid companyId, Guid employeeId)
         {
-            throw new NotImplementedException();
+            var company = GetBy(companyId) ?? Add(companyId);
+            company.AddEmployee(employeeId);
         }
     }
 }
