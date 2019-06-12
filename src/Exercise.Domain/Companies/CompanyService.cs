@@ -13,17 +13,15 @@ namespace Exercise.Domain.Companies
     public class CompanyService
     {
         private readonly CompanyRepository _companyRepository;
-        private readonly EmployeeRepository _employeeRepository;
 
-        public CompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository)
+        public CompanyService(CompanyRepository companyRepository)
         {
             _companyRepository = companyRepository;
-            _employeeRepository = employeeRepository;
         }
 
         public void AddEmployee(Guid companyId, Guid employeeId)
         {
-            throw new NotImplementedException();
+            _companyRepository.AddEmployee(companyId, employeeId);
         }
 
         public void DeleteEmployee(Guid employeeId)

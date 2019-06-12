@@ -21,7 +21,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             Then("an expectation should be satisfied", () =>
             {
                 Debug.WriteLine("Verify");
-                true.Should().BeTrue();
+                true.Should().BeFalse();
             });
         }
     }
