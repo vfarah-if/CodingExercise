@@ -7,7 +7,7 @@ namespace Exercise.Domain.Companies
     /// </summary>
     /// <remarks>
     ///     Rules:
-    ///         1. Employees should not be duplicated.
+    ///         1. Employees should not be duplicated (Done).
     ///         2. When deleting an employee, all the bookings and policies associated to the employee should also be deleted from the system. 
     /// </remarks>
     public class CompanyService

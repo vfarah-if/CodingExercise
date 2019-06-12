@@ -1,10 +1,9 @@
 using System;
 using Exercise.Domain.Companies;
-using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace Exercise.Domain.Tests.UnitTests
+namespace Exercise.Domain.Tests.UnitTests.Companies
 {
     public class CompanyServiceShould
     {
