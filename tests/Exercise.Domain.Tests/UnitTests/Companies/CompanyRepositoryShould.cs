@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Exercise.Domain.Companies;
 using FluentAssertions;
 using Xunit;
@@ -23,6 +21,21 @@ namespace Exercise.Domain.Tests.UnitTests.Companies
 
             actual.Should().NotBeNull();
             actual.Id.Should().NotBeEmpty();
+        }
+
+        [Fact]
+        public void AddAnEmployeeToACompany()
+        {
+            Guid companyId = Guid.NewGuid();
+            Guid employeeId = Guid.NewGuid();
+
+            _companyRepository.AddEmployee(companyId, employeeId);
+
+            var company = _companyRepository.GetBy(companyId);
+            company.Should().NotBeNull();
+            var employee = company.GetEmployee(employeeId);
+            employee.Should().NotBeNull();
+            employee.Id.Should().Be(employeeId);
         }
     }
 }

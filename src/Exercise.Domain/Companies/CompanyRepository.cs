@@ -5,6 +5,7 @@ namespace Exercise.Domain.Companies
 {
     public class CompanyRepository
     {
+        private readonly List<Company> _companies = new List<Company>();
 
         public virtual IReadOnlyList<Company> List()
         {
@@ -13,7 +14,9 @@ namespace Exercise.Domain.Companies
 
         public Company Add()
         {
-            throw new NotImplementedException();
+            var result = new Company();
+            _companies.Add(result);
+            return result;
         }
 
         public Company GetBy(Guid companyId)
