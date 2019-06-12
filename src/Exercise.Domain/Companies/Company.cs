@@ -6,7 +6,7 @@ namespace Exercise.Domain.Companies
 {
     public class Company
     {
-        private List<Employee> _employees;
+        private readonly List<Employee> _employees;
 
         public Company(Guid? id = null)
         {
@@ -21,9 +21,16 @@ namespace Exercise.Domain.Companies
             return _employees.SingleOrDefault(item => item.Id == employeeId);
         }
 
-        public void AddEmployee(Guid employeeId)
+        public Employee AddEmployee(Guid? employeeId = null)
         {
-            _employees.Add(new Employee(Id, employeeId));
+            var result = new Employee(Id, employeeId ?? Guid.NewGuid());
+            _employees.Add(result);
+            return result;
+        }
+
+        public bool HasEmployee(Guid employeeId)
+        {
+            return _employees.Any(x => x.Id == employeeId);
         }
     }
 }

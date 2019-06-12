@@ -37,5 +37,19 @@ namespace Exercise.Domain.Tests.UnitTests.Companies
             employee.Should().NotBeNull();
             employee.Id.Should().Be(employeeId);
         }
+
+        [Fact]
+        public void AddOnlyOneUniqueEmployeeToACompany()
+        {
+            Guid companyId = Guid.NewGuid();
+            Guid employeeId = Guid.NewGuid();
+
+            _companyRepository.AddEmployee(companyId, employeeId);
+            _companyRepository.AddEmployee(companyId, employeeId);
+
+            var company = _companyRepository.GetBy(companyId);
+            var employee = company.GetEmployee(employeeId);
+            employee.Should().NotBeNull();
+        }
     }
 }

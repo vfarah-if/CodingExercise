@@ -28,7 +28,10 @@ namespace Exercise.Domain.Companies
         public virtual void AddEmployee(Guid companyId, Guid employeeId)
         {
             var company = GetBy(companyId) ?? Add(companyId);
-            company.AddEmployee(employeeId);
+            if (!company.HasEmployee(employeeId))
+            {
+                company.AddEmployee(employeeId);
+            }
         }
     }
 }
