@@ -4,10 +4,10 @@ using CoreBDD.SpecGeneration;
 
 namespace Exercise.Domain.Tests.AcceptanceTests
 {
-    [Feature("Employee Hotel Bookings",
-        @"As an Employee
-        I want to book a hotel room")]
-    public class EmployeeBookingFeature : Specification, IDisposable
+    [Feature("Employee and Booking Policy Administration",
+        @"As a Company Administrator
+        I want to administer employees and booking policies related to the company and employees")]
+    public class EmployeeAndBookingPolicyFeature : Specification, IDisposable
     {
         public void Dispose()
         {

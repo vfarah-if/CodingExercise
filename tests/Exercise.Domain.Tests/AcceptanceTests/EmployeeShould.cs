@@ -5,7 +5,7 @@ using FluentAssertions;
 
 namespace Exercise.Domain.Tests.AcceptanceTests
 {
-    public class EmployeeShould: EmployeeBookingFeature
+    public class EmployeeShould: EmployeeHotelBookingFeature
     {
         [Scenario("Test Scenario Should ...")]
         public void ValidateAnyExpectationsThroughTheScenario()
