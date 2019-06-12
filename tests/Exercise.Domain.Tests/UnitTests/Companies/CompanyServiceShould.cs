@@ -22,6 +22,7 @@ namespace Exercise.Domain.Tests.UnitTests
         {
             var companyId = Guid.NewGuid();
             var employeeId = Guid.NewGuid();
+
             _companyService.AddEmployee(companyId, employeeId);
 
             _companyRepositoryMock.Verify(x => x.AddEmployee(companyId, employeeId), Times.Once);
