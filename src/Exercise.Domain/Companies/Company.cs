@@ -4,17 +4,15 @@ using System.Linq;
 
 namespace Exercise.Domain.Companies
 {
-    public class Company
+    public class Company: GuidEntity
     {
         private readonly List<Employee> _employees;
 
-        public Company(Guid? id = null)
+        public Company(Guid? id = null) 
+            :base(id)
         {
             _employees = new List<Employee>();
-            Id = id ?? Guid.NewGuid();
         }
-
-        public Guid Id { get; private set; }
 
         public Employee GetEmployee(Guid employeeId)
         {

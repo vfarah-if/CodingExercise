@@ -2,14 +2,14 @@
 
 namespace Exercise.Domain.Companies
 {
-    public class Employee
+    public class Employee: GuidEntity
     {
-        public Employee(Guid companyId, Guid id)
+        public Employee(Guid companyId, Guid id) :base(id)
         {
-            this.Id = id;
             this.CompanyId = companyId;
         }
+
         public Guid CompanyId { get; }
-        public Guid Id { get; }
+        
     }
 }
