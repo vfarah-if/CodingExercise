@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using AutoFixture;
 using CoreBDD;
 using Exercise.Domain.Hotels;
@@ -14,12 +13,11 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         private Guid _roomType;
         private Guid _hotelId;
         private int _quantity;
-        private readonly HotelRepository _hotelRepository;
 
         public HotelManagerShould()
         {
-            _hotelRepository = new HotelRepository();
-            _hotelService = new HotelService(_hotelRepository);
+            var hotelRepository = new HotelRepository();
+            _hotelService = new HotelService(hotelRepository);
             _autoFixture = new Fixture();
         }
 
