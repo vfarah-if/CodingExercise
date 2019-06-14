@@ -9,22 +9,19 @@ namespace Exercise.Domain.Tests.AcceptanceTests
 {
     public class CompanyAdminShould : EmployeeAndBookingPolicyFeature
     {
-        private readonly CompanyService _companyService;
-        private readonly CompanyRepository _companyRepository;
+        private CompanyService _companyService;
+        private CompanyRepository _companyRepository;
         private Guid _employeeId;
         private Guid _companyId;
         private BookingPolicyService _bookingPolicyService;
 
-        public CompanyAdminShould()
-        {
-            _companyRepository = new CompanyRepository();
-            _companyRepository.Add();
-            _companyService = new CompanyService(_companyRepository);
-        }
 
         [Scenario("Associate Employees with a Company ...")]
         public void HaveTheAbilityToAssociateEmployeesWithACompany()
         {
+            _companyRepository = new CompanyRepository();
+            _companyRepository.Add();
+            _companyService = new CompanyService(_companyRepository);
             Given("an employee and a company", () =>
             {
                 var company = _companyRepository.List().First();
@@ -62,7 +59,26 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             });
         }
 
-        // TODO: Should be able to book any room if the employee policy allows this
+        [Scenario("Employee should be allowed to book a room if the employee policy allows this")]
+        public void AllowEmployeeToBookARoomWhenEmployeePolicyAllows()
+        {
+            var roomType = Guid.Empty;
+
+            Given("an employee booking policy, employee and a room type", () =>
+            {
+                roomType = Guid.NewGuid();
+                _employeeId = Guid.NewGuid();
+                _bookingPolicyService = new BookingPolicyService();
+            });
+            When("an employee policies exist for that room type", () =>
+            {
+                _bookingPolicyService.SetEmployeePolicy(_employeeId, new[] { roomType });
+            });
+            Then("the employee booking should be allowed", () =>
+            {
+                _bookingPolicyService.IsBookingAllowed(_employeeId, roomType).Should().BeTrue();
+            });
+        }
         // TODO: Should be able to book any room if the company policy allows this
     }
 }
