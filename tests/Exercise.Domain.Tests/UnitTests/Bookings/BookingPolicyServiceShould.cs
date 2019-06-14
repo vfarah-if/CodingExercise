@@ -24,7 +24,8 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         {
             Guid employeeId = Guid.NewGuid();
             Guid roomType = Guid.NewGuid();
-
+            SetupEmptyBookingResponse();
+     
             _bookingPolicyService.IsBookingAllowed(employeeId, roomType).Should().BeTrue();
         }
 
@@ -35,13 +36,24 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             Guid roomType = Guid.NewGuid();
             BookingPolicy bookingPolicy = new BookingPolicy(employeeId);
             bookingPolicy.AddRoomTypes(roomType);
-            IReadOnlyList<BookingPolicy> response = new List<BookingPolicy>(new []{ bookingPolicy });
-            _employeeBookingPolicyRepositoryMock.Setup(x => x.List()).Returns(response);
-            _employeeBookingPolicyRepositoryMock.Setup(x => x.GetBy(employeeId)).Returns(response.First());
+            SetupValidBookingResponse(bookingPolicy, employeeId);
 
             _bookingPolicyService.SetEmployeePolicy(employeeId, new[] { roomType });
 
             _bookingPolicyService.IsBookingAllowed(employeeId, roomType).Should().BeTrue();
+        }
+
+        private void SetupValidBookingResponse(BookingPolicy bookingPolicy, Guid employeeId)
+        {
+            IReadOnlyList<BookingPolicy> response = new List<BookingPolicy>(new[] {bookingPolicy});
+            _employeeBookingPolicyRepositoryMock.Setup(x => x.List()).Returns(response);
+            _employeeBookingPolicyRepositoryMock.Setup(x => x.GetBy(employeeId)).Returns(response.First());
+        }
+
+        private void SetupEmptyBookingResponse()
+        {
+            IReadOnlyList<BookingPolicy> emptyResponse = new List<BookingPolicy>();
+            _employeeBookingPolicyRepositoryMock.Setup(x => x.List()).Returns(emptyResponse);
         }
     }
 }
