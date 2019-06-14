@@ -21,7 +21,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             _autoFixture = new Fixture();
         }
 
-        [Scenario("Define the number of room types a hotel supports")]
+        [Scenario("Define the quantity of room types a hotel supports")]
         public void SetRoomTypesAndHowManyAreOnOffer()
         {
             Given("a hotel id, room type and quantity", () =>
@@ -40,6 +40,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                 hotel.Should().NotBeNull();
                 hotel.HasRoomType(_roomType).Should().BeTrue();
                 hotel.QuantityOfRooms(_roomType).Should().Be(_quantity);
+                hotel.TotalRoomCount.Should().Be(_quantity);
             });
         }
     }

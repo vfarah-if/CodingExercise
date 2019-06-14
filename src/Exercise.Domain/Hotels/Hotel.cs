@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Exercise.Domain.Hotels
 {
@@ -10,6 +11,8 @@ namespace Exercise.Domain.Hotels
         public Hotel(Guid? id = null) : base(id)
         {            
         }
+
+        public int TotalRoomCount => _roomTypes.Sum(x => x.Value);
 
         public bool HasRoomType(Guid roomType)
         {
