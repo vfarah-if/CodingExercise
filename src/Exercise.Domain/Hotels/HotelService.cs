@@ -8,10 +8,10 @@ namespace Exercise.Domain.Hotels
     /// </summary>
     /// <remarks>
     ///     Rules: 
-    ///         1. The SetRoomType method should create a hotel if there are no hotels with the received ID and update its room type according to the information received (DONE).
+    ///         1. The SetRoomType method should create a hotel if there are no hotels with the received ID and update its room type according to the information received (Done).
     ///         2. A change in quantity of rooms should not not affect existing bookings.
     ///         3. They will only affect new bookings, made after the change.
-    ///         4. The FindHotelBy should return all the information about number of rooms for the specified ID (DONE).
+    ///         4. The FindHotelBy should return all the information about number of rooms for the specified ID (Done).
     /// </remarks>
     public class HotelService
     {

@@ -24,17 +24,17 @@ namespace Exercise.Domain.Bookings
     /// </remarks>
     public class BookingPolicyService
     {
-        void SetCompanyPolicy(Guid companyId, IReadOnlyList<Guid> roomTypes)
+        public void SetCompanyPolicy(Guid companyId, IReadOnlyList<Guid> roomTypes)
         {
             throw new NotImplementedException();
         }
 
-        void SetEmployeePolicy(Guid employeeId, IReadOnlyList<Guid> roomTypes)
+        public void SetEmployeePolicy(Guid employeeId, IReadOnlyList<Guid> roomTypes)
         {
             throw new NotImplementedException();
         }
 
-        bool IsBookingAllowed(Guid employeeId, Guid roomType)
+        public bool IsBookingAllowed(Guid employeeId, Guid roomType)
         {
             throw new NotImplementedException();
         }

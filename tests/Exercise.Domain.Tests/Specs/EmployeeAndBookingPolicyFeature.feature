@@ -9,3 +9,8 @@ Scenario: Associate Employees with a Company ...
 			Given an employee and a company
 			When associating the employee with a company
 			Then the employee should be linked to the company
+
+Scenario: Employee should be allowed to book any room if there are no company or employee policies
+			Given an employee booking policy
+			When no company or employee policies exist
+			Then the employee booking should be allowed

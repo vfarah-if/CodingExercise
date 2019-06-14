@@ -1,17 +1,19 @@
-﻿using System;
-using System.Linq;
-using CoreBDD;
+﻿using CoreBDD;
+using Exercise.Domain.Bookings;
 using Exercise.Domain.Companies;
 using FluentAssertions;
+using System;
+using System.Linq;
 
 namespace Exercise.Domain.Tests.AcceptanceTests
 {
-    public class CompanyAdminShould: EmployeeAndBookingPolicyFeature
+    public class CompanyAdminShould : EmployeeAndBookingPolicyFeature
     {
-        private CompanyService _companyService;
+        private readonly CompanyService _companyService;
+        private readonly CompanyRepository _companyRepository;
         private Guid _employeeId;
         private Guid _companyId;
-        private CompanyRepository _companyRepository;
+        private BookingPolicyService _bookingPolicyService;
 
         public CompanyAdminShould()
         {
@@ -42,5 +44,25 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                 employee.CompanyId.Should().Be(_companyId);
             });
         }
+
+        [Scenario("Employee should be allowed to book any room if there are no company or employee policies")]
+        public void AllowAnyEmployeeToBookARoomIfThereAreNoCompanyOrPolicies()
+        {
+            Given("an employee booking policy", () =>
+            {
+                _bookingPolicyService = new BookingPolicyService();
+            });
+            When("no company or employee policies exist", () =>
+            {
+            });
+            Then("the employee booking should be allowed", () =>
+            {
+                Guid roomType = Guid.NewGuid();
+                _bookingPolicyService.IsBookingAllowed(_employeeId, roomType).Should().BeTrue();
+            });
+        }
+
+        // TODO: Should be able to book any room if the employee policy allows this
+        // TODO: Should be able to book any room if the company policy allows this
     }
 }
