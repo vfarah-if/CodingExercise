@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Exercise.Domain.Bookings
 {
@@ -24,6 +25,13 @@ namespace Exercise.Domain.Bookings
     /// </remarks>
     public class BookingPolicyService
     {
+        private readonly BookingPolicyRepository _employeeBookingPolicyRepository;
+
+        public BookingPolicyService(BookingPolicyRepository employeeBookingPolicyRepository)
+        {
+            _employeeBookingPolicyRepository = employeeBookingPolicyRepository;
+        }
+
         public void SetCompanyPolicy(Guid companyId, IReadOnlyList<Guid> roomTypes)
         {
             throw new NotImplementedException();
@@ -31,12 +39,17 @@ namespace Exercise.Domain.Bookings
 
         public void SetEmployeePolicy(Guid employeeId, IReadOnlyList<Guid> roomTypes)
         {
-            throw new NotImplementedException();
+            if (roomTypes == null)
+            {
+                throw new ArgumentNullException(nameof(roomTypes));
+            }
+
+            _employeeBookingPolicyRepository.AddOrUpdate(employeeId, roomTypes.ToArray());
         }
 
         public bool IsBookingAllowed(Guid employeeId, Guid roomType)
         {
-            return true;
+            return !_employeeBookingPolicyRepository.List().Any() || _employeeBookingPolicyRepository.GetBy(employeeId).RoomTypes.Contains(roomType);
         }
     }
 }
