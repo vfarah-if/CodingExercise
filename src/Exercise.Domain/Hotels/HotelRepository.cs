@@ -12,11 +12,6 @@ namespace Exercise.Domain.Hotels
             return result;
         }
 
-        public override Hotel GetBy(Guid id)
-        {
-            return Entities.SingleOrDefault(x => x.Id == id);
-        }
-
         public virtual Hotel AddRoomType(Guid hotelId, Guid roomTypeId, int quantity)
         {
             var hotel = GetBy(hotelId) ?? Add(hotelId);

@@ -12,11 +12,6 @@ namespace Exercise.Domain.Companies
             return result;
         }
 
-        public override Company GetBy(Guid id)
-        {
-            return Entities.SingleOrDefault(x => x.Id == id);
-        }
-
         public virtual void AddEmployee(Guid id, Guid employeeId)
         {
             var company = GetBy(id) ?? Add(id);
