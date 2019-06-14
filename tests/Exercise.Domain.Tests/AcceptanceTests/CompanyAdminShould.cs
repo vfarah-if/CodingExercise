@@ -47,7 +47,8 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         {
             Given("an employee booking policy", () =>
             {
-                _bookingPolicyService = new BookingPolicyService();
+                var bookingPolicyRepository = new BookingPolicyRepository();
+                _bookingPolicyService = new BookingPolicyService(bookingPolicyRepository);
             });
             When("no company or employee policies exist", () =>
             {
@@ -68,7 +69,8 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             {
                 roomType = Guid.NewGuid();
                 _employeeId = Guid.NewGuid();
-                _bookingPolicyService = new BookingPolicyService();
+                var bookingPolicyRepository = new BookingPolicyRepository();
+                _bookingPolicyService = new BookingPolicyService(bookingPolicyRepository);
             });
             When("an employee policies exist for that room type", () =>
             {
