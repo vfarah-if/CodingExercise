@@ -20,7 +20,7 @@ namespace Exercise.Domain.Hotels
             throw new NotImplementedException();
         }
 
-        public HotelInformation FindHotelBy(Guid hotelId)
+        public Hotel FindHotelBy(Guid hotelId)
         {
             throw new NotImplementedException();
         }
