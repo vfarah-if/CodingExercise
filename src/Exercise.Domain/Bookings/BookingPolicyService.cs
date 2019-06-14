@@ -36,7 +36,7 @@ namespace Exercise.Domain.Bookings
 
         public bool IsBookingAllowed(Guid employeeId, Guid roomType)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }
