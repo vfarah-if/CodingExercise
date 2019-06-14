@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Exercise.Domain.Companies;
 
 namespace Exercise.Domain
 {
@@ -14,6 +13,6 @@ namespace Exercise.Domain
         }
 
         public abstract TEntity Add(Guid? id = null);
-        public abstract Company GetBy(Guid id);
+        public abstract TEntity GetBy(Guid id);
     }
 }

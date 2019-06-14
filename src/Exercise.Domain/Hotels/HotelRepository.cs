@@ -1,5 +1,5 @@
 ﻿using System;
-using Exercise.Domain.Companies;
+using System.Linq;
 
 namespace Exercise.Domain.Hotels
 {
@@ -7,17 +7,21 @@ namespace Exercise.Domain.Hotels
     {
         public override Hotel Add(Guid? id = null)
         {
-            throw new NotImplementedException();
+            var result = new Hotel(id);
+            Entities.Add(result);
+            return result;
         }
 
-        public override Company GetBy(Guid id)
+        public override Hotel GetBy(Guid id)
         {
-            throw new NotImplementedException();
+            return Entities.SingleOrDefault(x => x.Id == id);
         }
 
-        public virtual void AddRoomType(Guid hotelId, Guid roomTypeId, int quantity)
+        public virtual Hotel AddRoomType(Guid hotelId, Guid roomTypeId, int quantity)
         {
-            throw new NotImplementedException();
+            var hotel = GetBy(hotelId) ?? Add(hotelId);
+            hotel.AddRoomType(roomTypeId, quantity);
+            return hotel;
         }
     }
 }
