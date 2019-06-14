@@ -1,33 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Exercise.Domain.Companies
 {
-    public class CompanyRepository
+    public class CompanyRepository : InMemoryRepository<Company>
     {
-        private readonly List<Company> _companies = new List<Company>();
-
-        public virtual IReadOnlyList<Company> List()
+        public override Company Add(Guid? id = null)
         {
-            return _companies.AsReadOnly();
-        }
-
-        public Company Add(Guid? companyId = null)
-        {
-            var result = new Company(companyId);
-            _companies.Add(result);
+            var result = new Company(id);
+            Entities.Add(result);
             return result;
         }
 
-        public Company GetBy(Guid companyId)
+        public override Company GetBy(Guid id)
         {
-            return _companies.SingleOrDefault(x => x.Id == companyId);
+            return Entities.SingleOrDefault(x => x.Id == id);
         }
 
-        public virtual void AddEmployee(Guid companyId, Guid employeeId)
+        public virtual void AddEmployee(Guid id, Guid employeeId)
         {
-            var company = GetBy(companyId) ?? Add(companyId);
+            var company = GetBy(id) ?? Add(id);
             if (!company.HasEmployee(employeeId))
             {
                 company.AddEmployee(employeeId);
