@@ -8,4 +8,4 @@ Feature: Hotel Rooms And Quantities
 Scenario: Define the number of room types a hotel supports
 			Given a hotel id, room type and quantity
 			When setting the room type information
-			Then expect the hotel to include the information
+			Then expect the hotel to include the all provided information

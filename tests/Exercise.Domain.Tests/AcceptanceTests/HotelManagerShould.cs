@@ -9,15 +9,17 @@ namespace Exercise.Domain.Tests.AcceptanceTests
 {
     public class HotelManagerShould: HotelsManagementFeature
     {
-        private Fixture _autoFixture;
-        private HotelService _hotelService;
+        private readonly Fixture _autoFixture;
+        private readonly HotelService _hotelService;
         private Guid _roomType;
         private Guid _hotelId;
         private int _quantity;
+        private readonly HotelRepository _hotelRepository;
 
         public HotelManagerShould()
         {
-            _hotelService = new HotelService();
+            _hotelRepository = new HotelRepository();
+            _hotelService = new HotelService(_hotelRepository);
             _autoFixture = new Fixture();
         }
 

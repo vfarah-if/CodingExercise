@@ -15,6 +15,13 @@ namespace Exercise.Domain.Hotels
     /// </remarks>
     public class HotelService
     {
+        private readonly HotelRepository _hotelRepository;
+
+        public HotelService(HotelRepository hotelRepository)
+        {
+            _hotelRepository = hotelRepository;
+        }
+
         public void SetRoomType(Guid hotelId, Guid roomTypeId, int quantity)
         {
             throw new NotImplementedException();
