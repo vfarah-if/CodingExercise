@@ -29,7 +29,7 @@ namespace Exercise.Domain.Hotels
 
         public Hotel FindHotelBy(Guid hotelId)
         {
-            throw new NotImplementedException();
+            return _hotelRepository.GetBy(hotelId);
         }
     }
 }
