@@ -15,7 +15,7 @@ namespace Exercise.Domain.Hotels
             throw new NotImplementedException();
         }
 
-        public void AddRoomType(Guid hotelId, Guid roomTypeId, int quantity)
+        public virtual void AddRoomType(Guid hotelId, Guid roomTypeId, int quantity)
         {
             throw new NotImplementedException();
         }

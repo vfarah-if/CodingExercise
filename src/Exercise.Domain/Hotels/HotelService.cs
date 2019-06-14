@@ -24,7 +24,7 @@ namespace Exercise.Domain.Hotels
 
         public void SetRoomType(Guid hotelId, Guid roomTypeId, int quantity)
         {
-            throw new NotImplementedException();
+            _hotelRepository.AddRoomType(hotelId, roomTypeId, quantity);
         }
 
         public Hotel FindHotelBy(Guid hotelId)
