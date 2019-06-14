@@ -20,9 +20,18 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             Guid employeeId = Guid.NewGuid();
             Guid roomType = Guid.NewGuid();
 
-            var actual = _bookingPolicyService.IsBookingAllowed(employeeId, roomType);
+            _bookingPolicyService.IsBookingAllowed(employeeId, roomType).Should().BeTrue();
+        }
 
-            actual.Should().BeTrue();
+        [Fact]
+        public void ShouldAllowBookingWhenEmployerPolicyIsSet()
+        {
+            Guid employeeId = Guid.NewGuid();
+            Guid roomType = Guid.NewGuid();
+
+            _bookingPolicyService.SetEmployeePolicy(employeeId, new []{ roomType});
+
+            _bookingPolicyService.IsBookingAllowed(employeeId, roomType).Should().BeTrue();
         }
     }
 }
