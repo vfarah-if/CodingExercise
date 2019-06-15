@@ -45,6 +45,20 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             _bookingPolicyService.IsBookingAllowed(employeeId, roomType).Should().BeTrue();
         }
 
+        [Fact]
+        public void ShouldAllowBookingWhenCompanyPolicyIsSet()
+        {
+            Guid employeeId = Guid.NewGuid();
+            Guid roomType = Guid.NewGuid();
+            BookingPolicy bookingPolicy = new BookingPolicy(employeeId);
+            bookingPolicy.AddRoomTypes(roomType);
+            SetupValidBookingResponse(bookingPolicy, employeeId);
+
+            _bookingPolicyService.SetCompanyPolicy(employeeId, new[] { roomType });
+
+            _bookingPolicyService.IsBookingAllowed(employeeId, roomType).Should().BeTrue();
+        }
+
         private void SetupValidBookingResponse(BookingPolicy bookingPolicy, Guid employeeId)
         {
             IReadOnlyList<BookingPolicy> response = new List<BookingPolicy>(new[] {bookingPolicy});
