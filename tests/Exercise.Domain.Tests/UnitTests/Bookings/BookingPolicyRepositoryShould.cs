@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreBDD;
 using Exercise.Domain.Bookings;
 using FluentAssertions;
 using Xunit;
@@ -34,6 +35,18 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             actual.Id.Should().NotBeEmpty();
             actual.Id.Should().Be(expectedId);
             actual.RoomTypes.Should().Contain(expectedRoomTypeId);
+        }
+
+        [Fact]
+        public void NotAllowDuplicatePolicies()
+        {
+            var expectedId = Guid.NewGuid();
+            var expectedRoomTypeId = Guid.NewGuid();
+
+            _bookingPolicyRepository.AddOrUpdate(expectedId, expectedRoomTypeId);
+            _bookingPolicyRepository.AddOrUpdate(expectedId, expectedRoomTypeId);
+
+            _bookingPolicyRepository.List().Count.Should().Be(1);
         }
     }
 }

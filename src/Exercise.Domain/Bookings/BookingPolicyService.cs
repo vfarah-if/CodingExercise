@@ -14,14 +14,15 @@ namespace Exercise.Domain.Bookings
     /// </summary>
     /// <remarks>
     ///     Business Rules
-    ///         1. Employee policies take precedence over company policies.
-    ///         2. If there is a policy for an employee, the policy should be respected regardless of what the company policy (if any) says.
-    ///         3. If an employee policy does not exist, the company policy should be checked.
-    ///         4. If neither employee nor company policies exist, the employee should be allowed to book any room.
+    ///         1. Employee policies take precedence over company policies. (Done)
+    ///         2. If there is a policy for an employee, the policy should be respected regardless of what the company policy (if any) says. (Done)
+    ///             Comment: - no need to repeat this as this is  understood in 1.
+    ///         3. If an employee policy does not exist, the company policy should be checked. (Done)
+    ///         4. If neither employee nor company policies exist, the employee should be allowed to book any room. (Done)
     /// 
     ///     Technical Rules
-    ///         1. Methods `setCompanyPolicy(...)` and `setEmployeePolicy(...)` should create a new policy or update an existing one.
-    ///         2. No duplicate company or employee policies are allowed.
+    ///         1. Methods `setCompanyPolicy(...)` and `setEmployeePolicy(...)` should create a new policy or update an existing one. (Done)
+    ///         2. No duplicate company or employee policies are allowed. (Done)
     /// </remarks>
     public class BookingPolicyService
     {
@@ -37,7 +38,12 @@ namespace Exercise.Domain.Bookings
 
         public void SetCompanyPolicy(Guid companyId, IReadOnlyList<Guid> roomTypes)
         {
-            throw new NotImplementedException();
+            if (roomTypes == null)
+            {
+                throw new ArgumentNullException(nameof(roomTypes));
+            }
+
+            _companyBookingPolicyRepository.AddOrUpdate(companyId, roomTypes.ToArray());
         }
 
         public void SetEmployeePolicy(Guid employeeId, IReadOnlyList<Guid> roomTypes)
@@ -52,9 +58,20 @@ namespace Exercise.Domain.Bookings
 
         public bool IsBookingAllowed(Guid employeeId, Guid roomType)
         {
+            return HasEmployeeRoomTypePolicy(employeeId, roomType) ||
+                   HasCompanyRoomTypePolicy(employeeId, roomType);
+        }
+
+        private bool HasCompanyRoomTypePolicy(Guid employeeId, Guid roomType)
+        {
+            return !_companyBookingPolicyRepository.List().Any() ||
+                   _companyBookingPolicyRepository.GetBy(employeeId).RoomTypes.Contains(roomType);
+        }
+
+        private bool HasEmployeeRoomTypePolicy(Guid employeeId, Guid roomType)
+        {
             return !_employeeBookingPolicyRepository.List().Any() ||
-                   _employeeBookingPolicyRepository
-                       .GetBy(employeeId).RoomTypes.Contains(roomType);
+                   _employeeBookingPolicyRepository.GetBy(employeeId).RoomTypes.Contains(roomType);
         }
     }
 }

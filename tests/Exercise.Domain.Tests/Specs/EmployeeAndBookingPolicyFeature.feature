@@ -12,7 +12,7 @@ Scenario: Associate Employees with a Company ...
 
 Scenario: Employee should be allowed to book any room if there are no company or employee policies
 			Given an employee booking policy
-			When no company or employee policies exist
+			And no company or employee policies
 			Then the employee booking should be allowed
 
 Scenario: Employee should be allowed to book a room if the employee policy allows this

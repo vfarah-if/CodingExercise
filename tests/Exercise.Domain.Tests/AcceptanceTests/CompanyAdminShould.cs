@@ -50,7 +50,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                 var companyBookingPolicyRepository = new BookingPolicyRepository();
                 _bookingPolicyService = new BookingPolicyService(employeeBookingPolicyRepository, companyBookingPolicyRepository);
             });
-            And("no company or employee policies exist", () =>
+            And("no company or employee policies", () =>
             {
             });
             Then("the employee booking should be allowed", () =>
