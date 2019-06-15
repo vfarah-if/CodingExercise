@@ -26,10 +26,13 @@ namespace Exercise.Domain.Bookings
     public class BookingPolicyService
     {
         private readonly BookingPolicyRepository _employeeBookingPolicyRepository;
+        private readonly BookingPolicyRepository _companyBookingPolicyRepository;
 
-        public BookingPolicyService(BookingPolicyRepository employeeBookingPolicyRepository)
+        public BookingPolicyService(BookingPolicyRepository employeeBookingPolicyRepository,
+            BookingPolicyRepository companyBookingPolicyRepository)
         {
             _employeeBookingPolicyRepository = employeeBookingPolicyRepository;
+            _companyBookingPolicyRepository = companyBookingPolicyRepository;
         }
 
         public void SetCompanyPolicy(Guid companyId, IReadOnlyList<Guid> roomTypes)
@@ -49,7 +52,9 @@ namespace Exercise.Domain.Bookings
 
         public bool IsBookingAllowed(Guid employeeId, Guid roomType)
         {
-            return !_employeeBookingPolicyRepository.List().Any() || _employeeBookingPolicyRepository.GetBy(employeeId).RoomTypes.Contains(roomType);
+            return !_employeeBookingPolicyRepository.List().Any() ||
+                   _employeeBookingPolicyRepository
+                       .GetBy(employeeId).RoomTypes.Contains(roomType);
         }
     }
 }

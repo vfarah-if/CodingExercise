@@ -15,7 +15,6 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         private Guid _companyId;
         private BookingPolicyService _bookingPolicyService;
 
-
         [Scenario("Associate Employees with a Company ...")]
         public void HaveTheAbilityToAssociateEmployeesWithACompany()
         {
@@ -47,10 +46,11 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         {
             Given("an employee booking policy", () =>
             {
-                var bookingPolicyRepository = new BookingPolicyRepository();
-                _bookingPolicyService = new BookingPolicyService(bookingPolicyRepository);
+                var employeeBookingPolicyRepository = new BookingPolicyRepository();
+                var companyBookingPolicyRepository = new BookingPolicyRepository();
+                _bookingPolicyService = new BookingPolicyService(employeeBookingPolicyRepository, companyBookingPolicyRepository);
             });
-            When("no company or employee policies exist", () =>
+            And("no company or employee policies exist", () =>
             {
             });
             Then("the employee booking should be allowed", () =>
@@ -69,10 +69,11 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             {
                 roomType = Guid.NewGuid();
                 _employeeId = Guid.NewGuid();
-                var bookingPolicyRepository = new BookingPolicyRepository();
-                _bookingPolicyService = new BookingPolicyService(bookingPolicyRepository);
+                var employeeBookingPolicyRepository = new BookingPolicyRepository();
+                var companyBookingPolicy = new BookingPolicyRepository();
+                _bookingPolicyService = new BookingPolicyService(employeeBookingPolicyRepository, companyBookingPolicy);
             });
-            When("an employee policies exist for that room type", () =>
+            When("setting an employee policy  for that room type", () =>
             {
                 _bookingPolicyService.SetEmployeePolicy(_employeeId, new[] { roomType });
             });
@@ -81,6 +82,28 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                 _bookingPolicyService.IsBookingAllowed(_employeeId, roomType).Should().BeTrue();
             });
         }
-        // TODO: Should be able to book any room if the company policy allows this
+
+        [Scenario("Employee should be allowed to book a room if the company policy allows this")]
+        public void AllowEmployeeToBookARoomWhenCompanyPolicyAllows()
+        {
+            var roomType = Guid.Empty;
+
+            Given("an employee booking policy, employee and a room type", () =>
+            {
+                roomType = Guid.NewGuid();
+                _employeeId = Guid.NewGuid();
+                var employeeBookingPolicyRepository = new BookingPolicyRepository();
+                var companyBookingPolicy = new BookingPolicyRepository();
+                _bookingPolicyService = new BookingPolicyService(employeeBookingPolicyRepository, companyBookingPolicy);
+            });
+            When("a setting a company policy exist for that room type", () =>
+            {
+                _bookingPolicyService.SetCompanyPolicy(_employeeId, new[] { roomType });
+            });
+            Then("the employee booking should be allowed", () =>
+            {
+                _bookingPolicyService.IsBookingAllowed(_employeeId, roomType).Should().BeTrue();
+            });
+        }
     }
 }

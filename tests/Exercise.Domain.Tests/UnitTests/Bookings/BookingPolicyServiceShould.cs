@@ -11,12 +11,14 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
     public class BookingPolicyServiceShould
     {
         private readonly BookingPolicyService _bookingPolicyService;
-        private Mock<BookingPolicyRepository> _employeeBookingPolicyRepositoryMock;
+        private readonly Mock<BookingPolicyRepository> _employeeBookingPolicyRepositoryMock;
+        private readonly Mock<BookingPolicyRepository> _companyBookingPolicyRepositoryMock;
 
         public BookingPolicyServiceShould()
         {
             _employeeBookingPolicyRepositoryMock = new Mock<BookingPolicyRepository>();
-            _bookingPolicyService = new BookingPolicyService(_employeeBookingPolicyRepositoryMock.Object);
+            _companyBookingPolicyRepositoryMock = new Mock<BookingPolicyRepository>();
+            _bookingPolicyService = new BookingPolicyService(_employeeBookingPolicyRepositoryMock.Object, _companyBookingPolicyRepositoryMock.Object);
         }
 
         [Fact]
