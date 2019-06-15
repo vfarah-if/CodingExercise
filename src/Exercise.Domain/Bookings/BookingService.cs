@@ -1,4 +1,5 @@
 ﻿using System;
+using Exercise.Domain.Companies;
 using Exercise.Domain.Hotels;
 
 namespace Exercise.Domain.Bookings
@@ -17,7 +18,19 @@ namespace Exercise.Domain.Bookings
     /// </remarks>
     public class BookingService
     {
-        public Hotel Book(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn, DateTime checkOut)
+        private readonly BookingPolicyService _bookPolicyService;
+        private readonly CompanyService _companyService;
+        private readonly HotelService _hotelService;
+
+        public BookingService(BookingPolicyService bookPolicyService, CompanyService companyService,
+            HotelService hotelService)
+        {
+            _bookPolicyService = bookPolicyService;
+            _companyService = companyService;
+            _hotelService = hotelService;
+        }
+            
+        public BookingStatus Book(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn, DateTime checkOut)
         {
             throw new NotImplementedException();
         }

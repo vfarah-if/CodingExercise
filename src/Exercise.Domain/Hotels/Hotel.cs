@@ -13,6 +13,7 @@ namespace Exercise.Domain.Hotels
         }
 
         public int TotalRoomCount => _roomTypes.Sum(x => x.Value);
+        public IReadOnlyList<Guid> RoomTypes => _roomTypes.Keys.ToList().AsReadOnly();
 
         public bool HasRoomType(Guid roomType)
         {

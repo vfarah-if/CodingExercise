@@ -30,5 +30,7 @@ namespace Exercise.Domain.Companies
         {
             return _employees.Any(x => x.Id == employeeId);
         }
+
+        public IReadOnlyList<Employee> Employees => _employees.AsReadOnly();
     }
 }

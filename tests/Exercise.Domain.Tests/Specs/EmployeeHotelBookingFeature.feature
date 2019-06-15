@@ -5,7 +5,8 @@ Feature: Employee Hotel Bookings
 	As an Employee
         I want to book a hotel room
 
-Scenario: Test Scenario Should ...
-			Given a scenario
-			When a condition is set
-			Then an expectation should be satisfied
+Scenario: Allows employees to book rooms at hotels
+			Given a company with an employee
+			And a Hotel with a room type
+			When an employee books a hotel
+			Then the employee should be booked at the hotel
