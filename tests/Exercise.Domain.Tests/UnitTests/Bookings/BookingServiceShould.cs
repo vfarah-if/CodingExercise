@@ -42,7 +42,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
-            actual.Errors.First().Should().Be("Check-in date can not be less than or equal to check-out date");
+            actual.Errors.First().Should().Be("Check-in date can not be less than or equal to check-out date.");
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
-            actual.Errors.First().Should().Be("Checkout must be at least 24 hours after check in");
+            actual.Errors.First().Should().Be("Check-out must be at least 24 hours after Check-in date.");
         }
     }
 }

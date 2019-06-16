@@ -1,6 +1,6 @@
-﻿using System;
-using Exercise.Domain.Companies;
+﻿using Exercise.Domain.Companies;
 using Exercise.Domain.Hotels;
+using System;
 
 namespace Exercise.Domain.Bookings
 {
@@ -8,7 +8,7 @@ namespace Exercise.Domain.Bookings
     ///     Allows employees to book rooms at hotels. 
     /// </summary>
     /// <remarks>
-    ///     1. Check out date must be at least one day after the check in date.
+    ///     1. Check out date must be at least one day after the check in date (Done).
     ///     2. Validate if the hotel exists and room type is provided by the hotel.
     ///     3. Verify if booking is allowed according to the booking policies defined, if any. See Booking Policy Service for more details.
     ///     4. Booking should only be allowed if there is at least one room type available during the whole booking period.
@@ -18,12 +18,13 @@ namespace Exercise.Domain.Bookings
     /// </remarks>
     public class BookingService
     {
+        private const int TwentyFourHours = 24;
         private readonly IBookingPolicyService _bookingPolicyService;
         private readonly ICompanyService _companyService;
         private readonly IHotelService _hotelService;
 
         public BookingService(
-            IBookingPolicyService bookingPolicyService, 
+            IBookingPolicyService bookingPolicyService,
             ICompanyService companyService,
             IHotelService hotelService)
         {
@@ -31,12 +32,17 @@ namespace Exercise.Domain.Bookings
             _companyService = companyService;
             _hotelService = hotelService;
         }
-            
+
         public BookingStatus Book(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn, DateTime checkOut)
         {
-            if (checkIn <= checkOut)
+            if (checkOut <= checkIn)
             {
-                return new BookingStatus(startDate:checkIn, endDate: checkOut, errors: "Check-in date can not be less than or equal to check-out date");
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: "Check-in date can not be less than or equal to check-out date.");
+            }
+
+            if (checkOut.Subtract(checkIn).Hours < TwentyFourHours)
+            {
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: "Check-out must be at least 24 hours after Check-in date.");
             }
 
             return new BookingStatus(startDate: checkIn, endDate: checkOut);
