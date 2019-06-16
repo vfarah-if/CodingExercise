@@ -13,7 +13,7 @@ namespace Exercise.Domain.Hotels
     ///         3. They will only affect new bookings, made after the change.
     ///         4. The FindHotelBy should return all the information about number of rooms for the specified ID (Done).
     /// </remarks>
-    public class HotelService
+    public class HotelService : IHotelService
     {
         private readonly HotelRepository _hotelRepository;
 

@@ -10,7 +10,7 @@ namespace Exercise.Domain.Companies
     ///         1. Employees should not be duplicated (Done).
     ///         2. When deleting an employee, all the bookings and policies associated to the employee should also be deleted from the system. 
     /// </remarks>
-    public class CompanyService
+    public class CompanyService : ICompanyService
     {
         private readonly CompanyRepository _companyRepository;
 

@@ -18,14 +18,16 @@ namespace Exercise.Domain.Bookings
     /// </remarks>
     public class BookingService
     {
-        private readonly BookingPolicyService _bookPolicyService;
-        private readonly CompanyService _companyService;
-        private readonly HotelService _hotelService;
+        private readonly IBookingPolicyService _bookingPolicyService;
+        private readonly ICompanyService _companyService;
+        private readonly IHotelService _hotelService;
 
-        public BookingService(BookingPolicyService bookPolicyService, CompanyService companyService,
-            HotelService hotelService)
+        public BookingService(
+            IBookingPolicyService bookingPolicyService, 
+            ICompanyService companyService,
+            IHotelService hotelService)
         {
-            _bookPolicyService = bookPolicyService;
+            _bookingPolicyService = bookingPolicyService;
             _companyService = companyService;
             _hotelService = hotelService;
         }

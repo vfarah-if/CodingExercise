@@ -24,7 +24,7 @@ namespace Exercise.Domain.Bookings
     ///         1. Methods `setCompanyPolicy(...)` and `setEmployeePolicy(...)` should create a new policy or update an existing one. (Done)
     ///         2. No duplicate company or employee policies are allowed. (Done)
     /// </remarks>
-    public class BookingPolicyService
+    public class BookingPolicyService : IBookingPolicyService
     {
         private readonly BookingPolicyRepository _employeeBookingPolicyRepository;
         private readonly BookingPolicyRepository _companyBookingPolicyRepository;
