@@ -7,17 +7,17 @@ namespace Exercise.Domain.Bookings
 {
     public class BookingStatus : GuidEntity
     {
-        protected BookingStatus(
-            Employee guest, 
-            Hotel hotel, 
-            DateTime startDate, 
-            DateTime endDate, 
+        public BookingStatus(
+            DateTime startDate,
+            DateTime endDate,
+            Employee guest = null, 
+            Hotel hotel = null,             
             Guid? id = null,
             params string[] errors) : base(id)
         {
-            Guest = guest;
             StartDate = startDate;
             EndDate = endDate;
+            Guest = guest;
             Errors = errors;
             Hotel = hotel;
         }

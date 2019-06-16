@@ -34,7 +34,12 @@ namespace Exercise.Domain.Bookings
             
         public BookingStatus Book(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn, DateTime checkOut)
         {
-            throw new NotImplementedException();
+            if (checkIn <= checkOut)
+            {
+                return new BookingStatus(startDate:checkIn, endDate: checkOut, errors: "Check-in date can not be less than or equal to check-out date");
+            }
+
+            return new BookingStatus(startDate: checkIn, endDate: checkOut);
         }
     }
 }
