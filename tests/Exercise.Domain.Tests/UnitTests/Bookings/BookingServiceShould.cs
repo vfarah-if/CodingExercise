@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AutoFixture;
 using Exercise.Domain.Bookings;
 using Exercise.Domain.Companies;
 using Exercise.Domain.Hotels;
@@ -11,7 +12,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 {
     public class BookingServiceShould
     {
-        private readonly Mock<IBookingPolicyService> _bookingServiceMock;
+        private readonly Mock<IBookingPolicyService> _bookingPolicyServiceMock;
         private readonly Mock<ICompanyService> _companyServiceMock;
         private readonly Mock<IHotelService> _hotelServiceMock;
         private readonly BookingService _bookingService;
@@ -27,16 +28,16 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             _checkIn = DateTime.Now;
             _checkout = DateTime.Now.AddDays(1);
 
-            _bookingServiceMock = new Mock<IBookingPolicyService>();
+            _bookingPolicyServiceMock = new Mock<IBookingPolicyService>();
             _companyServiceMock = new Mock<ICompanyService>();
 
             _hotelServiceMock = new Mock<IHotelService>();
             _hotelId = Guid.NewGuid();
-            
+            _hotelExistsResponse = new Hotel(_hotelId);
             _hotelServiceMock.Setup(x => x.FindHotelBy(_hotelId)).Returns(() => _hotelExistsResponse);
 
             _bookingService = new BookingService(
-                _bookingServiceMock.Object, 
+                _bookingPolicyServiceMock.Object, 
                 _companyServiceMock.Object,
                 _hotelServiceMock.Object);
         }
@@ -78,6 +79,19 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
             actual.Errors.First().Should().Be("Hotel does not exist.");
-        }       
+        }
+
+        [Fact]
+        public void NotAllowAnEmployeeToBookWhenPolicyDoesNotPermit()
+        {
+            _bookingPolicyServiceMock
+                .Setup(x => x.IsBookingAllowed(It.IsAny<Guid>(), It.IsAny<Guid>()))
+                .Returns(false);
+            var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, _checkIn, _checkout);
+
+            actual.IsBooked.Should().BeFalse();
+            actual.Errors.Length.Should().Be(1);
+            actual.Errors.First().Should().Be("Booking is declined as the booking policy does not allow the employee to book this room type.");
+        }
     }
 }

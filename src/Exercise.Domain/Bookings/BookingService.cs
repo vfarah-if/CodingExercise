@@ -52,7 +52,7 @@ namespace Exercise.Domain.Bookings
             {
                 return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, errors: HotelNotFound);
             }
-
+           
 
             return new BookingStatus(startDate: checkIn, endDate: checkOut, hotel: hotel, guestId: employeeId, errors: "TODO: Keep test failing for valid reasons");
         }
