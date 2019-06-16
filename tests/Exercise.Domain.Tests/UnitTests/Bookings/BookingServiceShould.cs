@@ -43,6 +43,19 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
             actual.Errors.First().Should().Be("Check-in date can not be less than or equal to check-out date");
-        }        
+        }
+
+        [Fact]
+        public void VerifyCheckoutDateIsGreaterThanOrEqualsTo24Hours()
+        {
+            DateTime checkIn = DateTime.Now;
+            DateTime checkout = DateTime.Now.AddHours(23);
+
+            var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, checkIn, checkout);
+
+            actual.IsBooked.Should().BeFalse();
+            actual.Errors.Length.Should().Be(1);
+            actual.Errors.First().Should().Be("Checkout must be at least 24 hours after check in");
+        }
     }
 }
