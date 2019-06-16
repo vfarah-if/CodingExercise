@@ -9,7 +9,8 @@ namespace Exercise.Domain.Bookings
         public BookingStatus(
             DateTime startDate,
             DateTime endDate,
-            Guid guestId, 
+            Guid guestId,
+            Guid roomType,
             Hotel hotel = null,             
             Guid? id = null,
             params string[] errors) : base(id)
@@ -17,6 +18,7 @@ namespace Exercise.Domain.Bookings
             StartDate = startDate;
             EndDate = endDate;
             GuestId = guestId;
+            RoomType = roomType;
             Errors = errors;
             Hotel = hotel;
         }
@@ -24,6 +26,7 @@ namespace Exercise.Domain.Bookings
         public bool IsBooked => Errors == null || !Errors.Any();
         public Hotel Hotel { get; }
         public Guid GuestId { get; }
+        public Guid RoomType { get; }
         public DateTime StartDate { get; }
         public DateTime EndDate { get;  }
         public string[] Errors { get; }

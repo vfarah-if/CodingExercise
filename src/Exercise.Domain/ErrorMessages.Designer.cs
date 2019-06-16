@@ -61,6 +61,15 @@ namespace Exercise.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Booking is declined as the booking policy does not allow the employee to book this room type..
+        /// </summary>
+        internal static string BookingPolicyRejection {
+            get {
+                return ResourceManager.GetString("BookingPolicyRejection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check-in date can not be less than or equal to check-out date..
         /// </summary>
         internal static string CheckoutLessThanCheckinDate {
