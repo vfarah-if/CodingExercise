@@ -39,22 +39,22 @@ namespace Exercise.Domain.Bookings
         {
             if (checkOut <= checkIn)
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: CheckoutLessThanCheckinDate);
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, errors: CheckoutLessThanCheckinDate);
             }
 
             if (checkOut.Subtract(checkIn).Days < OneDay)
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: CheckoutMustBeGreaterAndEqualToADay);
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, errors: CheckoutMustBeGreaterAndEqualToADay);
             }
 
             var hotel = _hotelService.FindHotelBy(hotelId);
             if (hotel == null)
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: HotelNotFound);
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, errors: HotelNotFound);
             }
 
 
-            return new BookingStatus(startDate: checkIn, endDate: checkOut, hotel: hotel, errors: "TODO: Keep test failing for valid reasons");
+            return new BookingStatus(startDate: checkIn, endDate: checkOut, hotel: hotel, guestId: employeeId, errors: "TODO: Keep test failing for valid reasons");
         }
     }
 }

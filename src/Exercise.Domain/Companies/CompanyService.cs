@@ -17,7 +17,7 @@ namespace Exercise.Domain.Companies
         public CompanyService(CompanyRepository companyRepository)
         {
             _companyRepository = companyRepository;
-        }
+        }      
 
         public void AddEmployee(Guid companyId, Guid employeeId)
         {

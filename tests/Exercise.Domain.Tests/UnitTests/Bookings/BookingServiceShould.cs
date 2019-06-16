@@ -43,10 +43,10 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 
 
         [Fact]
-        public void VerifyCheckoutDateIsNotLessThanOrEqual()
+        public void VerifyCheckoutDateIsNotLessThanOrEqualToCheckinDate()
         {
             var checkIn = DateTime.Now;
-            var checkout = DateTime.Now;
+            var checkout = DateTime.Now.AddMinutes(-1);
 
             var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, checkIn, checkout);
 
@@ -78,18 +78,6 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
             actual.Errors.First().Should().Be("Hotel does not exist.");
-        }
-
-        [Fact]
-        public void NotAllowBookingWhenEmployeeDoesNotExist()
-        {
-            _hotelExistsResponse = null;
-
-            var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, _checkIn, _checkout);
-
-            actual.IsBooked.Should().BeFalse();
-            actual.Errors.Length.Should().Be(1);
-            actual.Errors.First().Should().Be("Employee does not exist.");
-        }
+        }       
     }
 }

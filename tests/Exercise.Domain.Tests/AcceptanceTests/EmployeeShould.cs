@@ -55,7 +55,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             {
                 actualBookingStatus.IsBooked.Should().BeTrue();
                 actualBookingStatus.Hotel.Should().Be(_hotel);
-                actualBookingStatus.Guest.Should().Be(_company.Employees.First());
+                actualBookingStatus.GuestId.Should().Be(_company.Employees.First().Id);
                 actualBookingStatus.StartDate.Should().Be(checkIn);
                 actualBookingStatus.EndDate.Should().Be(checkIn);
             });
