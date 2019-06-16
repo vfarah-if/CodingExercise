@@ -1,6 +1,7 @@
 ﻿using Exercise.Domain.Companies;
 using Exercise.Domain.Hotels;
 using System;
+using static Exercise.Domain.ErrorMessages;
 
 namespace Exercise.Domain.Bookings
 {
@@ -37,18 +38,18 @@ namespace Exercise.Domain.Bookings
         {
             if (checkOut <= checkIn)
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: "Check-in date can not be less than or equal to check-out date.");
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: CheckoutLessThanCheckinDate);
             }
 
             if (checkOut.Subtract(checkIn).Days < OneDay)
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: "Check-out must be at least 1 day after Check-in date.");
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: CheckoutMustBeGreaterAndEqualToADay);
             }
 
             var hotel = _hotelService.FindHotelBy(hotelId);
             if (hotel == null)
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: "Hotel does not exist.");
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: HotelNotFound);
             }
 
             return new BookingStatus(startDate: checkIn, endDate: checkOut, hotel: hotel, errors: "TODO: Keep test failing for valid reasons");
