@@ -51,7 +51,7 @@ namespace Exercise.Domain.Bookings
                 return new BookingStatus(startDate: checkIn, endDate: checkOut, errors: "Hotel does not exist.");
             }
 
-            return new BookingStatus(startDate: checkIn, endDate: checkOut, hotel: hotel);
+            return new BookingStatus(startDate: checkIn, endDate: checkOut, hotel: hotel, errors: "TODO: Keep test failing for valid reasons");
         }
     }
 }
