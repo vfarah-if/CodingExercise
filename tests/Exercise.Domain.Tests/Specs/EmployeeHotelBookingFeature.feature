@@ -8,5 +8,5 @@ Feature: Employee Hotel Bookings
 Scenario: Allows employees to book rooms at hotels
 			Given a company with an employee
 			And a Hotel with a room type
-			When an employee books a hotel
-			Then the employee should be booked at the hotel
+			When an employee books a hotel starting tomorrow and checkout the day after
+			Then the employee should get a a booking confirmation with all the relevant information

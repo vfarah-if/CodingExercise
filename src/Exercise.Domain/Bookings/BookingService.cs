@@ -38,26 +38,26 @@ namespace Exercise.Domain.Bookings
         {
             if (checkOut <= checkIn)
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType:roomType, errors: CheckoutLessThanCheckinDate);
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType:roomType, hotelId:hotelId, errors: CheckoutLessThanCheckinDate);
             }
 
             if (checkOut.Subtract(checkIn).Days < OneDay)
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, errors: CheckoutMustBeGreaterAndEqualToADay);
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: CheckoutMustBeGreaterAndEqualToADay);
             }
 
             var hotel = _hotelService.FindHotelBy(hotelId);
             if (hotel == null)
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, errors: HotelNotFound);
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: HotelNotFound);
             }
 
             if (!_bookingPolicyService.IsBookingAllowed(employeeId, roomType))
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, errors: BookingPolicyRejection);
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: BookingPolicyRejection);
             }
 
-            return new BookingStatus(startDate: checkIn, endDate: checkOut, hotel: hotel, guestId: employeeId, roomType: roomType, errors: "TODO: Keep test failing for valid reasons");
+            return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotel.Id, errors: "TODO: Keep test failing for valid reasons");
         }
     }
 }

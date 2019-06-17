@@ -54,7 +54,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             Then("the employee should get a a booking confirmation with all the relevant information", () =>
             {
                 actualBookingStatus.IsBooked.Should().BeTrue();
-                actualBookingStatus.Hotel.Should().Be(_hotel);
+                actualBookingStatus.HotelId.Should().Be(_hotel.Id);
                 actualBookingStatus.GuestId.Should().Be(_company.Employees.First().Id);
                 actualBookingStatus.StartDate.Should().Be(checkIn);
                 actualBookingStatus.EndDate.Should().Be(checkIn);

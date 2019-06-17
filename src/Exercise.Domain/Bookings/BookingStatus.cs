@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Exercise.Domain.Hotels;
 
 namespace Exercise.Domain.Bookings
 {
@@ -11,7 +10,7 @@ namespace Exercise.Domain.Bookings
             DateTime endDate,
             Guid guestId,
             Guid roomType,
-            Hotel hotel = null,             
+            Guid hotelId,             
             Guid? id = null,
             params string[] errors) : base(id)
         {
@@ -20,11 +19,11 @@ namespace Exercise.Domain.Bookings
             GuestId = guestId;
             RoomType = roomType;
             Errors = errors;
-            Hotel = hotel;
+            HotelId = hotelId;
         }
 
         public bool IsBooked => Errors == null || !Errors.Any();
-        public Hotel Hotel { get; }
+        public Guid HotelId { get; }
         public Guid GuestId { get; }
         public Guid RoomType { get; }
         public DateTime StartDate { get; }
