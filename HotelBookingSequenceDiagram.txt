@@ -1,0 +1,63 @@
+title Hotel Booking Sequence Diagram on https://sequencediagram.org/
+participant BookingService
+participant HotelService
+participant BookingPolicyService
+participant BookingRepository
+
+[->BookingService:Book()
+
+alt checkOut <= checkIn
+	BookingService->BookingService:  Not Booked
+end
+
+alt checkOut.Subtract(checkIn) < OneDay
+	BookingService->BookingService: Not Booked
+end
+
+BookingService->>HotelService: FindHotelBy()
+
+HotelService-->>BookingService: hotel
+
+alt hotel not found
+	BookingService->BookingService: Not Booked
+end
+
+alt hotel found
+  	alt hotel not has roomType
+      BookingService->BookingService: Not Booked
+  	end     
+    
+    alt hotel has roomType
+    
+      BookingService->BookingPolicyService: IsBookingAllowed()
+
+      BookingPolicyService->BookingService: isBookignAllowed
+      
+	  alt booking not allowed
+		BookingService->BookingService: Not Booked
+	  end   
+
+      alt booking allowed
+		  BookingService->BookingRepository: IsRoomAvailable()
+		  BookingRepository->BookingService: isRoomTypeAvailable
+
+		  alt room type fully booked
+			BookingService->BookingService: Not Booked
+		  end
+
+		  alt room type available
+			BookingService-->BookingRepository: Add booking    
+			BookingRepository->BookingService: bookingAdded
+        
+			alt succeeded
+			 BookingService->BookingService: Booked
+			end
+			
+			alt failed
+			 BookingService->BookingService: Not Booked
+			end
+
+		end            
+    end
+ end
+end
