@@ -193,7 +193,7 @@ The alternative is to do the full verticals down each logical area, logical area
 
 This service will interact with the entire stack to produce a booking. Each service will contain the details of what is needed to resolve full picture.  A booking status defines a succeed or fail scenario
 
-!["Booking Service Interactions"](Hotel Booking.png)
+!["Booking Service Interactions"](HotelBooking.png)
 
 ### Booking Policy Service
 
