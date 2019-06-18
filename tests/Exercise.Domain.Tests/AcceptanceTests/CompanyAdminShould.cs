@@ -19,7 +19,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         public void HaveTheAbilityToAssociateEmployeesWithACompany()
         {
             _companyRepository = new CompanyRepository();
-            _companyRepository.Add();
+            _companyRepository.Add(new Company());
             _companyService = new CompanyService(_companyRepository);
             Given("an employee and a company", () =>
             {

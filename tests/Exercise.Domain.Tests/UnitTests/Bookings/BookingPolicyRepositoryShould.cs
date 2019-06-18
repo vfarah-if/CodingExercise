@@ -18,7 +18,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         [Fact]
         public void AddABookingPolicy()
         {
-            var actual = _bookingPolicyRepository.Add();
+            var actual = _bookingPolicyRepository.Add(new BookingPolicy(null));
 
             actual.Should().NotBeNull();
             actual.Id.Should().NotBeEmpty();

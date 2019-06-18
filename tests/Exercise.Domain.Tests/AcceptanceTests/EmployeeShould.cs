@@ -62,7 +62,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         private void SetupHotelServiceAndDependencies()
         {
             _hotelRepository = new HotelRepository();
-            _hotel = _hotelRepository.Add();
+            _hotel = _hotelRepository.Add(new Hotel());
             _hotelService = new HotelService(_hotelRepository);
             _hotelService.SetRoomType(_hotel.Id, Guid.NewGuid(), 1);
             _hotelService.SetRoomType(_hotel.Id, Guid.NewGuid(), 2);

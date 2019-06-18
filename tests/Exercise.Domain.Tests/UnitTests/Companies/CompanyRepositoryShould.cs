@@ -22,7 +22,7 @@ namespace Exercise.Domain.Tests.UnitTests.Companies
         [Fact]
         public void AddANewCompany()
         {
-            var actual = _companyRepository.Add();
+            var actual = _companyRepository.Add(new Company());
 
             actual.Should().NotBeNull();
             actual.Id.Should().NotBeEmpty();

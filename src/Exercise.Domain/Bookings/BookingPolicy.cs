@@ -7,8 +7,8 @@ namespace Exercise.Domain.Bookings
     {
         private readonly List<Guid> _roomTypes;
 
-        public BookingPolicy(Guid? Id)
-            : base(Id)
+        public BookingPolicy(Guid? id)
+            : base(id)
         {
             this._roomTypes = new List<Guid>();
         }

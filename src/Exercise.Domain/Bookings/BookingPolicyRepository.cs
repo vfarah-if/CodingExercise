@@ -5,12 +5,6 @@ namespace Exercise.Domain.Bookings
 {
     public class BookingPolicyRepository : InMemoryRepository<BookingPolicy>
     {
-        public override BookingPolicy Add(Guid? id = null)
-        {
-            var result = new BookingPolicy(id);
-            Entities.Add(result);
-            return result;
-        }
 
         public virtual BookingPolicy AddOrUpdate(Guid? id, params Guid[] allowedRoomTypes)
         {
@@ -22,11 +16,11 @@ namespace Exercise.Domain.Bookings
             BookingPolicy result = null;
             if (id.HasValue)
             {
-                result = GetBy(id.Value) ?? Add(id);
+                result = GetBy(id.Value) ?? Add(new BookingPolicy(id));
             }
             else
             {
-                result = Add();
+                result = Add(new BookingPolicy(null));
             }
            
             result.AddRoomTypes(allowedRoomTypes.ToArray());

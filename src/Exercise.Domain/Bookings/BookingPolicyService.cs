@@ -70,12 +70,14 @@ namespace Exercise.Domain.Bookings
 
         private bool HasCompanyRoomTypePolicy(Guid employeeId, Guid roomType)
         {
-            return _companyBookingPolicyRepository.GetBy(employeeId).RoomTypes.Contains(roomType);
+            var result = _companyBookingPolicyRepository.GetBy(employeeId);
+            return result != null && result.RoomTypes.Contains(roomType);
         }
 
         private bool HasEmployeeRoomTypePolicy(Guid employeeId, Guid roomType)
         {
-            return  _employeeBookingPolicyRepository.GetBy(employeeId).RoomTypes.Contains(roomType);
+            var result = _employeeBookingPolicyRepository.GetBy(employeeId);
+            return result != null && result.RoomTypes.Contains(roomType);
         }
     }
 }

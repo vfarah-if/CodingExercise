@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using Exercise.Domain.Bookings;
+﻿using Exercise.Domain.Bookings;
 using Exercise.Domain.Hotels;
 using FluentAssertions;
 using Moq;
+using System;
+using System.Linq;
 using Xunit;
 
 namespace Exercise.Domain.Tests.UnitTests.Bookings
@@ -29,11 +29,13 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 
             _hotelServiceMock = new Mock<IHotelService>();
             _hotelId = Guid.NewGuid();
+            _roomType = Guid.NewGuid();
             _hotelExistsResponse = new Hotel(_hotelId);
+            _hotelExistsResponse.AddRoomType(_roomType, 1);
             _hotelServiceMock.Setup(x => x.FindHotelBy(_hotelId)).Returns(() => _hotelExistsResponse);
 
             _bookingService = new BookingService(
-                _bookingPolicyServiceMock.Object, 
+                _bookingPolicyServiceMock.Object,
                 _hotelServiceMock.Object);
         }
 
@@ -77,11 +79,12 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         [Fact]
         public void NotAllowBookingWhenHotelDoesNotSupportRoomType()
         {
-            var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, _checkIn, _checkout);
+            Guid nonExistentRoomType = Guid.NewGuid();
+            var actual = _bookingService.Book(_employeeId, _hotelId, nonExistentRoomType, _checkIn, _checkout);
 
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
-            actual.Errors.First().Should().Be($"Room type '{_roomType}' does not exist within hotel '{_hotelId}'.");
+            actual.Errors.First().Should().Be($"Room type '{nonExistentRoomType}' does not exist within hotel '{_hotelId}'.");
         }
 
         [Fact]

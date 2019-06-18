@@ -64,6 +64,8 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             IReadOnlyList<BookingPolicy> response = new List<BookingPolicy>(new[] {bookingPolicy});
             _employeeBookingPolicyRepositoryMock.Setup(x => x.List()).Returns(response);
             _employeeBookingPolicyRepositoryMock.Setup(x => x.GetBy(employeeId)).Returns(response.First());
+            IReadOnlyList<BookingPolicy> emptyResponse = new List<BookingPolicy>();
+            _companyBookingPolicyRepositoryMock.Setup(x => x.List()).Returns(emptyResponse);
         }
 
         private void SetupEmptyBookingResponse()
