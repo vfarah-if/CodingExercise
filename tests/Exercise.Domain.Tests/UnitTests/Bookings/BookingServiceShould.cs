@@ -39,29 +39,27 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 
 
         [Fact]
-        public void VerifyCheckoutDateIsNotLessThanOrEqualToCheckinDate()
+        public void ThrowNotSupportedExceptionWhenCheckoutDateIsNotLessThanOrEqualToCheckinDate()
         {
             var checkIn = DateTime.Now;
             var checkout = DateTime.Now.AddMinutes(-1);
 
-            var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, checkIn, checkout);
+            Action actual = () => _bookingService.Book(_employeeId, _hotelId, _roomType, checkIn, checkout);
 
-            actual.IsBooked.Should().BeFalse();
-            actual.Errors.Length.Should().Be(1);
-            actual.Errors.First().Should().Be("Check-in date can not be less than or equal to check-out date.");
+            actual.Should()
+                .Throw<NotSupportedException>()
+                .WithMessage("Check-in date can not be less than or equal to check-out date.");
         }
 
         [Fact]
-        public void VerifyCheckoutDateIsGreaterThanOrEqualsTo1Day()
+        public void ThrowNotSupportedExceptionWhenCheckoutDateIsGreaterThanOrEqualsTo1Day()
         {
             var checkIn = DateTime.Now;
             var checkout = DateTime.Now.AddHours(23);
 
-            var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, checkIn, checkout);
+            Action actual = () => _bookingService.Book(_employeeId, _hotelId, _roomType, checkIn, checkout);
 
-            actual.IsBooked.Should().BeFalse();
-            actual.Errors.Length.Should().Be(1);
-            actual.Errors.First().Should().Be("Check-out must be at least 1 day after Check-in date.");
+            actual.Should().Throw<NotSupportedException>().WithMessage("Check-out must be at least 1 day after Check-in date.");
         }
 
         [Fact]

@@ -1,5 +1,4 @@
-﻿using Exercise.Domain.Companies;
-using Exercise.Domain.Hotels;
+﻿using Exercise.Domain.Hotels;
 using System;
 using static Exercise.Domain.ErrorMessages;
 
@@ -33,16 +32,14 @@ namespace Exercise.Domain.Bookings
 
         public BookingStatus Book(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn, DateTime checkOut)
         {
-            // TODO: Change to an exception
             if (checkOut <= checkIn)
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType:roomType, hotelId:hotelId, errors: CheckoutLessThanCheckinDate);
+                throw new NotSupportedException(CheckoutLessThanCheckinDate);
             }
 
-            // TODO: Change to an exception
             if (checkOut.Subtract(checkIn).Days < OneDay)
             {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: CheckoutMustBeGreaterAndEqualToADay);
+                throw new NotSupportedException(CheckoutMustBeGreaterAndEqualToADay);
             }
 
             var hotel = _hotelService.FindHotelBy(hotelId);
