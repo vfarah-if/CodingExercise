@@ -75,6 +75,18 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         }
 
         [Fact]
+        public void NotAllowBookingWhenHotelDoesNotSupportRoomType()
+        {
+            _hotelExistsResponse = null;
+
+            var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, _checkIn, _checkout);
+
+            actual.IsBooked.Should().BeFalse();
+            actual.Errors.Length.Should().Be(1);
+            actual.Errors.First().Should().Be($"Room type '{_roomType}' does not exist within hotel '{_hotelId}'.");
+        }
+
+        [Fact]
         public void NotAllowAnEmployeeToBookWhenPolicyDoesNotPermit()
         {
             _bookingPolicyServiceMock
