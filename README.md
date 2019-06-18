@@ -197,14 +197,19 @@ This service will interact with the entire stack to produce a booking. Each serv
 
 ### Booking Policy Service
 
-The interaction with employee and company policies is fundamental to the *Booking Service*.  One can either set an *employee policy*, a *company policy* or **neither of the policies**. The booking will be allowed when the room type is associated with one of the policies or none of the policies.
+The interaction with employee and company policies is fundamental to the ***Booking Service****.  One can either set an *employee policy*, a *company policy* or **neither of the policies**. The booking will be allowed when the room type is associated with one of the policies or none of the policies.
 
 !["Company Policy Service"](BookingPolicyService.png)
 
+### Hotel Service
+
+The **Hotel Service** is responsible for setting *room types* and for *finding a hotel* by id. It is very important when booking a hotel to make sure the room type is available.
+
+!["Hotel Service"](HotelService.png)
+
 ### Company Service
 
-The next logical vertical can be the **company service**. The company service is responsible for companies and the associated employees. The company service is only useful when deleting employees, to interact with the **BookingPolicyService*, other than that, this service is not important.
+The **company service** is responsible for companies and the associated employees. The company service is only useful when deleting employees, to interact with the **BookingPolicyService*, other than that, this service is not important.
 
 !["Company Service Sequence Diagram"](CompanyService.png)
 
-### 

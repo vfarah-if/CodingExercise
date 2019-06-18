@@ -1,0 +1,12 @@
+title Hotel Service
+
+participant HotelService
+participant HotelRepository
+
+[->HotelService: SetRoomType()
+
+
+HotelService->HotelRepository:AddRoomType()
+[->HotelService: FindHotelBy()
+HotelService->HotelRepository:GetBy()
+HotelService<-HotelRepository:Hotel
