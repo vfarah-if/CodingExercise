@@ -48,12 +48,11 @@ namespace Exercise.Domain.Bookings
                 return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: HotelNotFound);
             }
 
-            //TODO: Check for the room
-//            var doesHotelHaveRoomType = hotel.HasRoomType(roomType);
-//            if (!hotel.HasRoomType(roomType))
-//            {
-//                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: HotelNotFound);
-//            }
+            var doesHotelHaveRoomType = hotel.HasRoomType(roomType);
+            if (!doesHotelHaveRoomType)
+            {
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: $"Room type '{roomType}' does not exist within hotel '{hotelId}'.");
+            }
 
             var isBookingAllowed = _bookingPolicyService.IsBookingAllowed(employeeId, roomType);
             if (!isBookingAllowed)

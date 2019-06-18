@@ -77,8 +77,6 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         [Fact]
         public void NotAllowBookingWhenHotelDoesNotSupportRoomType()
         {
-            _hotelExistsResponse = null;
-
             var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, _checkIn, _checkout);
 
             actual.IsBooked.Should().BeFalse();
