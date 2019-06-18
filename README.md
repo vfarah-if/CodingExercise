@@ -44,7 +44,7 @@ room type according to the information received. A change in quantity of rooms s
 They will only affect new bookings, made after the change.  
 
 The `findHotelBy(Long hotelId)` should return all the information about number of rooms for the specified ID.   
- 
+
 ## Company Service 
 
 Enables company admins to add and delete employees. 
@@ -59,7 +59,7 @@ Enables company admins to add and delete employees.
         void deleteEmployee(Long employeeId);
     
     }
-```  
+```
 
 **Rules**
 
@@ -89,7 +89,7 @@ allowed to book a standard room while another employee may be allowed to book st
         boolean isBookingAllowed(Long employeeId, <?> roomType);
     
     }
-``` 
+```
 
 **Business Rules**
 
@@ -182,3 +182,9 @@ In this variation, you don't need to write any test or code. You should only cre
 code level (collaborators, methods, parameters, return types, data structures, etc) representing the 
 detailed solution. The sequence diagram should represent the interaction of the 3 actors with the services and 
 the internals of each service, including their collaboration with other services and internal collaborators.  
+
+## Solution
+
+The full vertical is best resolved from the perspective of the *BookingService* which will interact with all the service. Start with a happy path acceptance test, and then go down faking all the service interactions until the result is achieved. Below is the interaction of all the methods and logic as developed by myself.
+
+![Booking Service Interactions](C:\Dev\CodingExercise\Hotel Booking.png)
