@@ -58,20 +58,24 @@ namespace Exercise.Domain.Bookings
 
         public bool IsBookingAllowed(Guid employeeId, Guid roomType)
         {
-            return HasEmployeeRoomTypePolicy(employeeId, roomType) ||
+            return HasNoPoliciesDefined() || 
+                   HasEmployeeRoomTypePolicy(employeeId, roomType) ||
                    HasCompanyRoomTypePolicy(employeeId, roomType);
+        }
+
+        private bool HasNoPoliciesDefined()
+        {
+            return (!_companyBookingPolicyRepository.List().Any() && !_employeeBookingPolicyRepository.List().Any());
         }
 
         private bool HasCompanyRoomTypePolicy(Guid employeeId, Guid roomType)
         {
-            return !_companyBookingPolicyRepository.List().Any() ||
-                   _companyBookingPolicyRepository.GetBy(employeeId).RoomTypes.Contains(roomType);
+            return _companyBookingPolicyRepository.GetBy(employeeId).RoomTypes.Contains(roomType);
         }
 
         private bool HasEmployeeRoomTypePolicy(Guid employeeId, Guid roomType)
         {
-            return !_employeeBookingPolicyRepository.List().Any() ||
-                   _employeeBookingPolicyRepository.GetBy(employeeId).RoomTypes.Contains(roomType);
+            return  _employeeBookingPolicyRepository.GetBy(employeeId).RoomTypes.Contains(roomType);
         }
     }
 }

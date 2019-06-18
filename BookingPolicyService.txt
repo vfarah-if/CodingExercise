@@ -1,0 +1,24 @@
+title Booking Policy Service
+
+participant BookingPolicyService
+participant EmployeeBookingPolicyRepository
+participant CompanyBookingPolicyRepository
+
+[->BookingPolicyService: SetCompanyPolicy()
+
+BookingPolicyService->CompanyBookingPolicyRepository:AddorUpdate()
+
+[->BookingPolicyService: SetEmployeePolicy()
+
+BookingPolicyService->EmployeeBookingPolicyRepository:AddOrUpdate()
+[->BookingPolicyService: IsBookingAllowed()
+
+BookingPolicyService->EmployeeBookingPolicyRepository:HasEmployeeRoomTypePolicy()
+BookingPolicyService<-EmployeeBookingPolicyRepository:Allow Booking
+BookingPolicyService->CompanyBookingPolicyRepository:HasCompanyRoomTypePolicy()
+BookingPolicyService<-CompanyBookingPolicyRepository:Allow Booking
+BookingPolicyService->EmployeeBookingPolicyRepository:HasNoPoliciesDefined()
+
+abox over BookingPolicyService,CompanyBookingPolicyRepository:And
+BookingPolicyService->CompanyBookingPolicyRepository:HasNoPoliciesDefined
+BookingPolicyService<-CompanyBookingPolicyRepository:Allow Booking

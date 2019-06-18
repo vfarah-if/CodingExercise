@@ -191,12 +191,20 @@ The alternative is to do the full verticals down each logical area, logical area
 
 ### Booking Service
 
-This service will interact with the entire stack to produce a result. 
+This service will interact with the entire stack to produce a booking. Each service will contain the details of what is needed to resolve full picture.  A booking status defines a succeed or fail scenario
 
 ![Booking Service Interactions](C:\Dev\CodingExercise\Hotel Booking.png)
 
+### Booking Policy Service
+
+The interaction with employee and company policies is fundamental to the *Booking Service*.  One can either set an *employee policy*, a *company policy* or **neither of the policies**. The booking will be allowed when the room type is associated with one of the policies or none of the policies.
+
+![Company Policy Service](C:\Dev\CodingExercise\BookingPolicyService.png)
+
 ### Company Service
 
-The next logical vertical can be the **company service**. The company service is responsible for companies and the associated employees.
+The next logical vertical can be the **company service**. The company service is responsible for companies and the associated employees. The company service is only useful when deleting employees, to interact with the **BookingPolicyService*, other than that, this service is not important.
 
 ![Company Service Sequence Diagram](C:\Dev\CodingExercise\CompanyService.png)
+
+### 

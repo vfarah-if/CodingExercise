@@ -70,6 +70,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         {
             IReadOnlyList<BookingPolicy> emptyResponse = new List<BookingPolicy>();
             _employeeBookingPolicyRepositoryMock.Setup(x => x.List()).Returns(emptyResponse);
+            _companyBookingPolicyRepositoryMock.Setup(x => x.List()).Returns(emptyResponse);
         }
     }
 }
