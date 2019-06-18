@@ -1,0 +1,21 @@
+title Company Service
+
+participant CompanyService
+participant CompanyRepository
+
+[->CompanyService: AddEmployee ()
+CompanyService->CompanyRepository:AddEmployee()
+
+
+CompanyRepository->CompanyRepository:GetCompany()
+alt company not exist
+	CompanyRepository-->CompanyRepository: AddCompany()
+end
+
+note right of CompanyRepository:Alternative could be an EmployeeRepository\nMy CompanyRepository controlled Company Employees
+alt employee not exist
+	CompanyRepository-->CompanyRepository: AddEmployee()
+end
+
+
+CompanyService<-CompanyRepository:Employee Added

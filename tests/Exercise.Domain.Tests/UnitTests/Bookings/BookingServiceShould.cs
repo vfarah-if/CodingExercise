@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using AutoFixture;
 using Exercise.Domain.Bookings;
-using Exercise.Domain.Companies;
 using Exercise.Domain.Hotels;
 using FluentAssertions;
 using Moq;
@@ -13,7 +11,6 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
     public class BookingServiceShould
     {
         private readonly Mock<IBookingPolicyService> _bookingPolicyServiceMock;
-        private readonly Mock<ICompanyService> _companyServiceMock;
         private readonly Mock<IHotelService> _hotelServiceMock;
         private readonly BookingService _bookingService;
         private Guid _employeeId;
@@ -29,7 +26,6 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             _checkout = DateTime.Now.AddDays(1);
 
             _bookingPolicyServiceMock = new Mock<IBookingPolicyService>();
-            _companyServiceMock = new Mock<ICompanyService>();
 
             _hotelServiceMock = new Mock<IHotelService>();
             _hotelId = Guid.NewGuid();
@@ -38,7 +34,6 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 
             _bookingService = new BookingService(
                 _bookingPolicyServiceMock.Object, 
-                _companyServiceMock.Object,
                 _hotelServiceMock.Object);
         }
 

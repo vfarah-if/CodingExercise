@@ -15,7 +15,6 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         private BookingPolicyRepository _companyBookingPolicyRepository;
         private BookingPolicyService _bookPolicyService;
         private CompanyRepository _companyRepository;
-        private CompanyService _companyService;
         private HotelService _hotelService;
         private HotelRepository _hotelRepository;
         private Company _company;
@@ -24,9 +23,8 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         public EmployeeShould()
         {
             SetupBookingPolicyServiceAndDependencies();
-            SetupCompanyServiceAndDependenciesWithOneEmployee();
             SetupHotelServiceAndDependencies();
-            _bookingService = new BookingService(_bookPolicyService, _companyService, _hotelService);
+            _bookingService = new BookingService(_bookPolicyService, _hotelService);
         }
 
         [Scenario("Allows employees to book rooms at hotels")]
@@ -71,14 +69,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             _hotelService.SetRoomType(_hotel.Id, Guid.NewGuid(), 3);            
         }
 
-        private void SetupCompanyServiceAndDependenciesWithOneEmployee()
-        {
-            _companyRepository = new CompanyRepository();
-            _company = _companyRepository.Add();
-            _companyRepository.AddEmployee(_company.Id, Guid.NewGuid());
-            _companyService = new CompanyService(_companyRepository);
-        }
-
+       
         private void SetupBookingPolicyServiceAndDependencies()
         {
             _employeeBookingPolicyRepository = new BookingPolicyRepository();

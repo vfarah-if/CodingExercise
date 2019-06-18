@@ -185,6 +185,18 @@ the internals of each service, including their collaboration with other services
 
 ## Solution
 
-The full vertical is best resolved from the perspective of the *BookingService* which will interact with all the service. Start with a happy path acceptance test, and then go down faking all the service interactions until the result is achieved. Below is the interaction of all the methods and logic as developed by myself.
+The full vertical is best resolved from the perspective of the *BookingService* which will interact with all the services. Start with a happy path acceptance test, and then go down faking all the service interactions until the result is achieved. Below is the interaction of all the methods and logic as developed by myself. 
+
+The alternative is to do the full verticals down each logical area, logical areas being Bookings, Companies or Hotels from the perspective of the Roles. See below this diagram
+
+### Booking Service
+
+This service will interact with the entire stack to produce a result. 
 
 ![Booking Service Interactions](C:\Dev\CodingExercise\Hotel Booking.png)
+
+### Company Service
+
+The next logical vertical can be the **company service**. The company service is responsible for companies and the associated employees.
+
+![Company Service Sequence Diagram](C:\Dev\CodingExercise\CompanyService.png)

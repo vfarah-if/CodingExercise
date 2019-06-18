@@ -21,26 +21,25 @@ namespace Exercise.Domain.Bookings
     {
         private const int OneDay = 1;
         private readonly IBookingPolicyService _bookingPolicyService;
-        private readonly ICompanyService _companyService;
         private readonly IHotelService _hotelService;
 
         public BookingService(
             IBookingPolicyService bookingPolicyService,
-            ICompanyService companyService,
             IHotelService hotelService)
         {
             _bookingPolicyService = bookingPolicyService;
-            _companyService = companyService;
             _hotelService = hotelService;
         }
 
         public BookingStatus Book(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn, DateTime checkOut)
         {
+            // TODO: Change to an exception
             if (checkOut <= checkIn)
             {
                 return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType:roomType, hotelId:hotelId, errors: CheckoutLessThanCheckinDate);
             }
 
+            // TODO: Change to an exception
             if (checkOut.Subtract(checkIn).Days < OneDay)
             {
                 return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: CheckoutMustBeGreaterAndEqualToADay);
@@ -52,7 +51,15 @@ namespace Exercise.Domain.Bookings
                 return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: HotelNotFound);
             }
 
-            if (!_bookingPolicyService.IsBookingAllowed(employeeId, roomType))
+            //TODO: Check for the room
+//            var doesHotelHaveRoomType = hotel.HasRoomType(roomType);
+//            if (!hotel.HasRoomType(roomType))
+//            {
+//                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: HotelNotFound);
+//            }
+
+            var isBookingAllowed = _bookingPolicyService.IsBookingAllowed(employeeId, roomType);
+            if (!isBookingAllowed)
             {
                 return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: BookingPolicyRejection);
             }
