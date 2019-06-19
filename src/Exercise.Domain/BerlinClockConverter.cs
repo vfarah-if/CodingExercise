@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Exercise.Domain
@@ -15,7 +16,23 @@ namespace Exercise.Domain
 
             var timeParts = time.Split(':');
             var seconds = System.Convert.ToInt16(timeParts[2]);
-            return IsEven(seconds) ? "R" : "0";
+            var hours = System.Convert.ToInt16(timeParts[0]);
+            var result = new StringBuilder();
+            result.AppendLine(IsEven(seconds) ? "R" : "O");
+            result.AppendLine();
+            result.AppendLine(GetFirstRow(hours));
+            return result.ToString();
+        }
+
+        private string GetFirstRow(short hours)
+        {
+            var result = new StringBuilder("OOOO");
+            for (int i = 0; i < hours/5; i++)
+            {
+                result.Replace("O", "R", i, 1);
+            }
+
+            return result.ToString();
         }
 
         private static bool IsEven(short seconds)
