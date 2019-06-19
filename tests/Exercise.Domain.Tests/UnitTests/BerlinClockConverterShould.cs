@@ -44,7 +44,7 @@ namespace Exercise.Domain.Tests.UnitTests
         [InlineData("02:04:00", "OOOO")]
         [InlineData("08:23:00", "ROOO")]
         [InlineData("16:35:00", "RRRO")]
-        public void ConvertHoursToTheExpectedFormat(string time, string expectedFormat)
+        public void ConvertHoursFirstRowToTheExpectedFormat(string time, string expectedFormat)
         {
             var actual = _berlinClockConverter.Convert(time);
 
@@ -52,5 +52,17 @@ namespace Exercise.Domain.Tests.UnitTests
             splitLines.Length.Should().BeGreaterOrEqualTo(2);
             splitLines[2].Should().StartWith(expectedFormat);
         }
+
+        [Theory]
+        [InlineData("12:56:01", "RROO")]
+        public void ConvertHoursSecondRowToTheExpectedFormat(string time, string expectedFormat)
+        {
+            var actual = _berlinClockConverter.Convert(time);
+
+            var splitLines = actual.Split(Environment.NewLine);
+            splitLines.Length.Should().BeGreaterOrEqualTo(2);
+            splitLines[4].Should().StartWith(expectedFormat);
+        }
+
     }
 }
