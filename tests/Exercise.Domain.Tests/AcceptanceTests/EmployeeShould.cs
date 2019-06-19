@@ -43,7 +43,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                 _company.Should().NotBeNull();
                 _company.Employees.Should().NotBeNullOrEmpty();
             });
-            And("a Hotel with a room type", () =>
+            And("a hotel with a room type", () =>
             {
                 _hotel.Should().NotBeNull();
                 _hotel.TotalRoomCount.Should().BeGreaterOrEqualTo(1);

@@ -34,10 +34,10 @@ namespace Exercise.Domain.Bookings
         }
 
         public BookingStatus Book(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn, DateTime checkOut)
-        {
-            BookingStatus result = null;
-            Validate(checkIn, checkOut);
+        {           
+            ValidateBookingDates(checkIn, checkOut);
 
+            BookingStatus result = null;
             var hotel = _hotelService.FindHotelBy(hotelId);
             if (hotel == null)
             {
@@ -114,7 +114,7 @@ namespace Exercise.Domain.Bookings
             return null;
         }
 
-        private static void Validate(DateTime checkIn, DateTime checkOut)
+        private static void ValidateBookingDates(DateTime checkIn, DateTime checkOut)
         {
             if (checkOut <= checkIn)
             {

@@ -73,7 +73,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                 var companyBookingPolicy = new BookingPolicyRepository();
                 _bookingPolicyService = new BookingPolicyService(employeeBookingPolicyRepository, companyBookingPolicy);
             });
-            When("setting an employee policy  for that room type", () =>
+            When("setting an employee policy for that room type", () =>
             {
                 _bookingPolicyService.SetEmployeePolicy(_employeeId, new[] { roomType });
             });
