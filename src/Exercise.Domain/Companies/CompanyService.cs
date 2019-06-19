@@ -8,7 +8,8 @@ namespace Exercise.Domain.Companies
     /// <remarks>
     ///     Rules:
     ///         1. Employees should not be duplicated (Done).
-    ///         2. When deleting an employee, all the bookings and policies associated to the employee should also be deleted from the system. 
+    ///         2. When deleting an employee, all the bookings and policies associated to the employee should also be deleted from the system.
+    ///         *3*. Needed to find a company with employees
     /// </remarks>
     public class CompanyService : ICompanyService
     {
@@ -27,6 +28,12 @@ namespace Exercise.Domain.Companies
         public void DeleteEmployee(Guid employeeId)
         {
             throw new NotImplementedException();
+        }
+
+        // CHECK: If this is needed or why I added this
+        public Company FindCompany(Guid companyId)
+        {
+            return _companyRepository.GetBy(companyId);
         }
     }
 }

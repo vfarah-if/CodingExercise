@@ -14,18 +14,22 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         private BookingPolicyRepository _employeeBookingPolicyRepository;
         private BookingPolicyRepository _companyBookingPolicyRepository;
         private BookingPolicyService _bookPolicyService;
+        private CompanyService _companyService;
         private CompanyRepository _companyRepository;
         private HotelService _hotelService;
         private HotelRepository _hotelRepository;
         private Company _company;
         private Hotel _hotel;
+        private readonly BookingRepository _bookingRepository;
 
         public EmployeeShould()
         {
+            SetupCompanyAndDependencies();
             SetupBookingPolicyServiceAndDependencies();
             SetupHotelServiceAndDependencies();
-            _bookingService = new BookingService(_bookPolicyService, _hotelService);
-        }
+            _bookingRepository = new BookingRepository();
+            _bookingService = new BookingService(_bookPolicyService, _hotelService, _bookingRepository);
+        }    
 
         [Scenario("Allows employees to book rooms at hotels")]
         public void BeAbleToBookAHotel()
@@ -55,8 +59,19 @@ namespace Exercise.Domain.Tests.AcceptanceTests
                 actualBookingStatus.HotelId.Should().Be(_hotel.Id);
                 actualBookingStatus.GuestId.Should().Be(_company.Employees.First().Id);
                 actualBookingStatus.StartDate.Should().Be(checkIn);
-                actualBookingStatus.EndDate.Should().Be(checkIn);
+                actualBookingStatus.EndDate.Should().Be(checkOut);
+                _bookingRepository.List().Should().Contain(actualBookingStatus);
             });
+        }
+
+        private void SetupCompanyAndDependencies()
+        {
+            _companyRepository = new CompanyRepository();
+            _companyService = new CompanyService(_companyRepository);
+            var companyId = Guid.NewGuid();
+            var employeeId = Guid.NewGuid();
+            _companyService.AddEmployee(companyId, employeeId);
+            _company = _companyService.FindCompany(companyId);
         }
 
         private void SetupHotelServiceAndDependencies()
@@ -69,7 +84,6 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             _hotelService.SetRoomType(_hotel.Id, Guid.NewGuid(), 3);            
         }
 
-       
         private void SetupBookingPolicyServiceAndDependencies()
         {
             _employeeBookingPolicyRepository = new BookingPolicyRepository();

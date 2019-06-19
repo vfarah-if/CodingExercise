@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using Exercise.Domain.Companies;
-using FluentAssertions;
 using Moq;
 using Xunit;
 
@@ -27,6 +25,16 @@ namespace Exercise.Domain.Tests.UnitTests.Companies
             _companyService.AddEmployee(companyId, employeeId);
 
             _companyRepositoryMock.Verify(x => x.AddEmployee(companyId, employeeId), Times.Once);
-        }        
+        }
+
+        [Fact]
+        public void FindACompanyWithTheCompanyRepository()
+        {
+            var companyId = Guid.NewGuid();
+
+            _companyService.FindCompany(companyId);
+
+            _companyRepositoryMock.Verify(x => x.GetBy(companyId), Times.Once);
+        }
     }
 }
