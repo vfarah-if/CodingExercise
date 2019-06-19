@@ -33,8 +33,88 @@ namespace Exercise.Domain.Bookings
             _bookingRepository = bookingRepository;
         }
 
-        // TODO: Refactor this big method
         public BookingStatus Book(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn, DateTime checkOut)
+        {
+            BookingStatus result = null;
+            Validate(checkIn, checkOut);
+
+            var hotel = _hotelService.FindHotelBy(hotelId);
+            if (hotel == null)
+            {
+                result = new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: HotelNotFound);
+                _bookingRepository.Add(result);
+                return result;
+            }
+
+            result = VerifyHotelHasRoomType(employeeId, hotelId, roomType, checkIn, checkOut, hotel);
+            if (result != null)
+            {
+                _bookingRepository.Add(result);
+                return result;
+            }
+
+            result = VerifyBookingPolicyAllowsBooking(employeeId, hotelId, roomType, checkIn, checkOut);
+            if (result != null)
+            {
+                _bookingRepository.Add(result);
+                return result;
+            }
+
+            result = VerifyRoomTypeAvailability(employeeId, hotelId, roomType, checkIn, checkOut, hotel);
+            if (result != null)
+            {
+                _bookingRepository.Add(result);
+                return result;
+            }
+
+            result = new BookingStatus(checkIn, checkOut, employeeId, roomType, hotel.Id);
+            _bookingRepository.Add(result);
+            return result;
+        }
+
+        private BookingStatus VerifyBookingPolicyAllowsBooking(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn,
+            DateTime checkOut)
+        {
+            var isBookingAllowed = _bookingPolicyService.IsBookingAllowed(employeeId, roomType);
+            if (!isBookingAllowed)
+            {
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType,
+                    hotelId: hotelId, errors: BookingPolicyRejection);
+            }
+
+            return null;
+        }
+
+        private BookingStatus VerifyRoomTypeAvailability(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn,
+            DateTime checkOut, Hotel hotel)
+        {
+            var bookedRooms = _bookingRepository.BookingsBetween(checkIn, checkOut, roomType);
+            var quantity = hotel.QuantityOfRooms(roomType);
+            var availableRooms = quantity - bookedRooms.Count;
+            if (availableRooms < 1)
+            {
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType,
+                    hotelId: hotelId,
+                    errors: $"The hotel has '{bookedRooms.Count}' booked rooms and no available rooms.");
+            }
+
+            return null;
+        }
+
+        private static BookingStatus VerifyHotelHasRoomType(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn,
+            DateTime checkOut, Hotel hotel)
+        {
+            var doesHotelHaveRoomType = hotel.HasRoomType(roomType);
+            if (!doesHotelHaveRoomType)
+            {
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType,
+                    hotelId: hotelId, errors: $"Room type '{roomType}' does not exist within hotel '{hotelId}'.");
+            }
+
+            return null;
+        }
+
+        private static void Validate(DateTime checkIn, DateTime checkOut)
         {
             if (checkOut <= checkIn)
             {
@@ -45,38 +125,6 @@ namespace Exercise.Domain.Bookings
             {
                 throw new NotSupportedException(CheckoutMustBeGreaterAndEqualToADay);
             }
-
-            var hotel = _hotelService.FindHotelBy(hotelId);
-            if (hotel == null)
-            {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: HotelNotFound);
-            }
-
-            var doesHotelHaveRoomType = hotel.HasRoomType(roomType);
-            if (!doesHotelHaveRoomType)
-            {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: $"Room type '{roomType}' does not exist within hotel '{hotelId}'.");
-            }
-
-            var isBookingAllowed = _bookingPolicyService.IsBookingAllowed(employeeId, roomType);
-            if (!isBookingAllowed)
-            {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: BookingPolicyRejection);
-            }
-
-            var bookedRooms = _bookingRepository.BookingsBetween(checkIn, checkOut, roomType);
-            var quantity = hotel.QuantityOfRooms(roomType);
-            var availableRooms = quantity - bookedRooms.Count;
-            if (availableRooms < 1)
-            {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType,
-                    hotelId: hotelId,
-                    errors: $"The hotel has '{bookedRooms.Count}' booked rooms and '{availableRooms}' available rooms.");
-            }
-            
-            var result = new BookingStatus(checkIn, checkOut, employeeId, roomType, hotel.Id);
-            _bookingRepository.Add(result);
-            return result;
         }
     }
 }

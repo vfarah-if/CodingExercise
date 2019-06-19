@@ -22,6 +22,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         private DateTime _checkIn;
         private DateTime _checkout;
         private bool _isBookingAllowedResponse;
+        private List<BookingStatus> _bookingResponse;
 
         public BookingServiceShould()
         {
@@ -35,13 +36,20 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
                 .Returns(() => _isBookingAllowedResponse);
 
             _bookingRepository = new Mock<BookingRepository>();
+            _bookingResponse = new List<BookingStatus>();
+            _bookingRepository
+                .Setup(x => x.BookingsBetween(_checkIn, _checkout, _roomType))
+                .Returns(() => _bookingResponse.AsReadOnly());
+
 
             _hotelServiceMock = new Mock<IHotelService>();
             _hotelId = Guid.NewGuid();
             _roomType = Guid.NewGuid();
             _hotelExistsResponse = new Hotel(_hotelId);
             _hotelExistsResponse.AddRoomType(_roomType, 1);
-            _hotelServiceMock.Setup(x => x.FindHotelBy(_hotelId)).Returns(() => _hotelExistsResponse);
+            _hotelServiceMock
+                .Setup(x => x.FindHotelBy(_hotelId))
+                .Returns(() => _hotelExistsResponse);
 
             _bookingService = new BookingService(
                 _bookingPolicyServiceMock.Object,
@@ -111,15 +119,15 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         [Fact]
         public void NotAllowAnEmployeeToBookWhenTheRoomTypeIsFullyBooked()
         {
+            // Setup that a booking already exists using the full quota
             var bookingStatus = new BookingStatus(_checkIn, _checkout, _employeeId, _roomType, _hotelId);
-            var bookingResponse = new List<BookingStatus> { bookingStatus };
-            _bookingRepository.Setup(x => x.BookingsBetween(_checkIn, _checkout, _roomType)).Returns(bookingResponse.AsReadOnly);
+            _bookingResponse.Add(bookingStatus);
 
             var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, _checkIn, _checkout);
 
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
-            actual.Errors.First().Should().Be("The hotel has '1' booked rooms and '0' available rooms.");
+            actual.Errors.First().Should().Be("The hotel has '1' booked rooms and no available rooms.");
         }
     }
 }
