@@ -55,6 +55,11 @@ namespace Exercise.Domain.Tests.UnitTests
 
         [Theory]
         [InlineData("12:56:01", "RROO")]
+        [InlineData("00:00:00", "OOOO")]
+        [InlineData("23:59:59", "RRRO")]
+        [InlineData("02:04:00", "RROO")]
+        [InlineData("08:23:00", "RRRO")]
+        [InlineData("14:35:00", "RRRR")]
         public void ConvertHoursSecondRowToTheExpectedFormat(string time, string expectedFormat)
         {
             var actual = _berlinClockConverter.Convert(time);

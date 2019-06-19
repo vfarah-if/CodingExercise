@@ -21,16 +21,20 @@ namespace Exercise.Domain
             result.AppendLine(IsEven(seconds) ? RedLight : OffLight);
             result.AppendLine();
             result.AppendLine(GetFirstRow(hours));
+            result.AppendLine();
+            result.AppendLine(GetSecondRow(hours));
             return result.ToString();
         }
 
-        private static void ValidateTimeFormat(string time)
+        private string GetSecondRow(short hours)
         {
-            Regex regex = new Regex(@"^(\d\d:\d\d:\d\d)$");
-            if (!regex.IsMatch(time))
+            var result = new StringBuilder(OffLightRowOfFour);
+            for (int i = 0; i < hours % 5; i++)
             {
-                throw new NotSupportedException("Time should be in the expected 'hh:mm:ss' format");
+                result.Replace(OffLight, RedLight, i, 1);
             }
+
+            return result.ToString();
         }
 
         private string GetFirstRow(short hours)
@@ -42,6 +46,15 @@ namespace Exercise.Domain
             }
 
             return result.ToString();
+        }
+
+        private static void ValidateTimeFormat(string time)
+        {
+            Regex regex = new Regex(@"^(\d\d:\d\d:\d\d)$");
+            if (!regex.IsMatch(time))
+            {
+                throw new NotSupportedException("Time should be in the expected 'hh:mm:ss' format");
+            }
         }
 
         private static bool IsEven(short seconds)
