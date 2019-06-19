@@ -11,10 +11,10 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 {
     public class BookingServiceShould
     {
-        private readonly Mock<IBookingPolicyService> _bookingPolicyServiceMock;
-        private readonly Mock<IHotelService> _hotelServiceMock;
+        private Mock<IBookingPolicyService> _bookingPolicyServiceMock;
+        private Mock<IHotelService> _hotelServiceMock;
         private readonly BookingService _bookingService;
-        private readonly Mock<BookingRepository> _bookingRepository;
+        private Mock<BookingRepository> _bookingRepository;
         private Guid _employeeId;
         private Guid _hotelId;
         private Guid _roomType;
@@ -29,33 +29,17 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             _checkIn = DateTime.Now;
             _checkout = DateTime.Now.AddDays(1);
 
-            _bookingPolicyServiceMock = new Mock<IBookingPolicyService>();
-            _isBookingAllowedResponse = true;
-            _bookingPolicyServiceMock
-                .Setup(x => x.IsBookingAllowed(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                .Returns(() => _isBookingAllowedResponse);
+            SetupBookingPolicyAllowingBooking();
 
-            _bookingRepository = new Mock<BookingRepository>();
-            _bookingResponse = new List<BookingStatus>();
-            _bookingRepository
-                .Setup(x => x.BookingsBetween(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<Guid>()))
-                .Returns(() => _bookingResponse.AsReadOnly());
+            SetupBookingRepositoryWithNoPriorBookings();
 
-            _hotelServiceMock = new Mock<IHotelService>();
-            _hotelId = Guid.NewGuid();
-            _roomType = Guid.NewGuid();
-            _hotelExistsResponse = new Hotel(_hotelId);
-            _hotelExistsResponse.AddRoomType(_roomType, 1);
-            _hotelServiceMock
-                .Setup(x => x.FindHotelBy(_hotelId))
-                .Returns(() => _hotelExistsResponse);
+            SetupHotelWithOneRoomType();
 
             _bookingService = new BookingService(
                 _bookingPolicyServiceMock.Object,
                 _hotelServiceMock.Object,
                 _bookingRepository.Object);
         }
-
 
         [Fact]
         public void ThrowNotSupportedExceptionWhenCheckoutDateIsNotLessThanOrEqualToCheckinDate()
@@ -140,6 +124,36 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 
             actual.IsBooked.Should().BeTrue();
             _bookingRepository.Verify(x => x.Add(actual), Times.Once);
+        }
+
+        private void SetupHotelWithOneRoomType()
+        {
+            _hotelServiceMock = new Mock<IHotelService>();
+            _hotelId = Guid.NewGuid();
+            _roomType = Guid.NewGuid();
+            _hotelExistsResponse = new Hotel(_hotelId);
+            _hotelExistsResponse.AddRoomType(_roomType, 1);
+            _hotelServiceMock
+                .Setup(x => x.FindHotelBy(_hotelId))
+                .Returns(() => _hotelExistsResponse);
+        }
+
+        private void SetupBookingRepositoryWithNoPriorBookings()
+        {
+            _bookingRepository = new Mock<BookingRepository>();
+            _bookingResponse = new List<BookingStatus>();
+            _bookingRepository
+                .Setup(x => x.BookingsBetween(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<Guid>()))
+                .Returns(() => _bookingResponse.AsReadOnly());
+        }
+
+        private void SetupBookingPolicyAllowingBooking()
+        {
+            _bookingPolicyServiceMock = new Mock<IBookingPolicyService>();
+            _isBookingAllowedResponse = true;
+            _bookingPolicyServiceMock
+                .Setup(x => x.IsBookingAllowed(It.IsAny<Guid>(), It.IsAny<Guid>()))
+                .Returns(() => _isBookingAllowedResponse);
         }
     }
 }
