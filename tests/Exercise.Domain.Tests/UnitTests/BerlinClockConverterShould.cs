@@ -1,15 +1,25 @@
 using System;
 using FluentAssertions;
 using Xunit;
+using Xunit.Sdk;
 
 namespace Exercise.Domain.Tests.UnitTests
 {
     public class BerlinClockConverterShould
     {
-        [Fact]
-        public void Test1()
+        private BerlinClockConverter _berlinClockConverter;
+
+        public BerlinClockConverterShould()
         {
-            true.Should().BeFalse();
+            _berlinClockConverter = new BerlinClockConverter();
+        }
+
+        [Fact]  
+        public void ThrowANotSupportedExceptionWhenFormattedNotExpected()
+        {
+            Action action = () => _berlinClockConverter.Convert("badformat");
+
+            action.Should().Throw<NotSupportedException>();
         }
     }
 }
