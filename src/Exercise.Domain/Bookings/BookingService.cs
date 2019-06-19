@@ -21,15 +21,19 @@ namespace Exercise.Domain.Bookings
         private const int OneDay = 1;
         private readonly IBookingPolicyService _bookingPolicyService;
         private readonly IHotelService _hotelService;
+        private readonly BookingRepository _bookingRepository;
 
         public BookingService(
             IBookingPolicyService bookingPolicyService,
-            IHotelService hotelService)
+            IHotelService hotelService,
+            BookingRepository bookingRepository)
         {
             _bookingPolicyService = bookingPolicyService;
             _hotelService = hotelService;
+            _bookingRepository = bookingRepository;
         }
 
+        // TODO: Refactor this big method
         public BookingStatus Book(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn, DateTime checkOut)
         {
             if (checkOut <= checkIn)
@@ -60,7 +64,19 @@ namespace Exercise.Domain.Bookings
                 return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: BookingPolicyRejection);
             }
 
-            return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotel.Id, errors: "TODO: Keep test failing for valid reasons");
+            var bookedRooms = _bookingRepository.BookingsBetween(checkIn, checkOut, roomType);
+            var quantity = hotel.QuantityOfRooms(roomType);
+            var availableRooms = quantity - bookedRooms.Count;
+            if (availableRooms < 1)
+            {
+                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType,
+                    hotelId: hotelId,
+                    errors: $"The hotel has '{bookedRooms.Count}' booked rooms and '{availableRooms}' available rooms.");
+            }
+            
+            var result = new BookingStatus(checkIn, checkOut, employeeId, roomType, hotel.Id);
+            _bookingRepository.Add(result);
+            return result;
         }
     }
 }

@@ -3,6 +3,7 @@ using Exercise.Domain.Hotels;
 using FluentAssertions;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -13,12 +14,14 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         private readonly Mock<IBookingPolicyService> _bookingPolicyServiceMock;
         private readonly Mock<IHotelService> _hotelServiceMock;
         private readonly BookingService _bookingService;
+        private readonly Mock<BookingRepository> _bookingRepository;
         private Guid _employeeId;
         private Guid _hotelId;
         private Guid _roomType;
         private Hotel _hotelExistsResponse;
         private DateTime _checkIn;
         private DateTime _checkout;
+        private bool _isBookingAllowedResponse;
 
         public BookingServiceShould()
         {
@@ -26,6 +29,12 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             _checkout = DateTime.Now.AddDays(1);
 
             _bookingPolicyServiceMock = new Mock<IBookingPolicyService>();
+            _isBookingAllowedResponse = true;
+            _bookingPolicyServiceMock
+                .Setup(x => x.IsBookingAllowed(It.IsAny<Guid>(), It.IsAny<Guid>()))
+                .Returns(() => _isBookingAllowedResponse);
+
+            _bookingRepository = new Mock<BookingRepository>();
 
             _hotelServiceMock = new Mock<IHotelService>();
             _hotelId = Guid.NewGuid();
@@ -36,7 +45,8 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 
             _bookingService = new BookingService(
                 _bookingPolicyServiceMock.Object,
-                _hotelServiceMock.Object);
+                _hotelServiceMock.Object,
+                _bookingRepository.Object);
         }
 
 
@@ -90,14 +100,26 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         [Fact]
         public void NotAllowAnEmployeeToBookWhenPolicyDoesNotPermit()
         {
-            _bookingPolicyServiceMock
-                .Setup(x => x.IsBookingAllowed(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                .Returns(false);
+            _isBookingAllowedResponse = false;
             var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, _checkIn, _checkout);
 
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
             actual.Errors.First().Should().Be("Booking is declined as the booking policy does not allow the employee to book this room type.");
+        }
+
+        [Fact]
+        public void NotAllowAnEmployeeToBookWhenTheRoomTypeIsFullyBooked()
+        {
+            var bookingStatus = new BookingStatus(_checkIn, _checkout, _employeeId, _roomType, _hotelId);
+            var bookingResponse = new List<BookingStatus> { bookingStatus };
+            _bookingRepository.Setup(x => x.BookingsBetween(_checkIn, _checkout, _roomType)).Returns(bookingResponse.AsReadOnly);
+
+            var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, _checkIn, _checkout);
+
+            actual.IsBooked.Should().BeFalse();
+            actual.Errors.Length.Should().Be(1);
+            actual.Errors.First().Should().Be("The hotel has '1' booked rooms and '0' available rooms.");
         }
     }
 }
