@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Exercise.Domain.Tests.UnitTests
 {
-    public class UnitTest1
+    public class BerlinClockConverterShould
     {
         [Fact]
         public void Test1()
         {
-            true.Should().BeTrue();
+            true.Should().BeFalse();
         }
     }
 }

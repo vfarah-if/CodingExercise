@@ -2,10 +2,10 @@
 
 
 Feature: Coding Exercise
-	As a dev idiot
-        I want to make sure this works
+	As a user
+        I want to convert time in the format of hh:mm:ss to the expected berlin clock format
 
-Scenario: Test Scenario Should ...
-			Given a scenario
-			When a condition is set
+Scenario: Format hh:mm:ss format to berlin clock format
+			Given 12:56:01 and a berlin clock converter
+			When converting the time
 			Then an expectation should be satisfied

@@ -5,8 +5,8 @@ using CoreBDD.SpecGeneration;
 namespace Exercise.Domain.Tests.AcceptanceTests
 {
     [Feature("Coding Exercise",
-        @"As a dev idiot
-        I want to make sure this works")]
+        @"As a user
+        I want to convert time in the format of hh:mm:ss to the expected berlin clock format")]
     public class AcceptanceTestFeature : Specification, IDisposable
     {
         public void Dispose()
