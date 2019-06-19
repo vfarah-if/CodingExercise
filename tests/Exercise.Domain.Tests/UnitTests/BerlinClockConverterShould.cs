@@ -14,10 +14,14 @@ namespace Exercise.Domain.Tests.UnitTests
             _berlinClockConverter = new BerlinClockConverter();
         }
 
-        [Fact]  
-        public void ThrowANotSupportedExceptionWhenFormattedNotExpected()
+        [Theory]  
+        [InlineData("badformat")]
+        [InlineData("00,00,00")]
+        [InlineData(" 00:00:00 ")]
+        [InlineData("00:00")]
+        public void ThrowANotSupportedExceptionWhenTimeInBadFormat(string badTimeFormat)
         {
-            Action action = () => _berlinClockConverter.Convert("badformat");
+            Action action = () => _berlinClockConverter.Convert(badTimeFormat);
 
             action.Should().Throw<NotSupportedException>();
         }
