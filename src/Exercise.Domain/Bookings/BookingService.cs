@@ -11,10 +11,10 @@ namespace Exercise.Domain.Bookings
     ///     1. Check out date must be at least one day after the check in date (Done).
     ///     2. Validate if the hotel exists and room type is provided by the hotel (Done).    
     ///     3. Verify if booking is allowed according to the booking policies defined, if any. See Booking Policy Service for more details. (Done)
-    ///     4. Booking should only be allowed if there is at least one room type available during the whole booking period.
+    ///     4. Booking should only be allowed if there is at least one room type available during the whole booking period (Done).
     ///     5. Keep track of all bookings. E.g. If hotel has 5 standard rooms, we should have no more than 5 bookings in the same day. (Done)
-    ///     6. Hotel rooms can be booked many times as long as there are no conflicts with the dates. 
-    ///     7. Return booking confirmation to the employee or error otherwise (exceptions can also be used).
+    ///     6. Hotel rooms can be booked many times as long as there are no conflicts with the dates. (Done) 
+    ///     7. Return booking confirmation to the employee or error otherwise (exceptions can also be used). (Done)
     /// </remarks>
     public class BookingService
     {

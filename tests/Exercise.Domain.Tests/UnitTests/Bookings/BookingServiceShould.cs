@@ -38,9 +38,8 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             _bookingRepository = new Mock<BookingRepository>();
             _bookingResponse = new List<BookingStatus>();
             _bookingRepository
-                .Setup(x => x.BookingsBetween(_checkIn, _checkout, _roomType))
+                .Setup(x => x.BookingsBetween(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<Guid>()))
                 .Returns(() => _bookingResponse.AsReadOnly());
-
 
             _hotelServiceMock = new Mock<IHotelService>();
             _hotelId = Guid.NewGuid();
@@ -92,6 +91,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
             actual.Errors.First().Should().Be("Hotel does not exist.");
+            _bookingRepository.Verify(x => x.Add(actual), Times.Once);
         }
 
         [Fact]
@@ -103,6 +103,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
             actual.Errors.First().Should().Be($"Room type '{nonExistentRoomType}' does not exist within hotel '{_hotelId}'.");
+            _bookingRepository.Verify(x => x.Add(actual), Times.Once);
         }
 
         [Fact]
@@ -114,6 +115,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
             actual.Errors.First().Should().Be("Booking is declined as the booking policy does not allow the employee to book this room type.");
+            _bookingRepository.Verify(x => x.Add(actual), Times.Once);
         }
 
         [Fact]
@@ -128,6 +130,16 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             actual.IsBooked.Should().BeFalse();
             actual.Errors.Length.Should().Be(1);
             actual.Errors.First().Should().Be("The hotel has '1' booked rooms and no available rooms.");
+            _bookingRepository.Verify(x => x.Add(actual), Times.Once);
+        }
+
+        [Fact]
+        public void BookAHotelWhenAHotelAndRoomTypeExistsWithNoBookingConflicts()
+        {
+            var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, _checkIn, _checkout);
+
+            actual.IsBooked.Should().BeTrue();
+            _bookingRepository.Verify(x => x.Add(actual), Times.Once);
         }
     }
 }
