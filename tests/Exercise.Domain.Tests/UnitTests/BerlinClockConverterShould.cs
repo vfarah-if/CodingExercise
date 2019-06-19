@@ -1,7 +1,6 @@
 using System;
 using FluentAssertions;
 using Xunit;
-using Xunit.Sdk;
 
 namespace Exercise.Domain.Tests.UnitTests
 {
@@ -23,7 +22,8 @@ namespace Exercise.Domain.Tests.UnitTests
         {
             Action action = () => _berlinClockConverter.Convert(badTimeFormat);
 
-            action.Should().Throw<NotSupportedException>();
+            action.Should().Throw<NotSupportedException>()
+                .WithMessage("Time should be in the expected 'hh:mm:ss' format");
         }
 
         [Theory]
