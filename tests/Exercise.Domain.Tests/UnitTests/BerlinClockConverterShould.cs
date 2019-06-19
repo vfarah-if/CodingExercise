@@ -25,5 +25,16 @@ namespace Exercise.Domain.Tests.UnitTests
 
             action.Should().Throw<NotSupportedException>();
         }
+
+        [Theory]
+        [InlineData("00:00:00", "R")]
+        [InlineData("12:56:01", "0")]
+        [InlineData("12:56:02", "R")]
+        public void ConvertSecondsToTheExpectedFormat(string time, string expectedFormat)
+        {
+            var actual = _berlinClockConverter.Convert(time);
+
+            actual.Should().StartWith(expectedFormat);
+        }
     }
 }

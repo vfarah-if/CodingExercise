@@ -13,7 +13,14 @@ namespace Exercise.Domain
                 throw new NotSupportedException("Time should be in the expected 'hh:mm:ss' format");
             }
 
-            return null;
+            var timeParts = time.Split(':');
+            var seconds = System.Convert.ToInt16(timeParts[2]);
+            return IsEven(seconds) ? "R" : "0";
+        }
+
+        private static bool IsEven(short seconds)
+        {
+            return seconds % 2 == 0;
         }
     }
 }
