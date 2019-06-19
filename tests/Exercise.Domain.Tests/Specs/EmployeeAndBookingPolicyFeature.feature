@@ -17,10 +17,10 @@ Scenario: Employee should be allowed to book any room if there are no company or
 
 Scenario: Employee should be allowed to book a room if the employee policy allows this
 			Given an employee booking policy, employee and a room type
-			When setting an employee policy  for that room type
+			When setting an employee policy for that room type
 			Then the employee booking should be allowed
 
 Scenario: Employee should be allowed to book a room if the company policy allows this
 			Given an employee booking policy, employee and a room type
-			When a setting a company policy exist for that room type
+			When setting a company policy exist for that room type
 			Then the employee booking should be allowed
