@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text;
 
 namespace Exercise.Domain
 {
@@ -15,18 +13,13 @@ namespace Exercise.Domain
 
         public string Convert(string time)
         {
-            ValidateTimeFormat(time);
-
-            var timeParts = time.Split(':');
-            var seconds = System.Convert.ToInt16(timeParts[2]);
-            var hours = System.Convert.ToInt16(timeParts[0]);
-            var minutes = System.Convert.ToInt16(timeParts[1]);
+            var timeParts = TimeParts.Parse(time);
             var result = new StringBuilder();
-            result.AppendLine(GetTopClock(seconds)).AppendLine();
-            result.AppendLine(GetFirstRow(hours)).AppendLine();
-            result.AppendLine(GetSecondRow(hours)).AppendLine();
-            result.AppendLine(GetThirdRow(minutes)).AppendLine();
-            result.Append(GetFourthRow(minutes));
+            result.AppendLine(GetTopClock(timeParts.Seconds)).AppendLine();
+            result.AppendLine(GetFirstRow(timeParts.Hours)).AppendLine();
+            result.AppendLine(GetSecondRow(timeParts.Hours)).AppendLine();
+            result.AppendLine(GetThirdRow(timeParts.Minutes)).AppendLine();
+            result.Append(GetFourthRow(timeParts.Minutes));
             return result.ToString();
         }
 
@@ -34,7 +27,7 @@ namespace Exercise.Domain
         {
             var result = new StringBuilder(OffLightRowOfFour);
             var max = minutes % 5;
-            for (int i = 0; i < max; i++)
+            for (var i = 0; i < max; i++)
             {
                 result.Replace(OffLight, YellowLight, i, 1);
             }
@@ -46,7 +39,7 @@ namespace Exercise.Domain
         {
             var result = new StringBuilder(OffLightRowOfEleven);
             var max = minutes / 5;
-            for (int i = 0; i < max; i++)
+            for (var i = 0; i < max; i++)
             {
                 result.Replace(OffLight, YellowLight, i, 1);
             }
@@ -63,7 +56,7 @@ namespace Exercise.Domain
         {
             var result = new StringBuilder(OffLightRowOfFour);
             var max = hours % 5;
-            for (int i = 0; i < max; i++)
+            for (var i = 0; i < max; i++)
             {
                 result.Replace(OffLight, RedLight, i, 1);
             }
@@ -75,21 +68,12 @@ namespace Exercise.Domain
         {
             var result = new StringBuilder(OffLightRowOfFour);
             var max = hours/5;
-            for (int i = 0; i < max; i++)
+            for (var i = 0; i < max; i++)
             {
                 result.Replace(OffLight, RedLight, i, 1);
             }
 
             return result.ToString();
-        }
-
-        private static void ValidateTimeFormat(string time)
-        {
-            Regex regex = new Regex(@"^(\d\d:\d\d:\d\d)$");
-            if (!regex.IsMatch(time))
-            {
-                throw new NotSupportedException("Time should be in the expected 'hh:mm:ss' format");
-            }
         }
 
         private static bool IsEven(short seconds)
