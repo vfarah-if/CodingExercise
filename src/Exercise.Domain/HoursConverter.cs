@@ -4,16 +4,6 @@ namespace Exercise.Domain
 {
     public class HoursConverter
     {
-        private static readonly Lazy<HoursConverter> Lazy = new Lazy<HoursConverter>(() => new HoursConverter());
-
-        static HoursConverter()
-        { }
-
-        private HoursConverter()
-        { }
-
-        public static HoursConverter Instance => Lazy.Value;
-
         public string GetSingleHoursClocks(short hours)
         {
             var max = hours % 5;
