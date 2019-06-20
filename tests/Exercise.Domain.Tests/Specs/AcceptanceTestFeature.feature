@@ -8,4 +8,4 @@ Feature: Coding Exercise
 Scenario: Format hh:mm:ss format to berlin clock format
 			Given 12:56:01 and a berlin clock converter
 			When converting the time
-			Then an expectation should be satisfied outputting '" + expected + "'
+			Then the converted output should be " + Environment.NewLine + "'" + expected + "'

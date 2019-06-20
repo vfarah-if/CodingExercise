@@ -1,9 +1,10 @@
 ﻿using CoreBDD;
 using FluentAssertions;
+using System;
 
 namespace Exercise.Domain.Tests.AcceptanceTests
 {
-    public class BerlinClockShouldShould: AcceptanceTestFeature
+    public class BerlinClockShouldShould : AcceptanceTestFeature
     {
         private BerlinClockConverter _berlinClockConverter;
 
@@ -22,7 +23,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             {
                 actual = _berlinClockConverter.Convert(time);
             });
-            Then($"an expectation should be satisfied outputting '{expected}'", () =>
+            Then($"the converted output should be {Environment.NewLine}'{expected}'", () =>
             {
                 actual.Should().Be(expected);
             });
