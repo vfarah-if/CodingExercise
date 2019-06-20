@@ -84,5 +84,16 @@ namespace Exercise.Domain.Tests.UnitTests
             splitLines.Length.Should().BeGreaterOrEqualTo(6);
             splitLines[6].Should().StartWith(expectedFormat);
         }
+
+        [Theory]
+        [InlineData("12:56:01", "YOOO")]
+        public void ConvertMinutesSecondRowToTheExpectedFormat(string time, string expectedFormat)
+        {
+            var actual = _berlinClockConverter.Convert(time);
+
+            var splitLines = actual.Split(Environment.NewLine);
+            splitLines.Length.Should().BeGreaterOrEqualTo(8);
+            splitLines[8].Should().StartWith(expectedFormat);
+        }
     }
 }
