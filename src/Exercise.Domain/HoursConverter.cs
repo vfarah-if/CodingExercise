@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Exercise.Domain
+﻿namespace Exercise.Domain
 {
     public class HoursConverter
     {

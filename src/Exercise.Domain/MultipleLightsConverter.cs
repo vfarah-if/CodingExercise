@@ -5,7 +5,7 @@ namespace Exercise.Domain
 {
     public class MultipleLightsConverter
     {
-        protected internal const char OffLightChar = 'O';
+        private const char OffLightChar = 'O';
 
         public static string Convert(int max, short numberOfLights, string onLight = RedLight)
         {
