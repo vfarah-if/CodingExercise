@@ -18,12 +18,15 @@ namespace Exercise.Domain
             var seconds = System.Convert.ToInt16(timeParts[2]);
             var hours = System.Convert.ToInt16(timeParts[0]);
             var result = new StringBuilder();
-            result.AppendLine(IsEven(seconds) ? RedLight : OffLight);
-            result.AppendLine();
-            result.AppendLine(GetFirstRow(hours));
-            result.AppendLine();
-            result.AppendLine(GetSecondRow(hours));
+            result.AppendLine(GetTopClock(seconds)).AppendLine();
+            result.AppendLine(GetFirstRow(hours)).AppendLine();
+            result.AppendLine(GetSecondRow(hours)).AppendLine();
             return result.ToString();
+        }
+
+        private static string GetTopClock(short seconds)
+        {
+            return IsEven(seconds) ? RedLight : OffLight;
         }
 
         private string GetSecondRow(short hours)
