@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using CoreBDD;
+﻿using CoreBDD;
 using FluentAssertions;
 
 namespace Exercise.Domain.Tests.AcceptanceTests
@@ -10,7 +8,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
         private BerlinClockConverter _berlinClockConverter;
 
         [Scenario("Format hh:mm:ss format to berlin clock format")]
-        public void ValidateAnyExpectationsThroughTheScenario()
+        public void FormatHHMMSSToACustomBerlinClockFormat()
         {
             string time = null;
             string expected = TestScenarios.ExpectedFormat;
@@ -24,7 +22,7 @@ namespace Exercise.Domain.Tests.AcceptanceTests
             {
                 actual = _berlinClockConverter.Convert(time);
             });
-            Then("an expectation should be satisfied", () =>
+            Then($"an expectation should be satisfied outputting '{expected}'", () =>
             {
                 actual.Should().Be(expected);
             });

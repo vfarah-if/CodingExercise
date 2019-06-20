@@ -6,9 +6,12 @@ namespace Exercise.Domain
 {
     public class BerlinClockConverter
     {
+        private const string YellowLight = "Y";
         private const string OffLightRowOfFour = "OOOO";
+        private const string OffLightRowOfEleven = "OOOOOOOOOOO";
         private const string RedLight = "R";
         private const string OffLight = "O";
+        
 
         public string Convert(string time)
         {
@@ -17,10 +20,23 @@ namespace Exercise.Domain
             var timeParts = time.Split(':');
             var seconds = System.Convert.ToInt16(timeParts[2]);
             var hours = System.Convert.ToInt16(timeParts[0]);
+            var minutes = System.Convert.ToInt16(timeParts[1]);
             var result = new StringBuilder();
             result.AppendLine(GetTopClock(seconds)).AppendLine();
             result.AppendLine(GetFirstRow(hours)).AppendLine();
             result.AppendLine(GetSecondRow(hours)).AppendLine();
+            result.AppendLine(GetThirdRow(minutes)).AppendLine();
+            return result.ToString();
+        }
+
+        private string GetThirdRow(short minutes)
+        {
+            var result = new StringBuilder(OffLightRowOfEleven);
+            for (int i = 0; i < minutes / 5; i++)
+            {
+                result.Replace(OffLight, YellowLight, i, 1);
+            }
+
             return result.ToString();
         }
 

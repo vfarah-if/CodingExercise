@@ -71,6 +71,11 @@ namespace Exercise.Domain.Tests.UnitTests
 
         [Theory]
         [InlineData("12:56:01", "YYYYYYYYYYY")]
+        [InlineData("00:00:00", "OOOOOOOOOOO")]
+        [InlineData("23:59:59", "YYYYYYYYYYY")]
+        [InlineData("12:04:00", "OOOOOOOOOOO")]
+        [InlineData("12:23:00", "YYYYOOOOOOO")]
+        [InlineData("12:35:00", "YYYYYYYOOOO")]
         public void ConvertMinutesFirstRowToTheExpectedFormat(string time, string expectedFormat)
         {
             var actual = _berlinClockConverter.Convert(time);
