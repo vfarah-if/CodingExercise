@@ -26,13 +26,27 @@ namespace Exercise.Domain
             result.AppendLine(GetFirstRow(hours)).AppendLine();
             result.AppendLine(GetSecondRow(hours)).AppendLine();
             result.AppendLine(GetThirdRow(minutes)).AppendLine();
+            result.Append(GetFourthRow(minutes));
+            return result.ToString();
+        }
+
+        private string GetFourthRow(short minutes)
+        {
+            var result = new StringBuilder(OffLightRowOfFour);
+            var max = minutes % 5;
+            for (int i = 0; i < max; i++)
+            {
+                result.Replace(OffLight, YellowLight, i, 1);
+            }
+
             return result.ToString();
         }
 
         private string GetThirdRow(short minutes)
         {
             var result = new StringBuilder(OffLightRowOfEleven);
-            for (int i = 0; i < minutes / 5; i++)
+            var max = minutes / 5;
+            for (int i = 0; i < max; i++)
             {
                 result.Replace(OffLight, YellowLight, i, 1);
             }
@@ -48,7 +62,8 @@ namespace Exercise.Domain
         private string GetSecondRow(short hours)
         {
             var result = new StringBuilder(OffLightRowOfFour);
-            for (int i = 0; i < hours % 5; i++)
+            var max = hours % 5;
+            for (int i = 0; i < max; i++)
             {
                 result.Replace(OffLight, RedLight, i, 1);
             }
@@ -59,7 +74,8 @@ namespace Exercise.Domain
         private string GetFirstRow(short hours)
         {
             var result = new StringBuilder(OffLightRowOfFour);
-            for (int i = 0; i < hours/5; i++)
+            var max = hours/5;
+            for (int i = 0; i < max; i++)
             {
                 result.Replace(OffLight, RedLight, i, 1);
             }
