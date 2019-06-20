@@ -65,9 +65,19 @@ namespace Exercise.Domain.Tests.UnitTests
             var actual = _berlinClockConverter.Convert(time);
 
             var splitLines = actual.Split(Environment.NewLine);
-            splitLines.Length.Should().BeGreaterOrEqualTo(2);
+            splitLines.Length.Should().BeGreaterOrEqualTo(4);
             splitLines[4].Should().StartWith(expectedFormat);
         }
 
+        [Theory]
+        [InlineData("12:56:01", "YYYYYYYYYYY")]
+        public void ConvertMinutesFirstRowToTheExpectedFormat(string time, string expectedFormat)
+        {
+            var actual = _berlinClockConverter.Convert(time);
+
+            var splitLines = actual.Split(Environment.NewLine);
+            splitLines.Length.Should().BeGreaterOrEqualTo(6);
+            splitLines[6].Should().StartWith(expectedFormat);
+        }
     }
 }
