@@ -6,14 +6,14 @@ namespace Exercise.Domain
     {
         public string GetSingleMinutesClocks(short minutes)
         {
-            var max = minutes % 5;
-            return MultipleLightsConverter.Convert(max, 4, YellowLight);
+            var amountOfLightsToSwitchOn = minutes % 5;
+            return MultipleLightsConverter.Convert(amountOfLightsToSwitchOn, 4, YellowLight);
         }
 
         public string GetFiveMinutesClocks(short minutes)
         {
-            var max = minutes / 5;
-            return MultipleLightsConverter.Convert(max, 11, YellowLight);
+            var amountOfLightsToSwitchOn = minutes / 5;
+            return MultipleLightsConverter.Convert(amountOfLightsToSwitchOn, 11, YellowLight);
         }
     }
 }

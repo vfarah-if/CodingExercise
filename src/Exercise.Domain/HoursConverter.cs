@@ -4,14 +4,14 @@
     {
         public string GetSingleHoursClocks(short hours)
         {
-            var max = hours % 5;
-            return MultipleLightsConverter.Convert(max, 4);
+            var amountOfLightsToSwitchOn = hours % 5;
+            return MultipleLightsConverter.Convert(amountOfLightsToSwitchOn, 4);
         }
 
         public string GetFiveHoursClocks(short hours)
         {
-            var max = hours / 5;
-            return MultipleLightsConverter.Convert(max, 4);
+            var amountOfLightsToSwitchOn = hours / 5;
+            return MultipleLightsConverter.Convert(amountOfLightsToSwitchOn, 4);
         }
     }
 }
