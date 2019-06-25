@@ -30,7 +30,7 @@ namespace Exercise.Domain.Bookings
         public DateTime EndDate { get;  }
         public string[] Errors { get; }
 
-        public static BookingStatus NewBookingStatus(
+        public static BookingStatus CreateStatus(
             DateTime startDate,
             DateTime endDate,
             Guid guestId,

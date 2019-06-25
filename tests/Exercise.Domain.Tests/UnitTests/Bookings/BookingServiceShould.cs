@@ -130,7 +130,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 
         private void SetupExistingBookingResponse()
         {
-            var bookingStatus = NewBookingStatus(_checkIn, _checkout, _employeeId, _roomType, _hotelId);
+            var bookingStatus = CreateStatus(_checkIn, _checkout, _employeeId, _roomType, _hotelId);
             _bookingResponse.Add(bookingStatus);
         }
 
