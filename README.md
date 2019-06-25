@@ -195,11 +195,21 @@ This service will interact with the entire stack to produce a booking. Each serv
 
 !["Booking Service Interactions"](HotelBooking.png)
 
+The BookingRepository was responsible for checking for booking overlapse between a certain date and making sure the booking quota was not exceeded. The hotel was responsible for teh hotel existing, the hotel making sure the room type existed and the booking policy service was available to make sure the employee was allowed to book the room.
+
+!["Booking Service and dependencies"](BookingServiceClassDiagram.png)
+
 ### Booking Policy Service
 
 The interaction with employee and company policies is fundamental to the ***Booking Service***.  One can either set an *employee policy*, a *company policy* or **neither of the policies**. The booking will be allowed when the room type is associated with one of the policies or none of the policies.
 
 !["Company Policy Service"](BookingPolicyService.png)
+
+The booking Policy service maintained a company and employee booking pilicy repository and simply maintained this status based on the above sequence.
+
+!["Booking Policy Service"](BookingPolicyServiceClassDiagram.png)
+
+
 
 ### Hotel Service
 
@@ -207,9 +217,25 @@ The **Hotel Service** is responsible for setting *room types* and for *finding a
 
 !["Hotel Service"](HotelService.png)
 
+The hotel repository stored the hotels and the room types that these hotels supported. This could have been seperated to include a roomtype repository, but I felt this could be stored nicely on the hotel along with the quantity of room types.
+
+!["Hotel Service and Dependencies"](HotelServiceClassDiagram.png)
+
 ### Company Service
 
 The **company service** is responsible for companies and the associated employees. The company service is only useful when deleting employees, to interact with the **BookingPolicyService*, other than that, this service is not important.
 
 !["Company Service Sequence Diagram"](CompanyService.png)
+
+*CompanyService* stores company and the employee information. An employee repository could have also been included  but I preferred the idea of storing all that information within the company simplifying setting up company test cases .
+
+!["Company Service and Dependencies"](CompanyServiceClassDiagram.png)
+
+The models are based on a simple Guid entity for generating unique indentifiers and in-memory models that can be uniquely identified and interrogated by any value.
+
+!["Class Models"](ModelClassDiagram.png)
+
+The repositories all inherit from the *InMemoryRepository* base repository for holding lists of data and being able to add, modify or delete a repository
+
+!["Repositories"](RepositoryClassDiagram.png)
 
