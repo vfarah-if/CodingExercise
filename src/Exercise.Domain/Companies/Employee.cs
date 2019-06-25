@@ -10,6 +10,5 @@ namespace Exercise.Domain.Companies
         }
 
         public Guid CompanyId { get; }
-        
     }
 }
