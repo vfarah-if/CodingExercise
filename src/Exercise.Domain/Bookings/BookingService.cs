@@ -1,5 +1,6 @@
 ﻿using Exercise.Domain.Hotels;
 using System;
+using static Exercise.Domain.Bookings.BookingStatus;
 using static Exercise.Domain.ErrorMessages;
 
 namespace Exercise.Domain.Bookings
@@ -36,53 +37,36 @@ namespace Exercise.Domain.Bookings
         public BookingStatus Book(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn, DateTime checkOut)
         {           
             ValidateBookingDates(checkIn, checkOut);
-
-            BookingStatus result = null;
             var hotel = _hotelService.FindHotelBy(hotelId);
-            if (hotel == null)
-            {
-                result = new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: HotelNotFound);
-                _bookingRepository.Add(result);
-                return result;
-            }
+            return AddBooking(
+                VerifyHotelExists(employeeId, hotelId, roomType, checkIn, checkOut, hotel) ??
+                VerifyHotelHasRoomType(employeeId, hotelId, roomType, checkIn, checkOut, hotel) ??
+                VerifyBookingPolicyAllowsBooking(employeeId, hotelId, roomType, checkIn, checkOut) ??
+                VerifyRoomTypeAvailability(employeeId, hotelId, roomType, checkIn, checkOut, hotel) ?? 
+                CreateStatus(checkIn, checkOut, employeeId, roomType: roomType, hotelId: hotel.Id));
+        }
 
-            result = VerifyHotelHasRoomType(employeeId, hotelId, roomType, checkIn, checkOut, hotel);
-            if (result != null)
-            {
-                _bookingRepository.Add(result);
-                return result;
-            }
+        private BookingStatus VerifyHotelExists(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn,
+            DateTime checkOut, Hotel hotel)
+        {
+            return hotel == null
+                ? CreateStatus(checkIn, checkOut, employeeId, roomType: roomType, hotelId: hotelId, errors: HotelNotFound)
+                : null;
+        }
 
-            result = VerifyBookingPolicyAllowsBooking(employeeId, hotelId, roomType, checkIn, checkOut);
-            if (result != null)
-            {
-                _bookingRepository.Add(result);
-                return result;
-            }
-
-            result = VerifyRoomTypeAvailability(employeeId, hotelId, roomType, checkIn, checkOut, hotel);
-            if (result != null)
-            {
-                _bookingRepository.Add(result);
-                return result;
-            }
-
-            result = new BookingStatus(checkIn, checkOut, employeeId, roomType, hotel.Id);
-            _bookingRepository.Add(result);
-            return result;
+        private BookingStatus AddBooking(BookingStatus status)
+        {
+            _bookingRepository.Add(status);
+            return status;
         }
 
         private BookingStatus VerifyBookingPolicyAllowsBooking(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn,
             DateTime checkOut)
         {
             var isBookingAllowed = _bookingPolicyService.IsBookingAllowed(employeeId, roomType);
-            if (!isBookingAllowed)
-            {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType,
-                    hotelId: hotelId, errors: BookingPolicyRejection);
-            }
-
-            return null;
+            return !isBookingAllowed
+                ? CreateStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: BookingPolicyRejection)
+                : null;
         }
 
         private BookingStatus VerifyRoomTypeAvailability(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn,
@@ -91,40 +75,26 @@ namespace Exercise.Domain.Bookings
             var bookedRooms = _bookingRepository.BookingsBetween(checkIn, checkOut, roomType);
             var quantity = hotel.QuantityOfRooms(roomType);
             var availableRooms = quantity - bookedRooms.Count;
-            if (availableRooms < 1)
-            {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType,
-                    hotelId: hotelId,
-                    errors: $"The hotel has '{bookedRooms.Count}' booked rooms and no available rooms.");
-            }
-
-            return null;
+            return availableRooms < 1
+                ? CreateStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId,
+                    errors: $"The hotel has '{bookedRooms.Count}' booked rooms and no available rooms.")
+                : null;
         }
 
         private static BookingStatus VerifyHotelHasRoomType(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn,
             DateTime checkOut, Hotel hotel)
         {
             var doesHotelHaveRoomType = hotel.HasRoomType(roomType);
-            if (!doesHotelHaveRoomType)
-            {
-                return new BookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType,
-                    hotelId: hotelId, errors: $"Room type '{roomType}' does not exist within hotel '{hotelId}'.");
-            }
-
-            return null;
+            return !doesHotelHaveRoomType
+                ? CreateStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType,
+                    hotelId: hotelId, errors: $"Room type '{roomType}' does not exist within hotel '{hotelId}'.")
+                : null;
         }
 
         private static void ValidateBookingDates(DateTime checkIn, DateTime checkOut)
         {
-            if (checkOut <= checkIn)
-            {
-                throw new NotSupportedException(CheckoutLessThanCheckinDate);
-            }
-
-            if (checkOut.Subtract(checkIn).Days < OneDay)
-            {
-                throw new NotSupportedException(CheckoutMustBeGreaterAndEqualToADay);
-            }
+            if (checkOut <= checkIn) throw new NotSupportedException(CheckoutLessThanCheckinDate);
+            if (checkOut.Subtract(checkIn).Days < OneDay) throw new NotSupportedException(CheckoutMustBeGreaterAndEqualToADay);
         }
     }
 }

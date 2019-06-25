@@ -29,5 +29,17 @@ namespace Exercise.Domain.Bookings
         public DateTime StartDate { get; }
         public DateTime EndDate { get;  }
         public string[] Errors { get; }
+
+        public static BookingStatus CreateStatus(
+            DateTime startDate,
+            DateTime endDate,
+            Guid guestId,
+            Guid roomType,
+            Guid hotelId,
+            Guid? id = null,
+            params string[] errors)
+        {
+            return new BookingStatus(startDate, endDate, guestId, roomType, hotelId, id, errors);
+        }
     }
 }
