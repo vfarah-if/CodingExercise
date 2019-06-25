@@ -19,7 +19,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         [Fact]
         public void AddABookingStatusRepository()
         {
-            BookingStatus bookingStatus = CreateStatus(
+            BookingStatus bookingStatus = NewBookingStatus(
                 startDate: DateTime.Now, endDate: DateTime.Now.AddDays(2), 
                 guestId: Guid.NewGuid(), roomType: Guid.NewGuid(), hotelId: Guid.NewGuid());
 
@@ -32,10 +32,10 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         public void FindTwoBookingsBetweenACertainDateWhenTheyOverlap()
         {
             Guid roomType = Guid.NewGuid();
-            BookingStatus bookingStatus = CreateStatus(
+            BookingStatus bookingStatus = NewBookingStatus(
                 startDate: DateTime.Now, endDate: DateTime.Now.AddDays(2),
                 guestId: Guid.NewGuid(), roomType:roomType, hotelId: Guid.NewGuid());
-            BookingStatus overlappedBookingStatus = CreateStatus(
+            BookingStatus overlappedBookingStatus = NewBookingStatus(
                 startDate: DateTime.Now.AddDays(1), endDate: DateTime.Now.AddDays(3),
                 guestId: Guid.NewGuid(), roomType: roomType, hotelId: Guid.NewGuid());
             _bookingRepository.Add(bookingStatus);
@@ -50,10 +50,10 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         public void FindOneBookingsBetweenACertainDateWhenThereIsNoOverlap()
         {
             Guid roomType = Guid.NewGuid();
-            BookingStatus bookingStatus = CreateStatus(
+            BookingStatus bookingStatus = NewBookingStatus(
                 startDate: DateTime.Now, endDate: DateTime.Now.AddDays(2),
                 guestId: Guid.NewGuid(), roomType: roomType, hotelId: Guid.NewGuid());
-            BookingStatus overlappedBookingStatus = CreateStatus(
+            BookingStatus overlappedBookingStatus = NewBookingStatus(
                 startDate: DateTime.Now.AddDays(2), endDate: DateTime.Now.AddDays(3),
                 guestId: Guid.NewGuid(), roomType: roomType, hotelId: Guid.NewGuid());
             _bookingRepository.Add(bookingStatus);

@@ -43,14 +43,14 @@ namespace Exercise.Domain.Bookings
                 VerifyHotelHasRoomType(employeeId, hotelId, roomType, checkIn, checkOut, hotel) ??
                 VerifyBookingPolicyAllowsBooking(employeeId, hotelId, roomType, checkIn, checkOut) ??
                 VerifyRoomTypeAvailability(employeeId, hotelId, roomType, checkIn, checkOut, hotel) ?? 
-                CreateStatus(checkIn, checkOut, employeeId, roomType: roomType, hotelId: hotel.Id));
+                NewBookingStatus(checkIn, checkOut, employeeId, roomType: roomType, hotelId: hotel.Id));
         }
 
         private BookingStatus VerifyHotelExists(Guid employeeId, Guid hotelId, Guid roomType, DateTime checkIn,
             DateTime checkOut, Hotel hotel)
         {
             return hotel == null
-                ? CreateStatus(checkIn, checkOut, employeeId, roomType: roomType, hotelId: hotelId, errors: HotelNotFound)
+                ? NewBookingStatus(checkIn, checkOut, employeeId, roomType: roomType, hotelId: hotelId, errors: HotelNotFound)
                 : null;
         }
 
@@ -65,7 +65,7 @@ namespace Exercise.Domain.Bookings
         {
             var isBookingAllowed = _bookingPolicyService.IsBookingAllowed(employeeId, roomType);
             return !isBookingAllowed
-                ? CreateStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: BookingPolicyRejection)
+                ? NewBookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId, errors: BookingPolicyRejection)
                 : null;
         }
 
@@ -76,7 +76,7 @@ namespace Exercise.Domain.Bookings
             var quantity = hotel.QuantityOfRooms(roomType);
             var availableRooms = quantity - bookedRooms.Count;
             return availableRooms < 1
-                ? CreateStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId,
+                ? NewBookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType, hotelId: hotelId,
                     errors: $"The hotel has '{bookedRooms.Count}' booked rooms and no available rooms.")
                 : null;
         }
@@ -86,7 +86,7 @@ namespace Exercise.Domain.Bookings
         {
             var doesHotelHaveRoomType = hotel.HasRoomType(roomType);
             return !doesHotelHaveRoomType
-                ? CreateStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType,
+                ? NewBookingStatus(startDate: checkIn, endDate: checkOut, guestId: employeeId, roomType: roomType,
                     hotelId: hotelId, errors: $"Room type '{roomType}' does not exist within hotel '{hotelId}'.")
                 : null;
         }

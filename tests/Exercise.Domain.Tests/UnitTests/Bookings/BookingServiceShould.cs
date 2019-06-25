@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using static System.Guid;
 using static Exercise.Domain.Bookings.BookingStatus;
 
 namespace Exercise.Domain.Tests.UnitTests.Bookings
@@ -29,6 +30,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         {
             _checkIn = DateTime.Now;
             _checkout = DateTime.Now.AddDays(1);
+            _employeeId = NewGuid();
 
             SetupBookingPolicyAllowingBooking();
 
@@ -82,7 +84,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         [Fact]
         public void NotAllowBookingWhenHotelDoesNotSupportRoomType()
         {
-            Guid nonExistentRoomType = Guid.NewGuid();
+            Guid nonExistentRoomType = NewGuid();
             var actual = _bookingService.Book(_employeeId, _hotelId, nonExistentRoomType, _checkIn, _checkout);
 
             actual.IsBooked.Should().BeFalse();
@@ -128,15 +130,15 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 
         private void SetupExistingBookingResponse()
         {
-            var bookingStatus = CreateStatus(_checkIn, _checkout, _employeeId, _roomType, _hotelId);
+            var bookingStatus = NewBookingStatus(_checkIn, _checkout, _employeeId, _roomType, _hotelId);
             _bookingResponse.Add(bookingStatus);
         }
 
         private void SetupHotelWithOneRoomType()
         {
             _hotelServiceMock = new Mock<IHotelService>();
-            _hotelId = Guid.NewGuid();
-            _roomType = Guid.NewGuid();
+            _hotelId = NewGuid();
+            _roomType = NewGuid();
             _hotelExistsResponse = new Hotel(_hotelId);
             _hotelExistsResponse.AddRoomType(_roomType, 1);
             _hotelServiceMock
