@@ -38,7 +38,7 @@ namespace Exercise.Domain.Bookings
         {           
             ValidateBookingDates(checkIn, checkOut);
             var hotel = _hotelService.FindHotelBy(hotelId);
-            return AddBooking(
+            return AddBooking(status: 
                 VerifyHotelExists(employeeId, hotelId, roomType, checkIn, checkOut, hotel) ??
                 VerifyHotelHasRoomType(employeeId, hotelId, roomType, checkIn, checkOut, hotel) ??
                 VerifyBookingPolicyAllowsBooking(employeeId, hotelId, roomType, checkIn, checkOut) ??
@@ -93,8 +93,18 @@ namespace Exercise.Domain.Bookings
 
         private static void ValidateBookingDates(DateTime checkIn, DateTime checkOut)
         {
-            if (checkOut <= checkIn) throw new NotSupportedException(CheckoutLessThanCheckinDate);
-            if (checkOut.Subtract(checkIn).Days < OneDay) throw new NotSupportedException(CheckoutMustBeGreaterAndEqualToADay);
+            if (IsCheckoutBeforeOrEqualToCheckin(checkIn, checkOut)) throw new NotSupportedException(CheckoutLessThanCheckinDate);
+            if (IsCheckoutLessThanADay(checkIn, checkOut)) throw new NotSupportedException(CheckoutMustBeGreaterAndEqualToADay);
+        }
+
+        private static bool IsCheckoutLessThanADay(DateTime checkIn, DateTime checkOut)
+        {
+            return checkOut.Subtract(checkIn).Days < OneDay;
+        }
+
+        private static bool IsCheckoutBeforeOrEqualToCheckin(DateTime checkIn, DateTime checkOut)
+        {
+            return checkOut <= checkIn;
         }
     }
 }

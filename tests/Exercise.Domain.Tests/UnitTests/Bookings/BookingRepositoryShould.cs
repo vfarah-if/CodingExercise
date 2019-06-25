@@ -3,6 +3,7 @@ using System.Linq;
 using Exercise.Domain.Bookings;
 using FluentAssertions;
 using Xunit;
+using static Exercise.Domain.Bookings.BookingStatus;
 
 namespace Exercise.Domain.Tests.UnitTests.Bookings
 {
@@ -18,7 +19,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         [Fact]
         public void AddABookingStatusRepository()
         {
-            BookingStatus bookingStatus = new BookingStatus(
+            BookingStatus bookingStatus = CreateStatus(
                 startDate: DateTime.Now, endDate: DateTime.Now.AddDays(2), 
                 guestId: Guid.NewGuid(), roomType: Guid.NewGuid(), hotelId: Guid.NewGuid());
 
@@ -31,10 +32,10 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         public void FindTwoBookingsBetweenACertainDateWhenTheyOverlap()
         {
             Guid roomType = Guid.NewGuid();
-            BookingStatus bookingStatus = new BookingStatus(
+            BookingStatus bookingStatus = CreateStatus(
                 startDate: DateTime.Now, endDate: DateTime.Now.AddDays(2),
                 guestId: Guid.NewGuid(), roomType:roomType, hotelId: Guid.NewGuid());
-            BookingStatus overlappedBookingStatus = new BookingStatus(
+            BookingStatus overlappedBookingStatus = CreateStatus(
                 startDate: DateTime.Now.AddDays(1), endDate: DateTime.Now.AddDays(3),
                 guestId: Guid.NewGuid(), roomType: roomType, hotelId: Guid.NewGuid());
             _bookingRepository.Add(bookingStatus);
@@ -49,10 +50,10 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         public void FindOneBookingsBetweenACertainDateWhenThereIsNoOverlap()
         {
             Guid roomType = Guid.NewGuid();
-            BookingStatus bookingStatus = new BookingStatus(
+            BookingStatus bookingStatus = CreateStatus(
                 startDate: DateTime.Now, endDate: DateTime.Now.AddDays(2),
                 guestId: Guid.NewGuid(), roomType: roomType, hotelId: Guid.NewGuid());
-            BookingStatus overlappedBookingStatus = new BookingStatus(
+            BookingStatus overlappedBookingStatus = CreateStatus(
                 startDate: DateTime.Now.AddDays(2), endDate: DateTime.Now.AddDays(3),
                 guestId: Guid.NewGuid(), roomType: roomType, hotelId: Guid.NewGuid());
             _bookingRepository.Add(bookingStatus);

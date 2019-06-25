@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using static Exercise.Domain.Bookings.BookingStatus;
 
 namespace Exercise.Domain.Tests.UnitTests.Bookings
 {
@@ -19,8 +20,8 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         private Guid _hotelId;
         private Guid _roomType;
         private Hotel _hotelExistsResponse;
-        private DateTime _checkIn;
-        private DateTime _checkout;
+        private readonly DateTime _checkIn;
+        private readonly DateTime _checkout;
         private bool _isBookingAllowedResponse;
         private List<BookingStatus> _bookingResponse;
 
@@ -105,9 +106,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
         [Fact]
         public void NotAllowAnEmployeeToBookWhenTheRoomTypeIsFullyBooked()
         {
-            // Setup that a booking already exists using the full quota
-            var bookingStatus = new BookingStatus(_checkIn, _checkout, _employeeId, _roomType, _hotelId);
-            _bookingResponse.Add(bookingStatus);
+            SetupExistingBookingResponse();
 
             var actual = _bookingService.Book(_employeeId, _hotelId, _roomType, _checkIn, _checkout);
 
@@ -117,6 +116,7 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
             _bookingRepository.Verify(x => x.Add(actual), Times.Once);
         }
 
+
         [Fact]
         public void BookAHotelWhenAHotelAndRoomTypeExistsWithNoBookingConflicts()
         {
@@ -124,6 +124,12 @@ namespace Exercise.Domain.Tests.UnitTests.Bookings
 
             actual.IsBooked.Should().BeTrue();
             _bookingRepository.Verify(x => x.Add(actual), Times.Once);
+        }
+
+        private void SetupExistingBookingResponse()
+        {
+            var bookingStatus = CreateStatus(_checkIn, _checkout, _employeeId, _roomType, _hotelId);
+            _bookingResponse.Add(bookingStatus);
         }
 
         private void SetupHotelWithOneRoomType()
