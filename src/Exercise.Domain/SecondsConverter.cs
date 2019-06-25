@@ -4,9 +4,9 @@ namespace Exercise.Domain
 {
     public class SecondsConverter
     {
-        public string GetSecondsClock(short seconds)
+        public string GetSecondsClock(short seconds, string onLight = RedLight)
         {
-            return IsEven(seconds) ? RedLight : OffLight;
+            return IsEven(seconds) ? onLight : OffLight;
         }
 
         private static bool IsEven(short seconds)

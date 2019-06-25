@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Exercise.Domain.BerlinClockConverter">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAACAAAAAACAACAAAAAAA=</HashCode>
+      <FileName>BerlinClockConverter.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="HoursConverter" />
+      <Field Name="SecondsConverter" />
+      <Field Name="MinutesConverter" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Exercise.Domain.HoursConverter">
+    <Position X="4.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HoursConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.MinutesConverter">
+    <Position X="4.75" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MinutesConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.SecondsConverter">
+    <Position X="4.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SecondsConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.MultipleLightsConfigurer">
+    <Position X="7.75" Y="1.25" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>MultipleLightsConfigurer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="8.83" />
+</ClassDiagram>
