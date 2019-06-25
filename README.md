@@ -195,7 +195,7 @@ This service will interact with the entire stack to produce a booking. Each serv
 
 !["Booking Service Interactions"](HotelBooking.png)
 
-The BookingRepository was responsible for checking for booking overlapse between a certain date and making sure the booking quota was not exceeded. The hotel was responsible for teh hotel existing, the hotel making sure the room type existed and the booking policy service was available to make sure the employee was allowed to book the room.
+The *BookingRepository* was responsible for checking for booking overlaps between a certain date and making sure the booking quota was not exceeded. The hotel was responsible for the hotel existing, the hotel making sure the room type existed and the booking policy service was available to make sure the employee was allowed to book the room.
 
 !["Booking Service and dependencies"](BookingServiceClassDiagram.png)
 
@@ -205,11 +205,9 @@ The interaction with employee and company policies is fundamental to the ***Book
 
 !["Company Policy Service"](BookingPolicyService.png)
 
-The booking Policy service maintained a company and employee booking pilicy repository and simply maintained this status based on the above sequence.
+The Booking Policy service maintained a company and employee booking policy repository and simply maintained this status based on the above sequence.
 
 !["Booking Policy Service"](BookingPolicyServiceClassDiagram.png)
-
-
 
 ### Hotel Service
 
@@ -231,11 +229,10 @@ The **company service** is responsible for companies and the associated employee
 
 !["Company Service and Dependencies"](CompanyServiceClassDiagram.png)
 
-The models are based on a simple Guid entity for generating unique indentifiers and in-memory models that can be uniquely identified and interrogated by any value.
+The models are based on a simple Guid entity for generating unique identifiers and in-memory models that can be uniquely identified and interrogated by any value.
 
 !["Class Models"](ModelClassDiagram.png)
 
 The repositories all inherit from the *InMemoryRepository* base repository for holding lists of data and being able to add, modify or delete a repository
 
 !["Repositories"](RepositoryClassDiagram.png)
-
