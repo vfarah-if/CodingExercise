@@ -1,4 +1,7 @@
 ﻿using System.Text;
+using static Exercise.Domain.Hours;
+using static Exercise.Domain.Minutes;
+using static Exercise.Domain.Seconds;
 
 namespace Exercise.Domain
 {
@@ -27,11 +30,17 @@ namespace Exercise.Domain
         {
             var timeParts = TimeParts.Parse(time);
             var result = new StringBuilder();
-            result.AppendLine(SecondsConverter.GetSecondsClock(timeParts.Seconds)).AppendLine();
-            result.AppendLine(HoursConverter.GetFiveHoursClocks(timeParts.Hours)).AppendLine();
-            result.AppendLine(HoursConverter.GetSingleHoursClocks(timeParts.Hours)).AppendLine();
-            result.AppendLine(MinutesConverter.GetFiveMinutesClocks(timeParts.Minutes)).AppendLine();
-            result.Append(MinutesConverter.GetSingleMinutesClocks(timeParts.Minutes));
+//          // Procedural Solution
+//          result.AppendLine(SecondsConverter.GetSecondsClock(timeParts.Seconds)).AppendLine();
+//          result.AppendLine(HoursConverter.GetFiveHoursClocks(timeParts.Hours)).AppendLine();
+//          result.AppendLine(HoursConverter.GetSingleHoursClocks(timeParts.Hours)).AppendLine();
+//          result.AppendLine(MinutesConverter.GetFiveMinutesClocks(timeParts.Minutes)).AppendLine();
+//          result.Append(MinutesConverter.GetSingleMinutesClocks(timeParts.Minutes));
+            
+            // Object Oriented Solution
+            result.Append(NewSeconds(timeParts.Seconds));
+            result.Append(NewHours(timeParts.Hours));
+            result.Append(NewMinutes(timeParts.Minutes));
             return result.ToString();
         }
     }

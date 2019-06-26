@@ -1,7 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Object Oriented Solution">
+    <Position X="9.449" Y="0.5" Height="0.344" Width="1.615" />
+  </Comment>
+  <Comment CommentText="Procedural Solution">
+    <Position X="3.047" Y="0.5" Height="0.344" Width="1.615" />
+  </Comment>
   <Class Name="Exercise.Domain.BerlinClockConverter">
-    <Position X="0.5" Y="0.5" Width="2.5" />
+    <Position X="0.5" Y="2.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAACAAAAAACAACAAAAAAA=</HashCode>
       <FileName>BerlinClockConverter.cs</FileName>
@@ -13,34 +19,68 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Exercise.Domain.HoursConverter">
-    <Position X="4.75" Y="0.5" Width="1.75" />
+    <Position X="4.5" Y="1.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>HoursConverter.cs</FileName>
+      <FileName>Procedural\HoursConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Exercise.Domain.MinutesConverter">
-    <Position X="4.75" Y="2" Width="2" />
+    <Position X="4.5" Y="3" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>MinutesConverter.cs</FileName>
+      <FileName>Procedural\MinutesConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Exercise.Domain.SecondsConverter">
-    <Position X="4.75" Y="3.5" Width="1.5" />
+    <Position X="4.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SecondsConverter.cs</FileName>
+      <FileName>Procedural\SecondsConverter.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Exercise.Domain.MultipleLightsConfigurer">
-    <Position X="7.75" Y="1.25" Width="2" />
+  <Class Name="Exercise.Domain.Hours">
+    <Position X="11.25" Y="3.75" Width="1.75" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAgAAAAAAAAAAA=</HashCode>
-      <FileName>MultipleLightsConfigurer.cs</FileName>
+      <HashCode>AAAAAAACAAAAQEAEAAAAAAgEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectOriented\Hours.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.Minutes">
+    <Position X="9" Y="3.75" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAKAAAAAAAEAAAAAAAAAAAAAAAAAAAAACAAAgA=</HashCode>
+      <FileName>ObjectOriented\Minutes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.Seconds">
+    <Position X="7.25" Y="3.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>gAAAAAACAAAAAAAEAAAAAAAAAAAAAAAAAAAAACCAAAA=</HashCode>
+      <FileName>ObjectOriented\Seconds.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.TimePart">
+    <Position X="9.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAACAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectOriented\TimePart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.MultipleLightsBuilder">
+    <Position X="1.5" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Procedural\MultipleLightsBuilder.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="8.83" />

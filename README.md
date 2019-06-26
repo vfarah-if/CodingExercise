@@ -51,8 +51,33 @@ YYYYYYYYYYY
 
 YOOO
 
-
 ## Credits
 Based on:
 http://agilekatas.co.uk/katas/BerlinClock-Kata
 https://www.codewars.com/kata/berlin-clock
+
+# **Solution**
+
+I chose to solve it in two ways for point of discussion. The initial test driven mechanism had all the code within the *BerlinConverter* class. After refactoring, managed to generate a *TimeParts* parser that would be responsible for extracting and  validating the time passed in to the converter. Refactoring the actual converter time parts fairly easy using *Resharper*, however structuring where methods live and how the classes behave was a little trickier. The logic is fairly simple to understand:
+
+| Time part | Light Count | Calculation                                 |
+| :-------: | ----------- | ------------------------------------------- |
+|   Hours   | 4           | NumberOfLightsOn = hours / (20/4 or 5)      |
+|   Hours   | 4           | NumberOfLightsOn= hours mod (20/4 or 5)     |
+|  Minutes  | 11          | NumberOfLightsOn= minutes / (55/11 or 5)    |
+|  Minutes  | 4           | NumberOfLightsOn = minutes mod (55/11 or 5) |
+|  Seconds  | 1           | NumberOfLightsOn = seconds mod 2 ? 1 : 0    |
+
+ 
+
+## Procedural solution
+
+Extracting a converter into simple classes was the simplest way to extract the methods out of the overloaded *BerlinConverter* class. So logically I could easily create three converters to represent the hours, minutes and seconds. Once I had three converters, I could extract two common patterns occurring within the hours and minutes into a common class and the rest could be simple methods off of each converter. In the end, this seemed to be the most simple way to refactor code into logical classes.
+
+!["Converters"](procedural-solution.png)
+
+## Object oriented solution 
+
+This needed a little more thought up front. Extracting the logic time parts was straight forward. The base class had to express the polymorphic nature of each time part in a generic way. So two common things came out of this, each time part would be responsible for turning lights on and off for each row. In the end this seemed to be the most  elegant solution so I left the kata with this solution.
+
+!["OO solution"](object-oriented-solution.png)
