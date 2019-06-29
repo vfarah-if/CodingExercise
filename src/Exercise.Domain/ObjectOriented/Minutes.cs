@@ -4,16 +4,8 @@ namespace Exercise.Domain
 {
     public class Minutes: TimePart
     {
-        private readonly short _minutes;
-
-        public Minutes(short minutes)
+        public Minutes(short minutes): base(minutes)
         {
-            _minutes = minutes;
-        }
-
-        public override string ToString()
-        {
-            return GetLights(_minutes);
         }
 
         protected override string GetLights(short unit)
@@ -46,6 +38,5 @@ namespace Exercise.Domain
         {
             return new Minutes(minutes);
         }
-
     }
 }

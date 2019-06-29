@@ -4,17 +4,8 @@ namespace Exercise.Domain
 {
     public class Seconds : TimePart
     {
-        private readonly short _seconds;
-
-        public Seconds(short seconds)
-        {
-            _seconds = seconds;
-        }
-
-        public override string ToString()
-        {
-            return GetLights(_seconds);
-        }
+        public Seconds(short seconds): base(seconds)
+        { }
 
         protected override string GetLights(short unit)
         {

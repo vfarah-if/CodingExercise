@@ -4,16 +4,9 @@ namespace Exercise.Domain
 {
     public class Hours: TimePart
     {
-        private readonly short _hours;
-
         public Hours(short hours)
+            :base(hours)
         {
-            _hours = hours;
-        }
-
-        public override string ToString()
-        {
-            return GetLights(_hours);
         }
 
         protected override string GetLights(short unit)

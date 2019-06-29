@@ -45,7 +45,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAACAAAAQEAEAAAAAAgEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAACAAAAQEAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ObjectOriented\Hours.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -55,7 +55,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAKAAAAAAAEAAAAAAAAAAAAAAAAAAAAACAAAgA=</HashCode>
+      <HashCode>AAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAgA=</HashCode>
       <FileName>ObjectOriented\Minutes.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -65,14 +65,14 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>gAAAAAACAAAAAAAEAAAAAAAAAAAAAAAAAAAAACCAAAA=</HashCode>
+      <HashCode>gAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAA=</HashCode>
       <FileName>ObjectOriented\Seconds.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Exercise.Domain.TimePart">
     <Position X="9.25" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAAAACAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEAAAAACAAAAAAAEIAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ObjectOriented\TimePart.cs</FileName>
     </TypeIdentifier>
   </Class>
