@@ -5,8 +5,7 @@ namespace Exercise.Domain
     public class Minutes: TimePart
     {
         public Minutes(short minutes): base(minutes)
-        {
-        }
+        {}
 
         protected override string GetLights(short unit)
         {

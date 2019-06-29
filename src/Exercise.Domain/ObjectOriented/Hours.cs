@@ -6,8 +6,7 @@ namespace Exercise.Domain
     {
         public Hours(short hours)
             :base(hours)
-        {
-        }
+        {}
 
         protected override string GetLights(short unit)
         {
