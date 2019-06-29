@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="HotelServiceClassDiagram.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="ErrorMessages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
