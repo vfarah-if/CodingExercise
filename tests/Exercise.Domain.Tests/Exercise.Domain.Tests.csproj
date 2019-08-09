@@ -24,4 +24,19 @@
     <ProjectReference Include="..\..\src\Exercise.Domain\Exercise.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="AcceptanceTests\TestScenarios.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TestScenarios.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="AcceptanceTests\TestScenarios.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestScenarios.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
