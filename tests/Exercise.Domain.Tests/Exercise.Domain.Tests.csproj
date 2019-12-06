@@ -24,4 +24,10 @@
     <ProjectReference Include="..\..\src\Exercise.Domain\Exercise.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestData\Table of Contents.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
