@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using FluentAssertions;
 using Xunit;
 
@@ -12,7 +13,7 @@ namespace Exercise.Domain.Tests.UnitTests
         public void ExtractPDFDataAsPlainText()
         {
             ruleBookPDFParsor = new RuleBookPDFParsor();
-            string testFile = "TestData/Table of Contents.pdf";
+            string testFile = Path.Combine(Environment.CurrentDirectory,"TestData\\Table of Contents.pdf");
             var result = ruleBookPDFParsor.Parse(testFile);
             result.Should().NotBeNullOrEmpty();
         }
