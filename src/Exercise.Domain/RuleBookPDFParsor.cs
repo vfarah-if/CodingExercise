@@ -13,6 +13,7 @@ namespace Exercise.Domain
             }
 
             var pdfDocument = new PdfDocument(pdfFilePath);
+
             return pdfDocument.ExtractAllText();
         }
     }
