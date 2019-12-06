@@ -10,11 +10,11 @@ namespace Exercise.Domain.Tests.UnitTests
         private RuleBookPDFParsor ruleBookPDFParsor;
 
         [Fact]
-        public void ExtractPDFDataAsPlainText()
+        public void ExtractPDFDataAsHtmlInorderToParseContentIntoKnownModel()
         {
             ruleBookPDFParsor = new RuleBookPDFParsor();
             string testFile = Path.Combine(Environment.CurrentDirectory,"TestData\\Table of Contents.pdf");
-            var result = ruleBookPDFParsor.Parse(testFile);
+            var result = ruleBookPDFParsor.ToHtml(testFile);
             result.Should().NotBeNullOrEmpty();
         }
     }

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IronPdf" Version="2019.8.9" />
+    <PackageReference Include="sautinsoft.pdffocus" Version="7.1.9.17" />
   </ItemGroup>
 
 </Project>

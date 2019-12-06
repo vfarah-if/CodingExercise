@@ -1,20 +1,20 @@
 ﻿using System.IO;
-using IronPdf;
+using SautinSoft;
 
 namespace Exercise.Domain
 {
     public class RuleBookPDFParsor
     {
-        public string Parse(string pdfFilePath)
+        public string ToHtml(string pdfFilePath)
         {
             if (!File.Exists(pdfFilePath))
             {
                 throw new FileNotFoundException("Unable to locate Rulebook", pdfFilePath);
             }
 
-            var pdfDocument = new PdfDocument(pdfFilePath);
-
-            return pdfDocument.ExtractAllText();
+            var pdfFocus = new PdfFocus();
+            pdfFocus.OpenPdf(pdfFilePath);
+            return pdfFocus.ToHtml();
         }
     }
 }
