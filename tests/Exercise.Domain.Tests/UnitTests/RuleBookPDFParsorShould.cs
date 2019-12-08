@@ -7,7 +7,9 @@ namespace Exercise.Domain.Tests.UnitTests
 {
     public class RuleBookPDFParsorShould
     {
-        private const string tableOfContentsPdfPath = "TestData\\Table of Contents.pdf";
+        private const string tableOfContentsPdfRelativePath = @"TestData\Table of Contents.pdf";
+        private const string linkSamplePdfRelativePath = @"TestData\LinkSample.pdf";
+
         private RuleBookPDFParsor ruleBookPDFParsor;
 
         public RuleBookPDFParsorShould()
@@ -18,7 +20,17 @@ namespace Exercise.Domain.Tests.UnitTests
         [Fact]
         public void ExtractPDFDataAsHtml()
         {
-            string testFile = Path.Combine(Environment.CurrentDirectory, tableOfContentsPdfPath);
+            string testFile = GetFullPdfFilePath(tableOfContentsPdfRelativePath);
+
+            var result = ruleBookPDFParsor.ToHtml(testFile);
+
+            result.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public void ExtractPDFDataAsHtmlWithLinksWorking()
+        {
+            string testFile = GetFullPdfFilePath(linkSamplePdfRelativePath);
 
             var result = ruleBookPDFParsor.ToHtml(testFile);
 
@@ -28,7 +40,7 @@ namespace Exercise.Domain.Tests.UnitTests
         [Fact]
         public void ExtractPDFDataAsText()
         {
-            string testFile = Path.Combine(Environment.CurrentDirectory, tableOfContentsPdfPath);
+            string testFile = GetFullPdfFilePath(tableOfContentsPdfRelativePath);
 
             var result = ruleBookPDFParsor.ToText(testFile);
 
@@ -38,7 +50,17 @@ namespace Exercise.Domain.Tests.UnitTests
         [Fact]
         public void ExtractPDFDataAsXml()
         {
-            string testFile = Path.Combine(Environment.CurrentDirectory, tableOfContentsPdfPath);
+            string testFile = GetFullPdfFilePath(tableOfContentsPdfRelativePath);
+
+            var result = ruleBookPDFParsor.ToXml(testFile);
+
+            result.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact]
+        public void ExtractPDFDataAsXmlWithLinksWorking()
+        {
+            string testFile = GetFullPdfFilePath(linkSamplePdfRelativePath);
 
             var result = ruleBookPDFParsor.ToXml(testFile);
 
@@ -48,11 +70,16 @@ namespace Exercise.Domain.Tests.UnitTests
         [Fact]
         public void ExtractPDFDataAsWordText()
         {
-            string testFile = Path.Combine(Environment.CurrentDirectory, tableOfContentsPdfPath);
+            string testFile = GetFullPdfFilePath(tableOfContentsPdfRelativePath);
 
             var result = ruleBookPDFParsor.ToWordAsString(testFile);
 
             result.Should().NotBeNullOrEmpty();
+        }
+
+        private static string GetFullPdfFilePath(string relativeFilePath)
+        {
+            return Path.Combine(Environment.CurrentDirectory, relativeFilePath);
         }
     }
 }

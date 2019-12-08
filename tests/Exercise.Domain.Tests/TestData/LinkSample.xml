@@ -1,0 +1,100 @@
+﻿<document>
+  <page>
+    <table rows="9" cols="5">
+      <row>
+        <cell colspan="5">XSL FO Sample Copyright © 2002-2005 Antenna House, Inc. All rights reserved.</cell>
+      </row>
+      <row>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell>Links</cell>
+        <cell />
+        <cell>in</cell>
+        <cell />
+        <cell>PDF</cell>
+      </row>
+      <row>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell colspan="5">PDF link is classified into two parts, link to the specified position in the PDF document, and link to the external document. The internal-destination property of fo:basic-link indicates to link to the position in the same document. The external- destination property indicates to link to external document. Below shows the example.</cell>
+      </row>
+      <row>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell colspan="5">Example of a link to internal destination Refer to Purchasing Assistance to get more information.</cell>
+      </row>
+      <row>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell colspan="5">Example of a link to external destination Refer to Purchasing Assistance to get more information.</cell>
+      </row>
+    </table>
+  </page>
+  <page>
+    <table rows="19" cols="3">
+      <row>
+        <cell colspan="3">XSL FO Sample Copyright © 2002-2005 Antenna House, Inc. All rights reserved.</cell>
+      </row>
+      <row>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell>Purchasing</cell>
+        <cell />
+        <cell>Assistance</cell>
+      </row>
+      <row>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">If you are end user who wishes to use XSL Formatter yourself, you may purchase from our Reseller or direct from Antenna House.</cell>
+      </row>
+      <row>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">If you would buy from our Reseller, Reseller will helps you to build system, develop stylesheets and use our products, etc. It depends on Reseller strategy. Please consult with your reseller.</cell>
+      </row>
+      <row>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">Quality of Products Guranteed</cell>
+      </row>
+      <row>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">Antenna House has been in the software industry for more than 18 years in quality sensitive Japanese market. We have already established the reputation of high quality of XSL Formatter. When the bug is found in our products, Antenna House will fix the bug immediately and supply revised program through Reseller or directly. See detail in End User License Agreement.</cell>
+      </row>
+      <row>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">Technical Support from Antenna House</cell>
+      </row>
+      <row>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">The customers who purchased the End User License of XSL Formatter directly from Antenna House are granted 30 day technical support at no charge by the staff of Antenna House. Antenna House is also able to offer special consulting service, development of stylesheet, etc. Please feel free to contact us.</cell>
+      </row>
+      <row>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">Looking for Upgrade?</cell>
+      </row>
+      <row>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">Check our XSL version Update here or visit our Version Up corner to find out how to add on powerful features like PDF Output, etc.</cell>
+      </row>
+    </table>
+  </page>
+</document>

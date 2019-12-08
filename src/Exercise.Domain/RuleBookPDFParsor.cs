@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using SautinSoft;
 
@@ -6,9 +7,11 @@ namespace Exercise.Domain
 {
     public class RuleBookPDFParsor
     {
-        public string ToHtml(string pdfFilePath)
+        private const string UntitledDocument = "Untitled document";
+
+        public string ToHtml(string pdfFilePath, string title = UntitledDocument)
         {
-            return ValidateAndOpenPdf(pdfFilePath).ToHtml();
+            return ValidateAndOpenPdf(pdfFilePath, title).ToHtml();
         }
 
         public string ToText(string pdfFilePath)
@@ -33,17 +36,30 @@ namespace Exercise.Domain
             return Encoding.GetEncoding(encodingName).GetString(result);
         }
 
-        private static PdfFocus ValidateAndOpenPdf(string pdfFilePath)
+        private static PdfFocus ValidateAndOpenPdf(string pdfFilePath, string title = UntitledDocument)
         {
             if (!File.Exists(pdfFilePath))
             {
                 throw new FileNotFoundException("Unable to locate Rulebook", pdfFilePath);
             }
 
-            var result = new PdfFocus();
+            var result = new PdfFocus
+            {
+                HtmlOptions = CreateFlowingHtmlOptions(title)
+            };
+
             result.OpenPdf(pdfFilePath);
             return result;
         }
 
+        private static PdfFocus.CHtmlOptions CreateFlowingHtmlOptions(string title)
+        {
+            return new PdfFocus.CHtmlOptions
+            {
+                RenderMode = PdfFocus.CHtmlOptions.eHtmlRenderMode.Fixed,
+                // RenderMode = PdfFocus.CHtmlOptions.eHtmlRenderMode.Flowing
+                Title = title
+            };
+        }
     }
 }

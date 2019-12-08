@@ -25,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="TestData\LinkSample.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\Table of Contents.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
