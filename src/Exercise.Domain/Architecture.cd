@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Exercise.Domain.Bookings.BookingPolicyService" BaseTypeListCollapsed="true">
+    <Position X="21.75" Y="8.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAEASgAAAAAAAAAAAAAAEAAAAAAAIEA=</HashCode>
+      <FileName>Bookings\BookingPolicyService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_companyBookingPolicyRepository" />
+      <Field Name="_employeeBookingPolicyRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Exercise.Domain.Bookings.BookingRepository">
+    <Position X="11.25" Y="9.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Bookings\BookingRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.Bookings.BookingPolicyRepository">
+    <Position X="17" Y="9.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bookings\BookingPolicyRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.Bookings.BookingService">
+    <Position X="11.25" Y="11.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAABAAQAAEAAAAAUAAAAAAAIIAAAAAAA=</HashCode>
+      <FileName>Bookings\BookingService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_bookingPolicyService" />
+      <Field Name="_hotelService" />
+      <Field Name="_bookingRepository" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Exercise.Domain.Companies.CompanyService" BaseTypeListCollapsed="true">
+    <Position X="6" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAIAAAAAAAAAAAAAEAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Companies\CompanyService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_companyRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Exercise.Domain.Companies.CompanyRepository">
+    <Position X="9" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Companies\CompanyRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.Hotels.HotelService">
+    <Position X="17.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAgAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Hotels\HotelService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_hotelRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Exercise.Domain.Hotels.HotelRepository">
+    <Position X="14.25" Y="9.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Hotels\HotelRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.InMemoryRepository&lt;TEntity&gt;">
+    <Position X="13.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAEAAAEAAAI=</HashCode>
+      <FileName>InMemoryRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.Companies.Company">
+    <Position X="11.25" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAABAEAAAAAAgAAAAAAAAAAACAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Companies\Company.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.Companies.Employee">
+    <Position X="13.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Companies\Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.Hotels.Hotel">
+    <Position X="9" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAIAQAAQAAAAABAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Hotels\Hotel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.Bookings.BookingPolicy">
+    <Position X="18" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bookings\BookingPolicy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.Bookings.BookingStatus">
+    <Position X="15.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAgAAAAYAAAAAAAAAgAAAAAAAAAAQAAEAAAAA=</HashCode>
+      <FileName>Bookings\BookingStatus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Exercise.Domain.GuidEntity">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GuidEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Exercise.Domain.Bookings.IBookingPolicyService">
+    <Position X="8.5" Y="12.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Bookings\IBookingPolicyService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Exercise.Domain.Hotels.IHotelService">
+    <Position X="14.75" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Hotels\IHotelService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="8.83" />
+</ClassDiagram>
