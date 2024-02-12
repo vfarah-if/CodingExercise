@@ -6,11 +6,11 @@ namespace Exercise.Domain.Tests.UnitTests
 {
 	public class BerlinClockConverterShould
 	{
-		private BerlinClockConverter _berlinClockConverter;
+		private readonly BerlinClockConverter berlinClockConverter;
 
 		public BerlinClockConverterShould()
 		{
-			_berlinClockConverter = new BerlinClockConverter();
+			berlinClockConverter = new BerlinClockConverter();
 		}
 
 		[Theory]
@@ -20,7 +20,7 @@ namespace Exercise.Domain.Tests.UnitTests
 		[InlineData("00:00")]
 		public void ThrowANotSupportedExceptionWhenTimeInBadFormat(string badTimeFormat)
 		{
-			Action action = () => _berlinClockConverter.Convert(badTimeFormat);
+			Action action = () => berlinClockConverter.Convert(badTimeFormat);
 
 			action.Should().Throw<NotSupportedException>()
 				.WithMessage("Time should be in the expected 'hh:mm:ss' format");
@@ -32,7 +32,7 @@ namespace Exercise.Domain.Tests.UnitTests
 		[InlineData("12:56:02", "R")]
 		public void ConvertSecondsToTheExpectedFormat(string time, string expectedFormat)
 		{
-			var actual = _berlinClockConverter.Convert(time);
+			var actual = berlinClockConverter.Convert(time);
 
 			actual.Should().StartWith(expectedFormat);
 		}
@@ -46,7 +46,7 @@ namespace Exercise.Domain.Tests.UnitTests
 		[InlineData("16:35:00", "RRRO")]
 		public void ConvertHoursFirstRowToTheExpectedFormat(string time, string expectedFormat)
 		{
-			var actual = _berlinClockConverter.Convert(time);
+			var actual = berlinClockConverter.Convert(time);
 
 			var splitLines = actual.Split(Environment.NewLine);
 			splitLines.Length.Should().BeGreaterThanOrEqualTo(2);
@@ -62,7 +62,7 @@ namespace Exercise.Domain.Tests.UnitTests
 		[InlineData("14:35:00", "RRRR")]
 		public void ConvertHoursSecondRowToTheExpectedFormat(string time, string expectedFormat)
 		{
-			var actual = _berlinClockConverter.Convert(time);
+			var actual = berlinClockConverter.Convert(time);
 
 			var splitLines = actual.Split(Environment.NewLine);
 			splitLines.Length.Should().BeGreaterThanOrEqualTo(4);
@@ -78,7 +78,7 @@ namespace Exercise.Domain.Tests.UnitTests
 		[InlineData("12:35:00", "YYYYYYYOOOO")]
 		public void ConvertMinutesFirstRowToTheExpectedFormat(string time, string expectedFormat)
 		{
-			var actual = _berlinClockConverter.Convert(time);
+			var actual = berlinClockConverter.Convert(time);
 
 			var splitLines = actual.Split(Environment.NewLine);
 			splitLines.Length.Should().BeGreaterThanOrEqualTo(6);
@@ -94,7 +94,7 @@ namespace Exercise.Domain.Tests.UnitTests
 		[InlineData("12:35:00", "OOOO")]
 		public void ConvertMinutesSecondRowToTheExpectedFormat(string time, string expectedFormat)
 		{
-			var actual = _berlinClockConverter.Convert(time);
+			var actual = berlinClockConverter.Convert(time);
 
 			var splitLines = actual.Split(Environment.NewLine);
 			splitLines.Length.Should().BeGreaterThanOrEqualTo(8);

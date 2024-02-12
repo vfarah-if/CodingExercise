@@ -2,11 +2,8 @@
 
 namespace Exercise.Domain
 {
-    public class Seconds : TimePart
+    public class Seconds(short seconds) : TimePart(seconds)
     {
-        public Seconds(short seconds): base(seconds)
-        { }
-
         protected override string GetLights(short unit)
         {
             var result = new StringBuilder();
