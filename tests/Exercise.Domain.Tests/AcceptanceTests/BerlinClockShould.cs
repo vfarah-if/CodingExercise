@@ -4,7 +4,7 @@ using System;
 
 namespace Exercise.Domain.Tests.AcceptanceTests
 {
-    public class BerlinClockShouldShould : AcceptanceTestFeature
+    public class BerlinClockShould : AcceptanceTestFeature
     {
         private BerlinClockConverter _berlinClockConverter;
 

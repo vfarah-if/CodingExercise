@@ -31,9 +31,9 @@ Six fields are lit in the third row (five minutes multiplied by six, i.e. thirty
 # Task 
 Write a function that takes in a particular time as 24h format ('hh:mm:ss') and outputs a string that reproduces the Berlin Clock. The parameters should be as follows:
 
-“O” = Light off
-“R” = Red light
-“Y” = Yellow light
+Ã¬OÃ® = Light off
+Ã¬RÃ® = Red light
+Ã¬YÃ® = Yellow light
 
 Example Test Case:
 Input String: 
@@ -81,3 +81,8 @@ Extracting a converter into simple classes was the simplest way to extract the m
 This needed a little more thought up front. Extracting the logic time parts was straight forward. The base class had to express the polymorphic nature of each time part in a generic way. So two common things came out of this, each time part would be responsible for turning lights on and off for each row. In the end this seemed to be the most  elegant solution so I left the kata with this solution.
 
 !["OO solution"](object-oriented-solution.png)
+
+## Conclusion
+
+Just recently, this has been upgraded to .net core 8, revived to learn some of the new .net core features and changes, to also learn c# using Rider, loving this a lot!
+

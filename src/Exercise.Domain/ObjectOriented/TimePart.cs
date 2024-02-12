@@ -2,16 +2,11 @@
 
 namespace Exercise.Domain
 {
-    public abstract class TimePart
+    public abstract class TimePart(short unit)
     {
         private const char OffLightChar = 'O';
 
-        protected TimePart(short unit)
-        {
-            Unit = unit;
-        }
-
-        public short Unit { get;  }
+        public short Unit { get;  } = unit;
 
         public override string ToString()
         {
