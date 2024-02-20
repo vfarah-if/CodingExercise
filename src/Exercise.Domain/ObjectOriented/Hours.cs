@@ -21,7 +21,10 @@ namespace Exercise.Domain
         private string GetSingleHoursLights(short hours)
         {
             var amountOfLightsToSwitchOn = hours % 5;
-            return GetLightsRow(numberOfLightsToTurnOn: amountOfLightsToSwitchOn, numberOfLights: 4);
+            return GetLightsRow(
+                numberOfLightsToTurnOn: amountOfLightsToSwitchOn,
+                numberOfLights: 4
+            );
         }
 
         public static Hours NewHours(short hours)

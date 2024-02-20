@@ -12,14 +12,13 @@ namespace Exercise.Domain
         protected readonly MinutesConverter minutesConverter;
 
         public BerlinClockConverter()
-            :this(new HoursConverter(), new SecondsConverter(), new MinutesConverter())
-        {
-        }
+            : this(new HoursConverter(), new SecondsConverter(), new MinutesConverter()) { }
 
         private BerlinClockConverter(
-            HoursConverter hoursConverter, 
-            SecondsConverter secondsConverter, 
-            MinutesConverter minutesConverter)
+            HoursConverter hoursConverter,
+            SecondsConverter secondsConverter,
+            MinutesConverter minutesConverter
+        )
         {
             this.hoursConverter = hoursConverter;
             this.secondsConverter = secondsConverter;

@@ -18,7 +18,8 @@ namespace Exercise.Domain
             return GetLightsRow(
                 numberOfLightsToTurnOn: amountOfLightsToSwitchOn,
                 numberOfLights: 4,
-                onLight: Constants.YellowLight);
+                onLight: Constants.YellowLight
+            );
         }
 
         private string GetFiveMinutesLights(short minutes)
@@ -27,7 +28,8 @@ namespace Exercise.Domain
             return GetLightsRow(
                 numberOfLightsToTurnOn: amountOfLightsToSwitchOn,
                 numberOfLights: 11,
-                onLight: Constants.YellowLight);
+                onLight: Constants.YellowLight
+            );
         }
 
         public static Minutes NewMinutes(short minutes)

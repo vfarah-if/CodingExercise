@@ -6,7 +6,7 @@ namespace Exercise.Domain
     {
         private const char OffLightChar = 'O';
 
-        public short Unit { get;  } = unit;
+        public short Unit { get; } = unit;
 
         public override string ToString()
         {
@@ -14,8 +14,12 @@ namespace Exercise.Domain
         }
 
         protected abstract string GetLights(short unit);
-        
-        protected string GetLightsRow(int numberOfLightsToTurnOn, short numberOfLights, string onLight = Constants.RedLight)
+
+        protected string GetLightsRow(
+            int numberOfLightsToTurnOn,
+            short numberOfLights,
+            string onLight = Constants.RedLight
+        )
         {
             var result = new StringBuilder("".PadRight(numberOfLights, OffLightChar));
             for (var i = 0; i < numberOfLightsToTurnOn; i++)

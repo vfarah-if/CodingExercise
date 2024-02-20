@@ -6,9 +6,13 @@ namespace Exercise.Domain
     {
         private const char OffLightChar = 'O';
 
-        public static string GetLightsRow(int numberOfLightsToTurnOn, short numberOfLights, string onLight = Constants.RedLight)
+        public static string GetLightsRow(
+            int numberOfLightsToTurnOn,
+            short numberOfLights,
+            string onLight = Constants.RedLight
+        )
         {
-            var result = new StringBuilder("".PadRight(numberOfLights, OffLightChar));         
+            var result = new StringBuilder("".PadRight(numberOfLights, OffLightChar));
             for (var i = 0; i < numberOfLightsToTurnOn; i++)
             {
                 result.Replace(Constants.OffLight, onLight, i, 1);
