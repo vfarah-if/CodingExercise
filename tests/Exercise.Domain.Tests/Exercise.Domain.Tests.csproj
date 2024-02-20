@@ -1,20 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-
+    <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoFixture" Version="4.8.0" />
-    <PackageReference Include="CoreBDD" Version="0.9.7" />
-    <PackageReference Include="CoreBDD.SpecGeneration" Version="0.9.7" />
-    <PackageReference Include="FluentAssertions" Version="5.6.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.1.0" />
-    <PackageReference Include="Moq" Version="4.10.1" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+    <PackageReference Include="AutoFixture" Version="4.18.1" />
+    <PackageReference Include="CoreBDD" Version="1.0.0" />
+    <PackageReference Include="CoreBDD.SpecGeneration" Version="1.0.0" />
+    <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0-preview-24080-01" />
+    <PackageReference Include="xunit" Version="2.7.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -22,6 +20,21 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Exercise.Domain\Exercise.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="AcceptanceTests\TestScenarios.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TestScenarios.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="AcceptanceTests\TestScenarios.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestScenarios.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
